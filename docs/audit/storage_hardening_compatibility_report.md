@@ -1,6 +1,6 @@
 # Storage Hardening — Compatibility Report (Phase S)
 
-**Tanggal:** 2026-06-18 · **Status:** APPLIED (compatibility-first)
+**Tanggal:** 2026-06-18 · **Status:** ⚠️ PENDING MANUAL — SQL `UPDATE storage.buckets` diblokir oleh platform Lovable Cloud. Limit MIME & size harus dikonfigurasi via Backend UI → Storage → bucket settings.
 
 ## Audit Workflow Upload
 | Workflow | Bucket | Client Validation | Server Validation | Risk Jika MIME/Size Diterapkan |
