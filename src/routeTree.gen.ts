@@ -9,38 +9,1586 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TentangRouteImport } from './routes/tentang'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as PendingVerificationRouteImport } from './routes/pending-verification'
+import { Route as KontakRouteImport } from './routes/kontak'
+import { Route as KinerjaOpdRouteImport } from './routes/kinerja-opd'
+import { Route as DataRouteImport } from './routes/data'
+import { Route as BeritaRouteImport } from './routes/berita'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as PermohonanIndexRouteImport } from './routes/permohonan.index'
+import { Route as LayananIndexRouteImport } from './routes/layanan.index'
+import { Route as DataTerbukaIndexRouteImport } from './routes/data-terbuka.index'
+import { Route as VerifyTokenRouteImport } from './routes/verify.$token'
+import { Route as VTokenRouteImport } from './routes/v.$token'
+import { Route as PermohonanBaruRouteImport } from './routes/permohonan.baru'
+import { Route as PermohonanIdRouteImport } from './routes/permohonan.$id'
+import { Route as LayananSlugRouteImport } from './routes/layanan.$slug'
+import { Route as InstansiSingkatanRouteImport } from './routes/instansi.$singkatan'
+import { Route as IkmIdRouteImport } from './routes/ikm.$id'
+import { Route as DataTerbukaSlugRouteImport } from './routes/data-terbuka.$slug'
+import { Route as AuthenticatedPemdaRouteImport } from './routes/_authenticated/pemda'
+import { Route as AuthenticatedExecutiveRouteImport } from './routes/_authenticated/executive'
+import { Route as AuthenticatedAkunRouteImport } from './routes/_authenticated/akun'
+import { Route as AuthenticatedPengisianIndexRouteImport } from './routes/_authenticated/pengisian.index'
+import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
+import { Route as ApiInternalMetricsRouteImport } from './routes/api/internal/metrics'
+import { Route as AuthenticatedTugasAssignmentIdRouteImport } from './routes/_authenticated/tugas.$assignmentId'
+import { Route as AuthenticatedPengisianIdRouteImport } from './routes/_authenticated/pengisian.$id'
+import { Route as AuthenticatedAsnVerifikasiRouteImport } from './routes/_authenticated/asn.verifikasi'
+import { Route as AuthenticatedAsnTugasRouteImport } from './routes/_authenticated/asn.tugas'
+import { Route as AuthenticatedAsnLemburRouteImport } from './routes/_authenticated/asn.lembur'
+import { Route as AuthenticatedAsnIzinRouteImport } from './routes/_authenticated/asn.izin'
+import { Route as AuthenticatedAsnDokumenRouteImport } from './routes/_authenticated/asn.dokumen'
+import { Route as AuthenticatedAsnAsetRouteImport } from './routes/_authenticated/asn.aset'
+import { Route as AuthenticatedAsnAbsensiRouteImport } from './routes/_authenticated/asn.absensi'
+import { Route as AuthenticatedAdminVerifikasiLogRouteImport } from './routes/_authenticated/admin.verifikasi-log'
+import { Route as AuthenticatedAdminVerifikasiRouteImport } from './routes/_authenticated/admin.verifikasi'
+import { Route as AuthenticatedAdminUsersRouteImport } from './routes/_authenticated/admin.users'
+import { Route as AuthenticatedAdminSystemHealthRouteImport } from './routes/_authenticated/admin.system-health'
+import { Route as AuthenticatedAdminSubmissionReviewRouteImport } from './routes/_authenticated/admin.submission-review'
+import { Route as AuthenticatedAdminStorageRouteImport } from './routes/_authenticated/admin.storage'
+import { Route as AuthenticatedAdminSistemRouteImport } from './routes/_authenticated/admin.sistem'
+import { Route as AuthenticatedAdminRbacRouteImport } from './routes/_authenticated/admin.rbac'
+import { Route as AuthenticatedAdminRatingRouteImport } from './routes/_authenticated/admin.rating'
+import { Route as AuthenticatedAdminPejabatRouteImport } from './routes/_authenticated/admin.pejabat'
+import { Route as AuthenticatedAdminOpdRouteImport } from './routes/_authenticated/admin.opd'
+import { Route as AuthenticatedAdminNomorSuratRouteImport } from './routes/_authenticated/admin.nomor-surat'
+import { Route as AuthenticatedAdminMasterJabatanRouteImport } from './routes/_authenticated/admin.master-jabatan'
+import { Route as AuthenticatedAdminLokasiRouteImport } from './routes/_authenticated/admin.lokasi'
+import { Route as AuthenticatedAdminLayananRouteImport } from './routes/_authenticated/admin.layanan'
+import { Route as AuthenticatedAdminLaporanRouteImport } from './routes/_authenticated/admin.laporan'
+import { Route as AuthenticatedAdminIzinRouteImport } from './routes/_authenticated/admin.izin'
+import { Route as AuthenticatedAdminIkmRouteImport } from './routes/_authenticated/admin.ikm'
+import { Route as AuthenticatedAdminHariLiburRouteImport } from './routes/_authenticated/admin.hari-libur'
+import { Route as AuthenticatedAdminGovernanceRouteImport } from './routes/_authenticated/admin.governance'
+import { Route as AuthenticatedAdminEksekutifRouteImport } from './routes/_authenticated/admin.eksekutif'
+import { Route as AuthenticatedAdminDigitalSignatureRouteImport } from './routes/_authenticated/admin.digital-signature'
+import { Route as AuthenticatedAdminDesaRouteImport } from './routes/_authenticated/admin.desa'
+import { Route as AuthenticatedAdminDatasetRouteImport } from './routes/_authenticated/admin.dataset'
+import { Route as AuthenticatedAdminConfigRouteImport } from './routes/_authenticated/admin.config'
+import { Route as AuthenticatedAdminComplianceRouteImport } from './routes/_authenticated/admin.compliance'
+import { Route as AuthenticatedAdminCmsRouteImport } from './routes/_authenticated/admin.cms'
+import { Route as AuthenticatedAdminBrandingRouteImport } from './routes/_authenticated/admin.branding'
+import { Route as AuthenticatedAdminBackupRouteImport } from './routes/_authenticated/admin.backup'
+import { Route as AuthenticatedAdminAuditRouteImport } from './routes/_authenticated/admin.audit'
+import { Route as AuthenticatedAdminAsnKepatuhanRouteImport } from './routes/_authenticated/admin.asn-kepatuhan'
+import { Route as AuthenticatedAdminAsnRouteImport } from './routes/_authenticated/admin.asn'
+import { Route as AuthenticatedAdminAsetKampanyeRouteImport } from './routes/_authenticated/admin.aset-kampanye'
+import { Route as AuthenticatedAdminAsetExtraRouteImport } from './routes/_authenticated/admin.aset-extra'
+import { Route as AuthenticatedAdminAsetRouteImport } from './routes/_authenticated/admin.aset'
+import { Route as AuthenticatedAdminApprovalsRouteImport } from './routes/_authenticated/admin.approvals'
+import { Route as AuthenticatedAdminFormsIndexRouteImport } from './routes/_authenticated/admin.forms.index'
+import { Route as AuthenticatedAdminDigitalSignatureIndexRouteImport } from './routes/_authenticated/admin.digital-signature.index'
+import { Route as ApiPublicHooksUploadIntegrityRouteImport } from './routes/api/public/hooks/upload-integrity'
+import { Route as ApiPublicHooksStuckJobsRouteImport } from './routes/api/public/hooks/stuck-jobs'
+import { Route as ApiPublicHooksStorageCleanupRouteImport } from './routes/api/public/hooks/storage-cleanup'
+import { Route as ApiPublicHooksSlaReminderRouteImport } from './routes/api/public/hooks/sla-reminder'
+import { Route as ApiPublicHooksSlaEscalationRouteImport } from './routes/api/public/hooks/sla-escalation'
+import { Route as ApiPublicHooksRetryQueueRouteImport } from './routes/api/public/hooks/retry-queue'
+import { Route as ApiPublicHooksRetentionCleanupRouteImport } from './routes/api/public/hooks/retention-cleanup'
+import { Route as ApiPublicHooksFormDeadlineReminderRouteImport } from './routes/api/public/hooks/form-deadline-reminder'
+import { Route as ApiPublicHooksCronWatchdogRouteImport } from './routes/api/public/hooks/cron-watchdog'
+import { Route as ApiPublicHooksCleanupUploadsRouteImport } from './routes/api/public/hooks/cleanup-uploads'
+import { Route as ApiPublicHooksBackupSnapshotRouteImport } from './routes/api/public/hooks/backup-snapshot'
+import { Route as ApiPublicHooksAssignmentReminderRouteImport } from './routes/api/public/hooks/assignment-reminder'
+import { Route as ApiPublicHooksAsetWarrantyReminderRouteImport } from './routes/api/public/hooks/aset-warranty-reminder'
+import { Route as ApiPublicHooksAsetSusutBulananRouteImport } from './routes/api/public/hooks/aset-susut-bulanan'
+import { Route as AuthenticatedAsnScanTokenRouteImport } from './routes/_authenticated/asn.scan.$token'
+import { Route as AuthenticatedAdminSystemUatRouteImport } from './routes/_authenticated/admin.system.uat'
+import { Route as AuthenticatedAdminSystemStorageProviderRouteImport } from './routes/_authenticated/admin.system.storage-provider'
+import { Route as AuthenticatedAdminSystemSettingsRouteImport } from './routes/_authenticated/admin.system.settings'
+import { Route as AuthenticatedAdminSystemRetentionRouteImport } from './routes/_authenticated/admin.system.retention'
+import { Route as AuthenticatedAdminSystemLoadReadinessRouteImport } from './routes/_authenticated/admin.system.load-readiness'
+import { Route as AuthenticatedAdminSystemGoLiveRouteImport } from './routes/_authenticated/admin.system.go-live'
+import { Route as AuthenticatedAdminSystemFeatureFlagsRouteImport } from './routes/_authenticated/admin.system.feature-flags'
+import { Route as AuthenticatedAdminSystemDisasterRecoveryRouteImport } from './routes/_authenticated/admin.system.disaster-recovery'
+import { Route as AuthenticatedAdminSystemBackupStatusRouteImport } from './routes/_authenticated/admin.system.backup-status'
+import { Route as AuthenticatedAdminSecurityPermissionsRouteImport } from './routes/_authenticated/admin.security.permissions'
+import { Route as AuthenticatedAdminRbacAuditRouteImport } from './routes/_authenticated/admin.rbac.audit'
+import { Route as AuthenticatedAdminRbacUserIdRouteImport } from './routes/_authenticated/admin.rbac.$userId'
+import { Route as AuthenticatedAdminLayananEscalationRouteImport } from './routes/_authenticated/admin.layanan.escalation'
+import { Route as AuthenticatedAdminLayananDisposisiInboxRouteImport } from './routes/_authenticated/admin.layanan.disposisi-inbox'
+import { Route as AuthenticatedAdminFormsIdRouteImport } from './routes/_authenticated/admin.forms.$id'
+import { Route as AuthenticatedAdminDigitalSignatureStatusRouteImport } from './routes/_authenticated/admin.digital-signature.status'
+import { Route as AuthenticatedAdminDigitalSignatureSignaturesRouteImport } from './routes/_authenticated/admin.digital-signature.signatures'
+import { Route as AuthenticatedAdminDigitalSignatureDocumentsRouteImport } from './routes/_authenticated/admin.digital-signature.documents'
+import { Route as AuthenticatedAdminDigitalSignatureAuditRouteImport } from './routes/_authenticated/admin.digital-signature.audit'
+import { Route as AuthenticatedAdminDatasetReviewRouteImport } from './routes/_authenticated/admin.dataset.review'
+import { Route as AuthenticatedAdminAsnShiftRouteImport } from './routes/_authenticated/admin.asn.shift'
+import { Route as AuthenticatedAdminAsnPayrollLockRouteImport } from './routes/_authenticated/admin.asn.payroll-lock'
+import { Route as AuthenticatedAdminAsnCutiSaldoRouteImport } from './routes/_authenticated/admin.asn.cuti-saldo'
+import { Route as AuthenticatedAdminAsetPenyusutanRouteImport } from './routes/_authenticated/admin.aset.penyusutan'
+import { Route as AuthenticatedAdminAsetOpnameRouteImport } from './routes/_authenticated/admin.aset.opname'
+import { Route as AuthenticatedAdminAsetKibRouteImport } from './routes/_authenticated/admin.aset.kib'
+import { Route as AuthenticatedAdminAsetBastRouteImport } from './routes/_authenticated/admin.aset.bast'
 
+const TentangRoute = TentangRouteImport.update({
+  id: '/tentang',
+  path: '/tentang',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PendingVerificationRoute = PendingVerificationRouteImport.update({
+  id: '/pending-verification',
+  path: '/pending-verification',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KontakRoute = KontakRouteImport.update({
+  id: '/kontak',
+  path: '/kontak',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KinerjaOpdRoute = KinerjaOpdRouteImport.update({
+  id: '/kinerja-opd',
+  path: '/kinerja-opd',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DataRoute = DataRouteImport.update({
+  id: '/data',
+  path: '/data',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BeritaRoute = BeritaRouteImport.update({
+  id: '/berita',
+  path: '/berita',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PermohonanIndexRoute = PermohonanIndexRouteImport.update({
+  id: '/permohonan/',
+  path: '/permohonan/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LayananIndexRoute = LayananIndexRouteImport.update({
+  id: '/layanan/',
+  path: '/layanan/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DataTerbukaIndexRoute = DataTerbukaIndexRouteImport.update({
+  id: '/data-terbuka/',
+  path: '/data-terbuka/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const VerifyTokenRoute = VerifyTokenRouteImport.update({
+  id: '/verify/$token',
+  path: '/verify/$token',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const VTokenRoute = VTokenRouteImport.update({
+  id: '/v/$token',
+  path: '/v/$token',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PermohonanBaruRoute = PermohonanBaruRouteImport.update({
+  id: '/permohonan/baru',
+  path: '/permohonan/baru',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PermohonanIdRoute = PermohonanIdRouteImport.update({
+  id: '/permohonan/$id',
+  path: '/permohonan/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LayananSlugRoute = LayananSlugRouteImport.update({
+  id: '/layanan/$slug',
+  path: '/layanan/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InstansiSingkatanRoute = InstansiSingkatanRouteImport.update({
+  id: '/instansi/$singkatan',
+  path: '/instansi/$singkatan',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IkmIdRoute = IkmIdRouteImport.update({
+  id: '/ikm/$id',
+  path: '/ikm/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DataTerbukaSlugRoute = DataTerbukaSlugRouteImport.update({
+  id: '/data-terbuka/$slug',
+  path: '/data-terbuka/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedPemdaRoute = AuthenticatedPemdaRouteImport.update({
+  id: '/pemda',
+  path: '/pemda',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedExecutiveRoute = AuthenticatedExecutiveRouteImport.update({
+  id: '/executive',
+  path: '/executive',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedAkunRoute = AuthenticatedAkunRouteImport.update({
+  id: '/akun',
+  path: '/akun',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedPengisianIndexRoute =
+  AuthenticatedPengisianIndexRouteImport.update({
+    id: '/pengisian/',
+    path: '/pengisian/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
+  id: '/admin/',
+  path: '/admin/',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const ApiInternalMetricsRoute = ApiInternalMetricsRouteImport.update({
+  id: '/api/internal/metrics',
+  path: '/api/internal/metrics',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedTugasAssignmentIdRoute =
+  AuthenticatedTugasAssignmentIdRouteImport.update({
+    id: '/tugas/$assignmentId',
+    path: '/tugas/$assignmentId',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedPengisianIdRoute =
+  AuthenticatedPengisianIdRouteImport.update({
+    id: '/pengisian/$id',
+    path: '/pengisian/$id',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAsnVerifikasiRoute =
+  AuthenticatedAsnVerifikasiRouteImport.update({
+    id: '/asn/verifikasi',
+    path: '/asn/verifikasi',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAsnTugasRoute = AuthenticatedAsnTugasRouteImport.update({
+  id: '/asn/tugas',
+  path: '/asn/tugas',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedAsnLemburRoute = AuthenticatedAsnLemburRouteImport.update({
+  id: '/asn/lembur',
+  path: '/asn/lembur',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedAsnIzinRoute = AuthenticatedAsnIzinRouteImport.update({
+  id: '/asn/izin',
+  path: '/asn/izin',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedAsnDokumenRoute = AuthenticatedAsnDokumenRouteImport.update({
+  id: '/asn/dokumen',
+  path: '/asn/dokumen',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedAsnAsetRoute = AuthenticatedAsnAsetRouteImport.update({
+  id: '/asn/aset',
+  path: '/asn/aset',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedAsnAbsensiRoute = AuthenticatedAsnAbsensiRouteImport.update({
+  id: '/asn/absensi',
+  path: '/asn/absensi',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedAdminVerifikasiLogRoute =
+  AuthenticatedAdminVerifikasiLogRouteImport.update({
+    id: '/admin/verifikasi-log',
+    path: '/admin/verifikasi-log',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAdminVerifikasiRoute =
+  AuthenticatedAdminVerifikasiRouteImport.update({
+    id: '/admin/verifikasi',
+    path: '/admin/verifikasi',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAdminUsersRoute = AuthenticatedAdminUsersRouteImport.update({
+  id: '/admin/users',
+  path: '/admin/users',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedAdminSystemHealthRoute =
+  AuthenticatedAdminSystemHealthRouteImport.update({
+    id: '/admin/system-health',
+    path: '/admin/system-health',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAdminSubmissionReviewRoute =
+  AuthenticatedAdminSubmissionReviewRouteImport.update({
+    id: '/admin/submission-review',
+    path: '/admin/submission-review',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAdminStorageRoute =
+  AuthenticatedAdminStorageRouteImport.update({
+    id: '/admin/storage',
+    path: '/admin/storage',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAdminSistemRoute =
+  AuthenticatedAdminSistemRouteImport.update({
+    id: '/admin/sistem',
+    path: '/admin/sistem',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAdminRbacRoute = AuthenticatedAdminRbacRouteImport.update({
+  id: '/admin/rbac',
+  path: '/admin/rbac',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedAdminRatingRoute =
+  AuthenticatedAdminRatingRouteImport.update({
+    id: '/admin/rating',
+    path: '/admin/rating',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAdminPejabatRoute =
+  AuthenticatedAdminPejabatRouteImport.update({
+    id: '/admin/pejabat',
+    path: '/admin/pejabat',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAdminOpdRoute = AuthenticatedAdminOpdRouteImport.update({
+  id: '/admin/opd',
+  path: '/admin/opd',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedAdminNomorSuratRoute =
+  AuthenticatedAdminNomorSuratRouteImport.update({
+    id: '/admin/nomor-surat',
+    path: '/admin/nomor-surat',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAdminMasterJabatanRoute =
+  AuthenticatedAdminMasterJabatanRouteImport.update({
+    id: '/admin/master-jabatan',
+    path: '/admin/master-jabatan',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAdminLokasiRoute =
+  AuthenticatedAdminLokasiRouteImport.update({
+    id: '/admin/lokasi',
+    path: '/admin/lokasi',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAdminLayananRoute =
+  AuthenticatedAdminLayananRouteImport.update({
+    id: '/admin/layanan',
+    path: '/admin/layanan',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAdminLaporanRoute =
+  AuthenticatedAdminLaporanRouteImport.update({
+    id: '/admin/laporan',
+    path: '/admin/laporan',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAdminIzinRoute = AuthenticatedAdminIzinRouteImport.update({
+  id: '/admin/izin',
+  path: '/admin/izin',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedAdminIkmRoute = AuthenticatedAdminIkmRouteImport.update({
+  id: '/admin/ikm',
+  path: '/admin/ikm',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedAdminHariLiburRoute =
+  AuthenticatedAdminHariLiburRouteImport.update({
+    id: '/admin/hari-libur',
+    path: '/admin/hari-libur',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAdminGovernanceRoute =
+  AuthenticatedAdminGovernanceRouteImport.update({
+    id: '/admin/governance',
+    path: '/admin/governance',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAdminEksekutifRoute =
+  AuthenticatedAdminEksekutifRouteImport.update({
+    id: '/admin/eksekutif',
+    path: '/admin/eksekutif',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAdminDigitalSignatureRoute =
+  AuthenticatedAdminDigitalSignatureRouteImport.update({
+    id: '/admin/digital-signature',
+    path: '/admin/digital-signature',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAdminDesaRoute = AuthenticatedAdminDesaRouteImport.update({
+  id: '/admin/desa',
+  path: '/admin/desa',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedAdminDatasetRoute =
+  AuthenticatedAdminDatasetRouteImport.update({
+    id: '/admin/dataset',
+    path: '/admin/dataset',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAdminConfigRoute =
+  AuthenticatedAdminConfigRouteImport.update({
+    id: '/admin/config',
+    path: '/admin/config',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAdminComplianceRoute =
+  AuthenticatedAdminComplianceRouteImport.update({
+    id: '/admin/compliance',
+    path: '/admin/compliance',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAdminCmsRoute = AuthenticatedAdminCmsRouteImport.update({
+  id: '/admin/cms',
+  path: '/admin/cms',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedAdminBrandingRoute =
+  AuthenticatedAdminBrandingRouteImport.update({
+    id: '/admin/branding',
+    path: '/admin/branding',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAdminBackupRoute =
+  AuthenticatedAdminBackupRouteImport.update({
+    id: '/admin/backup',
+    path: '/admin/backup',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAdminAuditRoute = AuthenticatedAdminAuditRouteImport.update({
+  id: '/admin/audit',
+  path: '/admin/audit',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedAdminAsnKepatuhanRoute =
+  AuthenticatedAdminAsnKepatuhanRouteImport.update({
+    id: '/admin/asn-kepatuhan',
+    path: '/admin/asn-kepatuhan',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAdminAsnRoute = AuthenticatedAdminAsnRouteImport.update({
+  id: '/admin/asn',
+  path: '/admin/asn',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedAdminAsetKampanyeRoute =
+  AuthenticatedAdminAsetKampanyeRouteImport.update({
+    id: '/admin/aset-kampanye',
+    path: '/admin/aset-kampanye',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAdminAsetExtraRoute =
+  AuthenticatedAdminAsetExtraRouteImport.update({
+    id: '/admin/aset-extra',
+    path: '/admin/aset-extra',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAdminAsetRoute = AuthenticatedAdminAsetRouteImport.update({
+  id: '/admin/aset',
+  path: '/admin/aset',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedAdminApprovalsRoute =
+  AuthenticatedAdminApprovalsRouteImport.update({
+    id: '/admin/approvals',
+    path: '/admin/approvals',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAdminFormsIndexRoute =
+  AuthenticatedAdminFormsIndexRouteImport.update({
+    id: '/admin/forms/',
+    path: '/admin/forms/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAdminDigitalSignatureIndexRoute =
+  AuthenticatedAdminDigitalSignatureIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedAdminDigitalSignatureRoute,
+  } as any)
+const ApiPublicHooksUploadIntegrityRoute =
+  ApiPublicHooksUploadIntegrityRouteImport.update({
+    id: '/api/public/hooks/upload-integrity',
+    path: '/api/public/hooks/upload-integrity',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPublicHooksStuckJobsRoute = ApiPublicHooksStuckJobsRouteImport.update({
+  id: '/api/public/hooks/stuck-jobs',
+  path: '/api/public/hooks/stuck-jobs',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicHooksStorageCleanupRoute =
+  ApiPublicHooksStorageCleanupRouteImport.update({
+    id: '/api/public/hooks/storage-cleanup',
+    path: '/api/public/hooks/storage-cleanup',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPublicHooksSlaReminderRoute =
+  ApiPublicHooksSlaReminderRouteImport.update({
+    id: '/api/public/hooks/sla-reminder',
+    path: '/api/public/hooks/sla-reminder',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPublicHooksSlaEscalationRoute =
+  ApiPublicHooksSlaEscalationRouteImport.update({
+    id: '/api/public/hooks/sla-escalation',
+    path: '/api/public/hooks/sla-escalation',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPublicHooksRetryQueueRoute =
+  ApiPublicHooksRetryQueueRouteImport.update({
+    id: '/api/public/hooks/retry-queue',
+    path: '/api/public/hooks/retry-queue',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPublicHooksRetentionCleanupRoute =
+  ApiPublicHooksRetentionCleanupRouteImport.update({
+    id: '/api/public/hooks/retention-cleanup',
+    path: '/api/public/hooks/retention-cleanup',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPublicHooksFormDeadlineReminderRoute =
+  ApiPublicHooksFormDeadlineReminderRouteImport.update({
+    id: '/api/public/hooks/form-deadline-reminder',
+    path: '/api/public/hooks/form-deadline-reminder',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPublicHooksCronWatchdogRoute =
+  ApiPublicHooksCronWatchdogRouteImport.update({
+    id: '/api/public/hooks/cron-watchdog',
+    path: '/api/public/hooks/cron-watchdog',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPublicHooksCleanupUploadsRoute =
+  ApiPublicHooksCleanupUploadsRouteImport.update({
+    id: '/api/public/hooks/cleanup-uploads',
+    path: '/api/public/hooks/cleanup-uploads',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPublicHooksBackupSnapshotRoute =
+  ApiPublicHooksBackupSnapshotRouteImport.update({
+    id: '/api/public/hooks/backup-snapshot',
+    path: '/api/public/hooks/backup-snapshot',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPublicHooksAssignmentReminderRoute =
+  ApiPublicHooksAssignmentReminderRouteImport.update({
+    id: '/api/public/hooks/assignment-reminder',
+    path: '/api/public/hooks/assignment-reminder',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPublicHooksAsetWarrantyReminderRoute =
+  ApiPublicHooksAsetWarrantyReminderRouteImport.update({
+    id: '/api/public/hooks/aset-warranty-reminder',
+    path: '/api/public/hooks/aset-warranty-reminder',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPublicHooksAsetSusutBulananRoute =
+  ApiPublicHooksAsetSusutBulananRouteImport.update({
+    id: '/api/public/hooks/aset-susut-bulanan',
+    path: '/api/public/hooks/aset-susut-bulanan',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const AuthenticatedAsnScanTokenRoute =
+  AuthenticatedAsnScanTokenRouteImport.update({
+    id: '/asn/scan/$token',
+    path: '/asn/scan/$token',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAdminSystemUatRoute =
+  AuthenticatedAdminSystemUatRouteImport.update({
+    id: '/admin/system/uat',
+    path: '/admin/system/uat',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAdminSystemStorageProviderRoute =
+  AuthenticatedAdminSystemStorageProviderRouteImport.update({
+    id: '/admin/system/storage-provider',
+    path: '/admin/system/storage-provider',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAdminSystemSettingsRoute =
+  AuthenticatedAdminSystemSettingsRouteImport.update({
+    id: '/admin/system/settings',
+    path: '/admin/system/settings',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAdminSystemRetentionRoute =
+  AuthenticatedAdminSystemRetentionRouteImport.update({
+    id: '/admin/system/retention',
+    path: '/admin/system/retention',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAdminSystemLoadReadinessRoute =
+  AuthenticatedAdminSystemLoadReadinessRouteImport.update({
+    id: '/admin/system/load-readiness',
+    path: '/admin/system/load-readiness',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAdminSystemGoLiveRoute =
+  AuthenticatedAdminSystemGoLiveRouteImport.update({
+    id: '/admin/system/go-live',
+    path: '/admin/system/go-live',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAdminSystemFeatureFlagsRoute =
+  AuthenticatedAdminSystemFeatureFlagsRouteImport.update({
+    id: '/admin/system/feature-flags',
+    path: '/admin/system/feature-flags',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAdminSystemDisasterRecoveryRoute =
+  AuthenticatedAdminSystemDisasterRecoveryRouteImport.update({
+    id: '/admin/system/disaster-recovery',
+    path: '/admin/system/disaster-recovery',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAdminSystemBackupStatusRoute =
+  AuthenticatedAdminSystemBackupStatusRouteImport.update({
+    id: '/admin/system/backup-status',
+    path: '/admin/system/backup-status',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAdminSecurityPermissionsRoute =
+  AuthenticatedAdminSecurityPermissionsRouteImport.update({
+    id: '/admin/security/permissions',
+    path: '/admin/security/permissions',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAdminRbacAuditRoute =
+  AuthenticatedAdminRbacAuditRouteImport.update({
+    id: '/audit',
+    path: '/audit',
+    getParentRoute: () => AuthenticatedAdminRbacRoute,
+  } as any)
+const AuthenticatedAdminRbacUserIdRoute =
+  AuthenticatedAdminRbacUserIdRouteImport.update({
+    id: '/$userId',
+    path: '/$userId',
+    getParentRoute: () => AuthenticatedAdminRbacRoute,
+  } as any)
+const AuthenticatedAdminLayananEscalationRoute =
+  AuthenticatedAdminLayananEscalationRouteImport.update({
+    id: '/escalation',
+    path: '/escalation',
+    getParentRoute: () => AuthenticatedAdminLayananRoute,
+  } as any)
+const AuthenticatedAdminLayananDisposisiInboxRoute =
+  AuthenticatedAdminLayananDisposisiInboxRouteImport.update({
+    id: '/disposisi-inbox',
+    path: '/disposisi-inbox',
+    getParentRoute: () => AuthenticatedAdminLayananRoute,
+  } as any)
+const AuthenticatedAdminFormsIdRoute =
+  AuthenticatedAdminFormsIdRouteImport.update({
+    id: '/admin/forms/$id',
+    path: '/admin/forms/$id',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAdminDigitalSignatureStatusRoute =
+  AuthenticatedAdminDigitalSignatureStatusRouteImport.update({
+    id: '/status',
+    path: '/status',
+    getParentRoute: () => AuthenticatedAdminDigitalSignatureRoute,
+  } as any)
+const AuthenticatedAdminDigitalSignatureSignaturesRoute =
+  AuthenticatedAdminDigitalSignatureSignaturesRouteImport.update({
+    id: '/signatures',
+    path: '/signatures',
+    getParentRoute: () => AuthenticatedAdminDigitalSignatureRoute,
+  } as any)
+const AuthenticatedAdminDigitalSignatureDocumentsRoute =
+  AuthenticatedAdminDigitalSignatureDocumentsRouteImport.update({
+    id: '/documents',
+    path: '/documents',
+    getParentRoute: () => AuthenticatedAdminDigitalSignatureRoute,
+  } as any)
+const AuthenticatedAdminDigitalSignatureAuditRoute =
+  AuthenticatedAdminDigitalSignatureAuditRouteImport.update({
+    id: '/audit',
+    path: '/audit',
+    getParentRoute: () => AuthenticatedAdminDigitalSignatureRoute,
+  } as any)
+const AuthenticatedAdminDatasetReviewRoute =
+  AuthenticatedAdminDatasetReviewRouteImport.update({
+    id: '/review',
+    path: '/review',
+    getParentRoute: () => AuthenticatedAdminDatasetRoute,
+  } as any)
+const AuthenticatedAdminAsnShiftRoute =
+  AuthenticatedAdminAsnShiftRouteImport.update({
+    id: '/shift',
+    path: '/shift',
+    getParentRoute: () => AuthenticatedAdminAsnRoute,
+  } as any)
+const AuthenticatedAdminAsnPayrollLockRoute =
+  AuthenticatedAdminAsnPayrollLockRouteImport.update({
+    id: '/payroll-lock',
+    path: '/payroll-lock',
+    getParentRoute: () => AuthenticatedAdminAsnRoute,
+  } as any)
+const AuthenticatedAdminAsnCutiSaldoRoute =
+  AuthenticatedAdminAsnCutiSaldoRouteImport.update({
+    id: '/cuti-saldo',
+    path: '/cuti-saldo',
+    getParentRoute: () => AuthenticatedAdminAsnRoute,
+  } as any)
+const AuthenticatedAdminAsetPenyusutanRoute =
+  AuthenticatedAdminAsetPenyusutanRouteImport.update({
+    id: '/penyusutan',
+    path: '/penyusutan',
+    getParentRoute: () => AuthenticatedAdminAsetRoute,
+  } as any)
+const AuthenticatedAdminAsetOpnameRoute =
+  AuthenticatedAdminAsetOpnameRouteImport.update({
+    id: '/opname',
+    path: '/opname',
+    getParentRoute: () => AuthenticatedAdminAsetRoute,
+  } as any)
+const AuthenticatedAdminAsetKibRoute =
+  AuthenticatedAdminAsetKibRouteImport.update({
+    id: '/kib',
+    path: '/kib',
+    getParentRoute: () => AuthenticatedAdminAsetRoute,
+  } as any)
+const AuthenticatedAdminAsetBastRoute =
+  AuthenticatedAdminAsetBastRouteImport.update({
+    id: '/bast',
+    path: '/bast',
+    getParentRoute: () => AuthenticatedAdminAsetRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/berita': typeof BeritaRoute
+  '/data': typeof DataRoute
+  '/kinerja-opd': typeof KinerjaOpdRoute
+  '/kontak': typeof KontakRoute
+  '/pending-verification': typeof PendingVerificationRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/tentang': typeof TentangRoute
+  '/akun': typeof AuthenticatedAkunRoute
+  '/executive': typeof AuthenticatedExecutiveRoute
+  '/pemda': typeof AuthenticatedPemdaRoute
+  '/data-terbuka/$slug': typeof DataTerbukaSlugRoute
+  '/ikm/$id': typeof IkmIdRoute
+  '/instansi/$singkatan': typeof InstansiSingkatanRoute
+  '/layanan/$slug': typeof LayananSlugRoute
+  '/permohonan/$id': typeof PermohonanIdRoute
+  '/permohonan/baru': typeof PermohonanBaruRoute
+  '/v/$token': typeof VTokenRoute
+  '/verify/$token': typeof VerifyTokenRoute
+  '/data-terbuka/': typeof DataTerbukaIndexRoute
+  '/layanan/': typeof LayananIndexRoute
+  '/permohonan/': typeof PermohonanIndexRoute
+  '/admin/approvals': typeof AuthenticatedAdminApprovalsRoute
+  '/admin/aset': typeof AuthenticatedAdminAsetRouteWithChildren
+  '/admin/aset-extra': typeof AuthenticatedAdminAsetExtraRoute
+  '/admin/aset-kampanye': typeof AuthenticatedAdminAsetKampanyeRoute
+  '/admin/asn': typeof AuthenticatedAdminAsnRouteWithChildren
+  '/admin/asn-kepatuhan': typeof AuthenticatedAdminAsnKepatuhanRoute
+  '/admin/audit': typeof AuthenticatedAdminAuditRoute
+  '/admin/backup': typeof AuthenticatedAdminBackupRoute
+  '/admin/branding': typeof AuthenticatedAdminBrandingRoute
+  '/admin/cms': typeof AuthenticatedAdminCmsRoute
+  '/admin/compliance': typeof AuthenticatedAdminComplianceRoute
+  '/admin/config': typeof AuthenticatedAdminConfigRoute
+  '/admin/dataset': typeof AuthenticatedAdminDatasetRouteWithChildren
+  '/admin/desa': typeof AuthenticatedAdminDesaRoute
+  '/admin/digital-signature': typeof AuthenticatedAdminDigitalSignatureRouteWithChildren
+  '/admin/eksekutif': typeof AuthenticatedAdminEksekutifRoute
+  '/admin/governance': typeof AuthenticatedAdminGovernanceRoute
+  '/admin/hari-libur': typeof AuthenticatedAdminHariLiburRoute
+  '/admin/ikm': typeof AuthenticatedAdminIkmRoute
+  '/admin/izin': typeof AuthenticatedAdminIzinRoute
+  '/admin/laporan': typeof AuthenticatedAdminLaporanRoute
+  '/admin/layanan': typeof AuthenticatedAdminLayananRouteWithChildren
+  '/admin/lokasi': typeof AuthenticatedAdminLokasiRoute
+  '/admin/master-jabatan': typeof AuthenticatedAdminMasterJabatanRoute
+  '/admin/nomor-surat': typeof AuthenticatedAdminNomorSuratRoute
+  '/admin/opd': typeof AuthenticatedAdminOpdRoute
+  '/admin/pejabat': typeof AuthenticatedAdminPejabatRoute
+  '/admin/rating': typeof AuthenticatedAdminRatingRoute
+  '/admin/rbac': typeof AuthenticatedAdminRbacRouteWithChildren
+  '/admin/sistem': typeof AuthenticatedAdminSistemRoute
+  '/admin/storage': typeof AuthenticatedAdminStorageRoute
+  '/admin/submission-review': typeof AuthenticatedAdminSubmissionReviewRoute
+  '/admin/system-health': typeof AuthenticatedAdminSystemHealthRoute
+  '/admin/users': typeof AuthenticatedAdminUsersRoute
+  '/admin/verifikasi': typeof AuthenticatedAdminVerifikasiRoute
+  '/admin/verifikasi-log': typeof AuthenticatedAdminVerifikasiLogRoute
+  '/asn/absensi': typeof AuthenticatedAsnAbsensiRoute
+  '/asn/aset': typeof AuthenticatedAsnAsetRoute
+  '/asn/dokumen': typeof AuthenticatedAsnDokumenRoute
+  '/asn/izin': typeof AuthenticatedAsnIzinRoute
+  '/asn/lembur': typeof AuthenticatedAsnLemburRoute
+  '/asn/tugas': typeof AuthenticatedAsnTugasRoute
+  '/asn/verifikasi': typeof AuthenticatedAsnVerifikasiRoute
+  '/pengisian/$id': typeof AuthenticatedPengisianIdRoute
+  '/tugas/$assignmentId': typeof AuthenticatedTugasAssignmentIdRoute
+  '/api/internal/metrics': typeof ApiInternalMetricsRoute
+  '/admin/': typeof AuthenticatedAdminIndexRoute
+  '/pengisian/': typeof AuthenticatedPengisianIndexRoute
+  '/admin/aset/bast': typeof AuthenticatedAdminAsetBastRoute
+  '/admin/aset/kib': typeof AuthenticatedAdminAsetKibRoute
+  '/admin/aset/opname': typeof AuthenticatedAdminAsetOpnameRoute
+  '/admin/aset/penyusutan': typeof AuthenticatedAdminAsetPenyusutanRoute
+  '/admin/asn/cuti-saldo': typeof AuthenticatedAdminAsnCutiSaldoRoute
+  '/admin/asn/payroll-lock': typeof AuthenticatedAdminAsnPayrollLockRoute
+  '/admin/asn/shift': typeof AuthenticatedAdminAsnShiftRoute
+  '/admin/dataset/review': typeof AuthenticatedAdminDatasetReviewRoute
+  '/admin/digital-signature/audit': typeof AuthenticatedAdminDigitalSignatureAuditRoute
+  '/admin/digital-signature/documents': typeof AuthenticatedAdminDigitalSignatureDocumentsRoute
+  '/admin/digital-signature/signatures': typeof AuthenticatedAdminDigitalSignatureSignaturesRoute
+  '/admin/digital-signature/status': typeof AuthenticatedAdminDigitalSignatureStatusRoute
+  '/admin/forms/$id': typeof AuthenticatedAdminFormsIdRoute
+  '/admin/layanan/disposisi-inbox': typeof AuthenticatedAdminLayananDisposisiInboxRoute
+  '/admin/layanan/escalation': typeof AuthenticatedAdminLayananEscalationRoute
+  '/admin/rbac/$userId': typeof AuthenticatedAdminRbacUserIdRoute
+  '/admin/rbac/audit': typeof AuthenticatedAdminRbacAuditRoute
+  '/admin/security/permissions': typeof AuthenticatedAdminSecurityPermissionsRoute
+  '/admin/system/backup-status': typeof AuthenticatedAdminSystemBackupStatusRoute
+  '/admin/system/disaster-recovery': typeof AuthenticatedAdminSystemDisasterRecoveryRoute
+  '/admin/system/feature-flags': typeof AuthenticatedAdminSystemFeatureFlagsRoute
+  '/admin/system/go-live': typeof AuthenticatedAdminSystemGoLiveRoute
+  '/admin/system/load-readiness': typeof AuthenticatedAdminSystemLoadReadinessRoute
+  '/admin/system/retention': typeof AuthenticatedAdminSystemRetentionRoute
+  '/admin/system/settings': typeof AuthenticatedAdminSystemSettingsRoute
+  '/admin/system/storage-provider': typeof AuthenticatedAdminSystemStorageProviderRoute
+  '/admin/system/uat': typeof AuthenticatedAdminSystemUatRoute
+  '/asn/scan/$token': typeof AuthenticatedAsnScanTokenRoute
+  '/api/public/hooks/aset-susut-bulanan': typeof ApiPublicHooksAsetSusutBulananRoute
+  '/api/public/hooks/aset-warranty-reminder': typeof ApiPublicHooksAsetWarrantyReminderRoute
+  '/api/public/hooks/assignment-reminder': typeof ApiPublicHooksAssignmentReminderRoute
+  '/api/public/hooks/backup-snapshot': typeof ApiPublicHooksBackupSnapshotRoute
+  '/api/public/hooks/cleanup-uploads': typeof ApiPublicHooksCleanupUploadsRoute
+  '/api/public/hooks/cron-watchdog': typeof ApiPublicHooksCronWatchdogRoute
+  '/api/public/hooks/form-deadline-reminder': typeof ApiPublicHooksFormDeadlineReminderRoute
+  '/api/public/hooks/retention-cleanup': typeof ApiPublicHooksRetentionCleanupRoute
+  '/api/public/hooks/retry-queue': typeof ApiPublicHooksRetryQueueRoute
+  '/api/public/hooks/sla-escalation': typeof ApiPublicHooksSlaEscalationRoute
+  '/api/public/hooks/sla-reminder': typeof ApiPublicHooksSlaReminderRoute
+  '/api/public/hooks/storage-cleanup': typeof ApiPublicHooksStorageCleanupRoute
+  '/api/public/hooks/stuck-jobs': typeof ApiPublicHooksStuckJobsRoute
+  '/api/public/hooks/upload-integrity': typeof ApiPublicHooksUploadIntegrityRoute
+  '/admin/digital-signature/': typeof AuthenticatedAdminDigitalSignatureIndexRoute
+  '/admin/forms/': typeof AuthenticatedAdminFormsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/berita': typeof BeritaRoute
+  '/data': typeof DataRoute
+  '/kinerja-opd': typeof KinerjaOpdRoute
+  '/kontak': typeof KontakRoute
+  '/pending-verification': typeof PendingVerificationRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/tentang': typeof TentangRoute
+  '/akun': typeof AuthenticatedAkunRoute
+  '/executive': typeof AuthenticatedExecutiveRoute
+  '/pemda': typeof AuthenticatedPemdaRoute
+  '/data-terbuka/$slug': typeof DataTerbukaSlugRoute
+  '/ikm/$id': typeof IkmIdRoute
+  '/instansi/$singkatan': typeof InstansiSingkatanRoute
+  '/layanan/$slug': typeof LayananSlugRoute
+  '/permohonan/$id': typeof PermohonanIdRoute
+  '/permohonan/baru': typeof PermohonanBaruRoute
+  '/v/$token': typeof VTokenRoute
+  '/verify/$token': typeof VerifyTokenRoute
+  '/data-terbuka': typeof DataTerbukaIndexRoute
+  '/layanan': typeof LayananIndexRoute
+  '/permohonan': typeof PermohonanIndexRoute
+  '/admin/approvals': typeof AuthenticatedAdminApprovalsRoute
+  '/admin/aset': typeof AuthenticatedAdminAsetRouteWithChildren
+  '/admin/aset-extra': typeof AuthenticatedAdminAsetExtraRoute
+  '/admin/aset-kampanye': typeof AuthenticatedAdminAsetKampanyeRoute
+  '/admin/asn': typeof AuthenticatedAdminAsnRouteWithChildren
+  '/admin/asn-kepatuhan': typeof AuthenticatedAdminAsnKepatuhanRoute
+  '/admin/audit': typeof AuthenticatedAdminAuditRoute
+  '/admin/backup': typeof AuthenticatedAdminBackupRoute
+  '/admin/branding': typeof AuthenticatedAdminBrandingRoute
+  '/admin/cms': typeof AuthenticatedAdminCmsRoute
+  '/admin/compliance': typeof AuthenticatedAdminComplianceRoute
+  '/admin/config': typeof AuthenticatedAdminConfigRoute
+  '/admin/dataset': typeof AuthenticatedAdminDatasetRouteWithChildren
+  '/admin/desa': typeof AuthenticatedAdminDesaRoute
+  '/admin/eksekutif': typeof AuthenticatedAdminEksekutifRoute
+  '/admin/governance': typeof AuthenticatedAdminGovernanceRoute
+  '/admin/hari-libur': typeof AuthenticatedAdminHariLiburRoute
+  '/admin/ikm': typeof AuthenticatedAdminIkmRoute
+  '/admin/izin': typeof AuthenticatedAdminIzinRoute
+  '/admin/laporan': typeof AuthenticatedAdminLaporanRoute
+  '/admin/layanan': typeof AuthenticatedAdminLayananRouteWithChildren
+  '/admin/lokasi': typeof AuthenticatedAdminLokasiRoute
+  '/admin/master-jabatan': typeof AuthenticatedAdminMasterJabatanRoute
+  '/admin/nomor-surat': typeof AuthenticatedAdminNomorSuratRoute
+  '/admin/opd': typeof AuthenticatedAdminOpdRoute
+  '/admin/pejabat': typeof AuthenticatedAdminPejabatRoute
+  '/admin/rating': typeof AuthenticatedAdminRatingRoute
+  '/admin/rbac': typeof AuthenticatedAdminRbacRouteWithChildren
+  '/admin/sistem': typeof AuthenticatedAdminSistemRoute
+  '/admin/storage': typeof AuthenticatedAdminStorageRoute
+  '/admin/submission-review': typeof AuthenticatedAdminSubmissionReviewRoute
+  '/admin/system-health': typeof AuthenticatedAdminSystemHealthRoute
+  '/admin/users': typeof AuthenticatedAdminUsersRoute
+  '/admin/verifikasi': typeof AuthenticatedAdminVerifikasiRoute
+  '/admin/verifikasi-log': typeof AuthenticatedAdminVerifikasiLogRoute
+  '/asn/absensi': typeof AuthenticatedAsnAbsensiRoute
+  '/asn/aset': typeof AuthenticatedAsnAsetRoute
+  '/asn/dokumen': typeof AuthenticatedAsnDokumenRoute
+  '/asn/izin': typeof AuthenticatedAsnIzinRoute
+  '/asn/lembur': typeof AuthenticatedAsnLemburRoute
+  '/asn/tugas': typeof AuthenticatedAsnTugasRoute
+  '/asn/verifikasi': typeof AuthenticatedAsnVerifikasiRoute
+  '/pengisian/$id': typeof AuthenticatedPengisianIdRoute
+  '/tugas/$assignmentId': typeof AuthenticatedTugasAssignmentIdRoute
+  '/api/internal/metrics': typeof ApiInternalMetricsRoute
+  '/admin': typeof AuthenticatedAdminIndexRoute
+  '/pengisian': typeof AuthenticatedPengisianIndexRoute
+  '/admin/aset/bast': typeof AuthenticatedAdminAsetBastRoute
+  '/admin/aset/kib': typeof AuthenticatedAdminAsetKibRoute
+  '/admin/aset/opname': typeof AuthenticatedAdminAsetOpnameRoute
+  '/admin/aset/penyusutan': typeof AuthenticatedAdminAsetPenyusutanRoute
+  '/admin/asn/cuti-saldo': typeof AuthenticatedAdminAsnCutiSaldoRoute
+  '/admin/asn/payroll-lock': typeof AuthenticatedAdminAsnPayrollLockRoute
+  '/admin/asn/shift': typeof AuthenticatedAdminAsnShiftRoute
+  '/admin/dataset/review': typeof AuthenticatedAdminDatasetReviewRoute
+  '/admin/digital-signature/audit': typeof AuthenticatedAdminDigitalSignatureAuditRoute
+  '/admin/digital-signature/documents': typeof AuthenticatedAdminDigitalSignatureDocumentsRoute
+  '/admin/digital-signature/signatures': typeof AuthenticatedAdminDigitalSignatureSignaturesRoute
+  '/admin/digital-signature/status': typeof AuthenticatedAdminDigitalSignatureStatusRoute
+  '/admin/forms/$id': typeof AuthenticatedAdminFormsIdRoute
+  '/admin/layanan/disposisi-inbox': typeof AuthenticatedAdminLayananDisposisiInboxRoute
+  '/admin/layanan/escalation': typeof AuthenticatedAdminLayananEscalationRoute
+  '/admin/rbac/$userId': typeof AuthenticatedAdminRbacUserIdRoute
+  '/admin/rbac/audit': typeof AuthenticatedAdminRbacAuditRoute
+  '/admin/security/permissions': typeof AuthenticatedAdminSecurityPermissionsRoute
+  '/admin/system/backup-status': typeof AuthenticatedAdminSystemBackupStatusRoute
+  '/admin/system/disaster-recovery': typeof AuthenticatedAdminSystemDisasterRecoveryRoute
+  '/admin/system/feature-flags': typeof AuthenticatedAdminSystemFeatureFlagsRoute
+  '/admin/system/go-live': typeof AuthenticatedAdminSystemGoLiveRoute
+  '/admin/system/load-readiness': typeof AuthenticatedAdminSystemLoadReadinessRoute
+  '/admin/system/retention': typeof AuthenticatedAdminSystemRetentionRoute
+  '/admin/system/settings': typeof AuthenticatedAdminSystemSettingsRoute
+  '/admin/system/storage-provider': typeof AuthenticatedAdminSystemStorageProviderRoute
+  '/admin/system/uat': typeof AuthenticatedAdminSystemUatRoute
+  '/asn/scan/$token': typeof AuthenticatedAsnScanTokenRoute
+  '/api/public/hooks/aset-susut-bulanan': typeof ApiPublicHooksAsetSusutBulananRoute
+  '/api/public/hooks/aset-warranty-reminder': typeof ApiPublicHooksAsetWarrantyReminderRoute
+  '/api/public/hooks/assignment-reminder': typeof ApiPublicHooksAssignmentReminderRoute
+  '/api/public/hooks/backup-snapshot': typeof ApiPublicHooksBackupSnapshotRoute
+  '/api/public/hooks/cleanup-uploads': typeof ApiPublicHooksCleanupUploadsRoute
+  '/api/public/hooks/cron-watchdog': typeof ApiPublicHooksCronWatchdogRoute
+  '/api/public/hooks/form-deadline-reminder': typeof ApiPublicHooksFormDeadlineReminderRoute
+  '/api/public/hooks/retention-cleanup': typeof ApiPublicHooksRetentionCleanupRoute
+  '/api/public/hooks/retry-queue': typeof ApiPublicHooksRetryQueueRoute
+  '/api/public/hooks/sla-escalation': typeof ApiPublicHooksSlaEscalationRoute
+  '/api/public/hooks/sla-reminder': typeof ApiPublicHooksSlaReminderRoute
+  '/api/public/hooks/storage-cleanup': typeof ApiPublicHooksStorageCleanupRoute
+  '/api/public/hooks/stuck-jobs': typeof ApiPublicHooksStuckJobsRoute
+  '/api/public/hooks/upload-integrity': typeof ApiPublicHooksUploadIntegrityRoute
+  '/admin/digital-signature': typeof AuthenticatedAdminDigitalSignatureIndexRoute
+  '/admin/forms': typeof AuthenticatedAdminFormsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/auth': typeof AuthRoute
+  '/berita': typeof BeritaRoute
+  '/data': typeof DataRoute
+  '/kinerja-opd': typeof KinerjaOpdRoute
+  '/kontak': typeof KontakRoute
+  '/pending-verification': typeof PendingVerificationRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/tentang': typeof TentangRoute
+  '/_authenticated/akun': typeof AuthenticatedAkunRoute
+  '/_authenticated/executive': typeof AuthenticatedExecutiveRoute
+  '/_authenticated/pemda': typeof AuthenticatedPemdaRoute
+  '/data-terbuka/$slug': typeof DataTerbukaSlugRoute
+  '/ikm/$id': typeof IkmIdRoute
+  '/instansi/$singkatan': typeof InstansiSingkatanRoute
+  '/layanan/$slug': typeof LayananSlugRoute
+  '/permohonan/$id': typeof PermohonanIdRoute
+  '/permohonan/baru': typeof PermohonanBaruRoute
+  '/v/$token': typeof VTokenRoute
+  '/verify/$token': typeof VerifyTokenRoute
+  '/data-terbuka/': typeof DataTerbukaIndexRoute
+  '/layanan/': typeof LayananIndexRoute
+  '/permohonan/': typeof PermohonanIndexRoute
+  '/_authenticated/admin/approvals': typeof AuthenticatedAdminApprovalsRoute
+  '/_authenticated/admin/aset': typeof AuthenticatedAdminAsetRouteWithChildren
+  '/_authenticated/admin/aset-extra': typeof AuthenticatedAdminAsetExtraRoute
+  '/_authenticated/admin/aset-kampanye': typeof AuthenticatedAdminAsetKampanyeRoute
+  '/_authenticated/admin/asn': typeof AuthenticatedAdminAsnRouteWithChildren
+  '/_authenticated/admin/asn-kepatuhan': typeof AuthenticatedAdminAsnKepatuhanRoute
+  '/_authenticated/admin/audit': typeof AuthenticatedAdminAuditRoute
+  '/_authenticated/admin/backup': typeof AuthenticatedAdminBackupRoute
+  '/_authenticated/admin/branding': typeof AuthenticatedAdminBrandingRoute
+  '/_authenticated/admin/cms': typeof AuthenticatedAdminCmsRoute
+  '/_authenticated/admin/compliance': typeof AuthenticatedAdminComplianceRoute
+  '/_authenticated/admin/config': typeof AuthenticatedAdminConfigRoute
+  '/_authenticated/admin/dataset': typeof AuthenticatedAdminDatasetRouteWithChildren
+  '/_authenticated/admin/desa': typeof AuthenticatedAdminDesaRoute
+  '/_authenticated/admin/digital-signature': typeof AuthenticatedAdminDigitalSignatureRouteWithChildren
+  '/_authenticated/admin/eksekutif': typeof AuthenticatedAdminEksekutifRoute
+  '/_authenticated/admin/governance': typeof AuthenticatedAdminGovernanceRoute
+  '/_authenticated/admin/hari-libur': typeof AuthenticatedAdminHariLiburRoute
+  '/_authenticated/admin/ikm': typeof AuthenticatedAdminIkmRoute
+  '/_authenticated/admin/izin': typeof AuthenticatedAdminIzinRoute
+  '/_authenticated/admin/laporan': typeof AuthenticatedAdminLaporanRoute
+  '/_authenticated/admin/layanan': typeof AuthenticatedAdminLayananRouteWithChildren
+  '/_authenticated/admin/lokasi': typeof AuthenticatedAdminLokasiRoute
+  '/_authenticated/admin/master-jabatan': typeof AuthenticatedAdminMasterJabatanRoute
+  '/_authenticated/admin/nomor-surat': typeof AuthenticatedAdminNomorSuratRoute
+  '/_authenticated/admin/opd': typeof AuthenticatedAdminOpdRoute
+  '/_authenticated/admin/pejabat': typeof AuthenticatedAdminPejabatRoute
+  '/_authenticated/admin/rating': typeof AuthenticatedAdminRatingRoute
+  '/_authenticated/admin/rbac': typeof AuthenticatedAdminRbacRouteWithChildren
+  '/_authenticated/admin/sistem': typeof AuthenticatedAdminSistemRoute
+  '/_authenticated/admin/storage': typeof AuthenticatedAdminStorageRoute
+  '/_authenticated/admin/submission-review': typeof AuthenticatedAdminSubmissionReviewRoute
+  '/_authenticated/admin/system-health': typeof AuthenticatedAdminSystemHealthRoute
+  '/_authenticated/admin/users': typeof AuthenticatedAdminUsersRoute
+  '/_authenticated/admin/verifikasi': typeof AuthenticatedAdminVerifikasiRoute
+  '/_authenticated/admin/verifikasi-log': typeof AuthenticatedAdminVerifikasiLogRoute
+  '/_authenticated/asn/absensi': typeof AuthenticatedAsnAbsensiRoute
+  '/_authenticated/asn/aset': typeof AuthenticatedAsnAsetRoute
+  '/_authenticated/asn/dokumen': typeof AuthenticatedAsnDokumenRoute
+  '/_authenticated/asn/izin': typeof AuthenticatedAsnIzinRoute
+  '/_authenticated/asn/lembur': typeof AuthenticatedAsnLemburRoute
+  '/_authenticated/asn/tugas': typeof AuthenticatedAsnTugasRoute
+  '/_authenticated/asn/verifikasi': typeof AuthenticatedAsnVerifikasiRoute
+  '/_authenticated/pengisian/$id': typeof AuthenticatedPengisianIdRoute
+  '/_authenticated/tugas/$assignmentId': typeof AuthenticatedTugasAssignmentIdRoute
+  '/api/internal/metrics': typeof ApiInternalMetricsRoute
+  '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
+  '/_authenticated/pengisian/': typeof AuthenticatedPengisianIndexRoute
+  '/_authenticated/admin/aset/bast': typeof AuthenticatedAdminAsetBastRoute
+  '/_authenticated/admin/aset/kib': typeof AuthenticatedAdminAsetKibRoute
+  '/_authenticated/admin/aset/opname': typeof AuthenticatedAdminAsetOpnameRoute
+  '/_authenticated/admin/aset/penyusutan': typeof AuthenticatedAdminAsetPenyusutanRoute
+  '/_authenticated/admin/asn/cuti-saldo': typeof AuthenticatedAdminAsnCutiSaldoRoute
+  '/_authenticated/admin/asn/payroll-lock': typeof AuthenticatedAdminAsnPayrollLockRoute
+  '/_authenticated/admin/asn/shift': typeof AuthenticatedAdminAsnShiftRoute
+  '/_authenticated/admin/dataset/review': typeof AuthenticatedAdminDatasetReviewRoute
+  '/_authenticated/admin/digital-signature/audit': typeof AuthenticatedAdminDigitalSignatureAuditRoute
+  '/_authenticated/admin/digital-signature/documents': typeof AuthenticatedAdminDigitalSignatureDocumentsRoute
+  '/_authenticated/admin/digital-signature/signatures': typeof AuthenticatedAdminDigitalSignatureSignaturesRoute
+  '/_authenticated/admin/digital-signature/status': typeof AuthenticatedAdminDigitalSignatureStatusRoute
+  '/_authenticated/admin/forms/$id': typeof AuthenticatedAdminFormsIdRoute
+  '/_authenticated/admin/layanan/disposisi-inbox': typeof AuthenticatedAdminLayananDisposisiInboxRoute
+  '/_authenticated/admin/layanan/escalation': typeof AuthenticatedAdminLayananEscalationRoute
+  '/_authenticated/admin/rbac/$userId': typeof AuthenticatedAdminRbacUserIdRoute
+  '/_authenticated/admin/rbac/audit': typeof AuthenticatedAdminRbacAuditRoute
+  '/_authenticated/admin/security/permissions': typeof AuthenticatedAdminSecurityPermissionsRoute
+  '/_authenticated/admin/system/backup-status': typeof AuthenticatedAdminSystemBackupStatusRoute
+  '/_authenticated/admin/system/disaster-recovery': typeof AuthenticatedAdminSystemDisasterRecoveryRoute
+  '/_authenticated/admin/system/feature-flags': typeof AuthenticatedAdminSystemFeatureFlagsRoute
+  '/_authenticated/admin/system/go-live': typeof AuthenticatedAdminSystemGoLiveRoute
+  '/_authenticated/admin/system/load-readiness': typeof AuthenticatedAdminSystemLoadReadinessRoute
+  '/_authenticated/admin/system/retention': typeof AuthenticatedAdminSystemRetentionRoute
+  '/_authenticated/admin/system/settings': typeof AuthenticatedAdminSystemSettingsRoute
+  '/_authenticated/admin/system/storage-provider': typeof AuthenticatedAdminSystemStorageProviderRoute
+  '/_authenticated/admin/system/uat': typeof AuthenticatedAdminSystemUatRoute
+  '/_authenticated/asn/scan/$token': typeof AuthenticatedAsnScanTokenRoute
+  '/api/public/hooks/aset-susut-bulanan': typeof ApiPublicHooksAsetSusutBulananRoute
+  '/api/public/hooks/aset-warranty-reminder': typeof ApiPublicHooksAsetWarrantyReminderRoute
+  '/api/public/hooks/assignment-reminder': typeof ApiPublicHooksAssignmentReminderRoute
+  '/api/public/hooks/backup-snapshot': typeof ApiPublicHooksBackupSnapshotRoute
+  '/api/public/hooks/cleanup-uploads': typeof ApiPublicHooksCleanupUploadsRoute
+  '/api/public/hooks/cron-watchdog': typeof ApiPublicHooksCronWatchdogRoute
+  '/api/public/hooks/form-deadline-reminder': typeof ApiPublicHooksFormDeadlineReminderRoute
+  '/api/public/hooks/retention-cleanup': typeof ApiPublicHooksRetentionCleanupRoute
+  '/api/public/hooks/retry-queue': typeof ApiPublicHooksRetryQueueRoute
+  '/api/public/hooks/sla-escalation': typeof ApiPublicHooksSlaEscalationRoute
+  '/api/public/hooks/sla-reminder': typeof ApiPublicHooksSlaReminderRoute
+  '/api/public/hooks/storage-cleanup': typeof ApiPublicHooksStorageCleanupRoute
+  '/api/public/hooks/stuck-jobs': typeof ApiPublicHooksStuckJobsRoute
+  '/api/public/hooks/upload-integrity': typeof ApiPublicHooksUploadIntegrityRoute
+  '/_authenticated/admin/digital-signature/': typeof AuthenticatedAdminDigitalSignatureIndexRoute
+  '/_authenticated/admin/forms/': typeof AuthenticatedAdminFormsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/auth'
+    | '/berita'
+    | '/data'
+    | '/kinerja-opd'
+    | '/kontak'
+    | '/pending-verification'
+    | '/reset-password'
+    | '/tentang'
+    | '/akun'
+    | '/executive'
+    | '/pemda'
+    | '/data-terbuka/$slug'
+    | '/ikm/$id'
+    | '/instansi/$singkatan'
+    | '/layanan/$slug'
+    | '/permohonan/$id'
+    | '/permohonan/baru'
+    | '/v/$token'
+    | '/verify/$token'
+    | '/data-terbuka/'
+    | '/layanan/'
+    | '/permohonan/'
+    | '/admin/approvals'
+    | '/admin/aset'
+    | '/admin/aset-extra'
+    | '/admin/aset-kampanye'
+    | '/admin/asn'
+    | '/admin/asn-kepatuhan'
+    | '/admin/audit'
+    | '/admin/backup'
+    | '/admin/branding'
+    | '/admin/cms'
+    | '/admin/compliance'
+    | '/admin/config'
+    | '/admin/dataset'
+    | '/admin/desa'
+    | '/admin/digital-signature'
+    | '/admin/eksekutif'
+    | '/admin/governance'
+    | '/admin/hari-libur'
+    | '/admin/ikm'
+    | '/admin/izin'
+    | '/admin/laporan'
+    | '/admin/layanan'
+    | '/admin/lokasi'
+    | '/admin/master-jabatan'
+    | '/admin/nomor-surat'
+    | '/admin/opd'
+    | '/admin/pejabat'
+    | '/admin/rating'
+    | '/admin/rbac'
+    | '/admin/sistem'
+    | '/admin/storage'
+    | '/admin/submission-review'
+    | '/admin/system-health'
+    | '/admin/users'
+    | '/admin/verifikasi'
+    | '/admin/verifikasi-log'
+    | '/asn/absensi'
+    | '/asn/aset'
+    | '/asn/dokumen'
+    | '/asn/izin'
+    | '/asn/lembur'
+    | '/asn/tugas'
+    | '/asn/verifikasi'
+    | '/pengisian/$id'
+    | '/tugas/$assignmentId'
+    | '/api/internal/metrics'
+    | '/admin/'
+    | '/pengisian/'
+    | '/admin/aset/bast'
+    | '/admin/aset/kib'
+    | '/admin/aset/opname'
+    | '/admin/aset/penyusutan'
+    | '/admin/asn/cuti-saldo'
+    | '/admin/asn/payroll-lock'
+    | '/admin/asn/shift'
+    | '/admin/dataset/review'
+    | '/admin/digital-signature/audit'
+    | '/admin/digital-signature/documents'
+    | '/admin/digital-signature/signatures'
+    | '/admin/digital-signature/status'
+    | '/admin/forms/$id'
+    | '/admin/layanan/disposisi-inbox'
+    | '/admin/layanan/escalation'
+    | '/admin/rbac/$userId'
+    | '/admin/rbac/audit'
+    | '/admin/security/permissions'
+    | '/admin/system/backup-status'
+    | '/admin/system/disaster-recovery'
+    | '/admin/system/feature-flags'
+    | '/admin/system/go-live'
+    | '/admin/system/load-readiness'
+    | '/admin/system/retention'
+    | '/admin/system/settings'
+    | '/admin/system/storage-provider'
+    | '/admin/system/uat'
+    | '/asn/scan/$token'
+    | '/api/public/hooks/aset-susut-bulanan'
+    | '/api/public/hooks/aset-warranty-reminder'
+    | '/api/public/hooks/assignment-reminder'
+    | '/api/public/hooks/backup-snapshot'
+    | '/api/public/hooks/cleanup-uploads'
+    | '/api/public/hooks/cron-watchdog'
+    | '/api/public/hooks/form-deadline-reminder'
+    | '/api/public/hooks/retention-cleanup'
+    | '/api/public/hooks/retry-queue'
+    | '/api/public/hooks/sla-escalation'
+    | '/api/public/hooks/sla-reminder'
+    | '/api/public/hooks/storage-cleanup'
+    | '/api/public/hooks/stuck-jobs'
+    | '/api/public/hooks/upload-integrity'
+    | '/admin/digital-signature/'
+    | '/admin/forms/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/auth'
+    | '/berita'
+    | '/data'
+    | '/kinerja-opd'
+    | '/kontak'
+    | '/pending-verification'
+    | '/reset-password'
+    | '/tentang'
+    | '/akun'
+    | '/executive'
+    | '/pemda'
+    | '/data-terbuka/$slug'
+    | '/ikm/$id'
+    | '/instansi/$singkatan'
+    | '/layanan/$slug'
+    | '/permohonan/$id'
+    | '/permohonan/baru'
+    | '/v/$token'
+    | '/verify/$token'
+    | '/data-terbuka'
+    | '/layanan'
+    | '/permohonan'
+    | '/admin/approvals'
+    | '/admin/aset'
+    | '/admin/aset-extra'
+    | '/admin/aset-kampanye'
+    | '/admin/asn'
+    | '/admin/asn-kepatuhan'
+    | '/admin/audit'
+    | '/admin/backup'
+    | '/admin/branding'
+    | '/admin/cms'
+    | '/admin/compliance'
+    | '/admin/config'
+    | '/admin/dataset'
+    | '/admin/desa'
+    | '/admin/eksekutif'
+    | '/admin/governance'
+    | '/admin/hari-libur'
+    | '/admin/ikm'
+    | '/admin/izin'
+    | '/admin/laporan'
+    | '/admin/layanan'
+    | '/admin/lokasi'
+    | '/admin/master-jabatan'
+    | '/admin/nomor-surat'
+    | '/admin/opd'
+    | '/admin/pejabat'
+    | '/admin/rating'
+    | '/admin/rbac'
+    | '/admin/sistem'
+    | '/admin/storage'
+    | '/admin/submission-review'
+    | '/admin/system-health'
+    | '/admin/users'
+    | '/admin/verifikasi'
+    | '/admin/verifikasi-log'
+    | '/asn/absensi'
+    | '/asn/aset'
+    | '/asn/dokumen'
+    | '/asn/izin'
+    | '/asn/lembur'
+    | '/asn/tugas'
+    | '/asn/verifikasi'
+    | '/pengisian/$id'
+    | '/tugas/$assignmentId'
+    | '/api/internal/metrics'
+    | '/admin'
+    | '/pengisian'
+    | '/admin/aset/bast'
+    | '/admin/aset/kib'
+    | '/admin/aset/opname'
+    | '/admin/aset/penyusutan'
+    | '/admin/asn/cuti-saldo'
+    | '/admin/asn/payroll-lock'
+    | '/admin/asn/shift'
+    | '/admin/dataset/review'
+    | '/admin/digital-signature/audit'
+    | '/admin/digital-signature/documents'
+    | '/admin/digital-signature/signatures'
+    | '/admin/digital-signature/status'
+    | '/admin/forms/$id'
+    | '/admin/layanan/disposisi-inbox'
+    | '/admin/layanan/escalation'
+    | '/admin/rbac/$userId'
+    | '/admin/rbac/audit'
+    | '/admin/security/permissions'
+    | '/admin/system/backup-status'
+    | '/admin/system/disaster-recovery'
+    | '/admin/system/feature-flags'
+    | '/admin/system/go-live'
+    | '/admin/system/load-readiness'
+    | '/admin/system/retention'
+    | '/admin/system/settings'
+    | '/admin/system/storage-provider'
+    | '/admin/system/uat'
+    | '/asn/scan/$token'
+    | '/api/public/hooks/aset-susut-bulanan'
+    | '/api/public/hooks/aset-warranty-reminder'
+    | '/api/public/hooks/assignment-reminder'
+    | '/api/public/hooks/backup-snapshot'
+    | '/api/public/hooks/cleanup-uploads'
+    | '/api/public/hooks/cron-watchdog'
+    | '/api/public/hooks/form-deadline-reminder'
+    | '/api/public/hooks/retention-cleanup'
+    | '/api/public/hooks/retry-queue'
+    | '/api/public/hooks/sla-escalation'
+    | '/api/public/hooks/sla-reminder'
+    | '/api/public/hooks/storage-cleanup'
+    | '/api/public/hooks/stuck-jobs'
+    | '/api/public/hooks/upload-integrity'
+    | '/admin/digital-signature'
+    | '/admin/forms'
+  id:
+    | '__root__'
+    | '/'
+    | '/_authenticated'
+    | '/auth'
+    | '/berita'
+    | '/data'
+    | '/kinerja-opd'
+    | '/kontak'
+    | '/pending-verification'
+    | '/reset-password'
+    | '/tentang'
+    | '/_authenticated/akun'
+    | '/_authenticated/executive'
+    | '/_authenticated/pemda'
+    | '/data-terbuka/$slug'
+    | '/ikm/$id'
+    | '/instansi/$singkatan'
+    | '/layanan/$slug'
+    | '/permohonan/$id'
+    | '/permohonan/baru'
+    | '/v/$token'
+    | '/verify/$token'
+    | '/data-terbuka/'
+    | '/layanan/'
+    | '/permohonan/'
+    | '/_authenticated/admin/approvals'
+    | '/_authenticated/admin/aset'
+    | '/_authenticated/admin/aset-extra'
+    | '/_authenticated/admin/aset-kampanye'
+    | '/_authenticated/admin/asn'
+    | '/_authenticated/admin/asn-kepatuhan'
+    | '/_authenticated/admin/audit'
+    | '/_authenticated/admin/backup'
+    | '/_authenticated/admin/branding'
+    | '/_authenticated/admin/cms'
+    | '/_authenticated/admin/compliance'
+    | '/_authenticated/admin/config'
+    | '/_authenticated/admin/dataset'
+    | '/_authenticated/admin/desa'
+    | '/_authenticated/admin/digital-signature'
+    | '/_authenticated/admin/eksekutif'
+    | '/_authenticated/admin/governance'
+    | '/_authenticated/admin/hari-libur'
+    | '/_authenticated/admin/ikm'
+    | '/_authenticated/admin/izin'
+    | '/_authenticated/admin/laporan'
+    | '/_authenticated/admin/layanan'
+    | '/_authenticated/admin/lokasi'
+    | '/_authenticated/admin/master-jabatan'
+    | '/_authenticated/admin/nomor-surat'
+    | '/_authenticated/admin/opd'
+    | '/_authenticated/admin/pejabat'
+    | '/_authenticated/admin/rating'
+    | '/_authenticated/admin/rbac'
+    | '/_authenticated/admin/sistem'
+    | '/_authenticated/admin/storage'
+    | '/_authenticated/admin/submission-review'
+    | '/_authenticated/admin/system-health'
+    | '/_authenticated/admin/users'
+    | '/_authenticated/admin/verifikasi'
+    | '/_authenticated/admin/verifikasi-log'
+    | '/_authenticated/asn/absensi'
+    | '/_authenticated/asn/aset'
+    | '/_authenticated/asn/dokumen'
+    | '/_authenticated/asn/izin'
+    | '/_authenticated/asn/lembur'
+    | '/_authenticated/asn/tugas'
+    | '/_authenticated/asn/verifikasi'
+    | '/_authenticated/pengisian/$id'
+    | '/_authenticated/tugas/$assignmentId'
+    | '/api/internal/metrics'
+    | '/_authenticated/admin/'
+    | '/_authenticated/pengisian/'
+    | '/_authenticated/admin/aset/bast'
+    | '/_authenticated/admin/aset/kib'
+    | '/_authenticated/admin/aset/opname'
+    | '/_authenticated/admin/aset/penyusutan'
+    | '/_authenticated/admin/asn/cuti-saldo'
+    | '/_authenticated/admin/asn/payroll-lock'
+    | '/_authenticated/admin/asn/shift'
+    | '/_authenticated/admin/dataset/review'
+    | '/_authenticated/admin/digital-signature/audit'
+    | '/_authenticated/admin/digital-signature/documents'
+    | '/_authenticated/admin/digital-signature/signatures'
+    | '/_authenticated/admin/digital-signature/status'
+    | '/_authenticated/admin/forms/$id'
+    | '/_authenticated/admin/layanan/disposisi-inbox'
+    | '/_authenticated/admin/layanan/escalation'
+    | '/_authenticated/admin/rbac/$userId'
+    | '/_authenticated/admin/rbac/audit'
+    | '/_authenticated/admin/security/permissions'
+    | '/_authenticated/admin/system/backup-status'
+    | '/_authenticated/admin/system/disaster-recovery'
+    | '/_authenticated/admin/system/feature-flags'
+    | '/_authenticated/admin/system/go-live'
+    | '/_authenticated/admin/system/load-readiness'
+    | '/_authenticated/admin/system/retention'
+    | '/_authenticated/admin/system/settings'
+    | '/_authenticated/admin/system/storage-provider'
+    | '/_authenticated/admin/system/uat'
+    | '/_authenticated/asn/scan/$token'
+    | '/api/public/hooks/aset-susut-bulanan'
+    | '/api/public/hooks/aset-warranty-reminder'
+    | '/api/public/hooks/assignment-reminder'
+    | '/api/public/hooks/backup-snapshot'
+    | '/api/public/hooks/cleanup-uploads'
+    | '/api/public/hooks/cron-watchdog'
+    | '/api/public/hooks/form-deadline-reminder'
+    | '/api/public/hooks/retention-cleanup'
+    | '/api/public/hooks/retry-queue'
+    | '/api/public/hooks/sla-escalation'
+    | '/api/public/hooks/sla-reminder'
+    | '/api/public/hooks/storage-cleanup'
+    | '/api/public/hooks/stuck-jobs'
+    | '/api/public/hooks/upload-integrity'
+    | '/_authenticated/admin/digital-signature/'
+    | '/_authenticated/admin/forms/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  AuthRoute: typeof AuthRoute
+  BeritaRoute: typeof BeritaRoute
+  DataRoute: typeof DataRoute
+  KinerjaOpdRoute: typeof KinerjaOpdRoute
+  KontakRoute: typeof KontakRoute
+  PendingVerificationRoute: typeof PendingVerificationRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
+  TentangRoute: typeof TentangRoute
+  DataTerbukaSlugRoute: typeof DataTerbukaSlugRoute
+  IkmIdRoute: typeof IkmIdRoute
+  InstansiSingkatanRoute: typeof InstansiSingkatanRoute
+  LayananSlugRoute: typeof LayananSlugRoute
+  PermohonanIdRoute: typeof PermohonanIdRoute
+  PermohonanBaruRoute: typeof PermohonanBaruRoute
+  VTokenRoute: typeof VTokenRoute
+  VerifyTokenRoute: typeof VerifyTokenRoute
+  DataTerbukaIndexRoute: typeof DataTerbukaIndexRoute
+  LayananIndexRoute: typeof LayananIndexRoute
+  PermohonanIndexRoute: typeof PermohonanIndexRoute
+  ApiInternalMetricsRoute: typeof ApiInternalMetricsRoute
+  ApiPublicHooksAsetSusutBulananRoute: typeof ApiPublicHooksAsetSusutBulananRoute
+  ApiPublicHooksAsetWarrantyReminderRoute: typeof ApiPublicHooksAsetWarrantyReminderRoute
+  ApiPublicHooksAssignmentReminderRoute: typeof ApiPublicHooksAssignmentReminderRoute
+  ApiPublicHooksBackupSnapshotRoute: typeof ApiPublicHooksBackupSnapshotRoute
+  ApiPublicHooksCleanupUploadsRoute: typeof ApiPublicHooksCleanupUploadsRoute
+  ApiPublicHooksCronWatchdogRoute: typeof ApiPublicHooksCronWatchdogRoute
+  ApiPublicHooksFormDeadlineReminderRoute: typeof ApiPublicHooksFormDeadlineReminderRoute
+  ApiPublicHooksRetentionCleanupRoute: typeof ApiPublicHooksRetentionCleanupRoute
+  ApiPublicHooksRetryQueueRoute: typeof ApiPublicHooksRetryQueueRoute
+  ApiPublicHooksSlaEscalationRoute: typeof ApiPublicHooksSlaEscalationRoute
+  ApiPublicHooksSlaReminderRoute: typeof ApiPublicHooksSlaReminderRoute
+  ApiPublicHooksStorageCleanupRoute: typeof ApiPublicHooksStorageCleanupRoute
+  ApiPublicHooksStuckJobsRoute: typeof ApiPublicHooksStuckJobsRoute
+  ApiPublicHooksUploadIntegrityRoute: typeof ApiPublicHooksUploadIntegrityRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/tentang': {
+      id: '/tentang'
+      path: '/tentang'
+      fullPath: '/tentang'
+      preLoaderRoute: typeof TentangRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pending-verification': {
+      id: '/pending-verification'
+      path: '/pending-verification'
+      fullPath: '/pending-verification'
+      preLoaderRoute: typeof PendingVerificationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/kontak': {
+      id: '/kontak'
+      path: '/kontak'
+      fullPath: '/kontak'
+      preLoaderRoute: typeof KontakRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/kinerja-opd': {
+      id: '/kinerja-opd'
+      path: '/kinerja-opd'
+      fullPath: '/kinerja-opd'
+      preLoaderRoute: typeof KinerjaOpdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/data': {
+      id: '/data'
+      path: '/data'
+      fullPath: '/data'
+      preLoaderRoute: typeof DataRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/berita': {
+      id: '/berita'
+      path: '/berita'
+      fullPath: '/berita'
+      preLoaderRoute: typeof BeritaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,22 +1596,1048 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/permohonan/': {
+      id: '/permohonan/'
+      path: '/permohonan'
+      fullPath: '/permohonan/'
+      preLoaderRoute: typeof PermohonanIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/layanan/': {
+      id: '/layanan/'
+      path: '/layanan'
+      fullPath: '/layanan/'
+      preLoaderRoute: typeof LayananIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/data-terbuka/': {
+      id: '/data-terbuka/'
+      path: '/data-terbuka'
+      fullPath: '/data-terbuka/'
+      preLoaderRoute: typeof DataTerbukaIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/verify/$token': {
+      id: '/verify/$token'
+      path: '/verify/$token'
+      fullPath: '/verify/$token'
+      preLoaderRoute: typeof VerifyTokenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/v/$token': {
+      id: '/v/$token'
+      path: '/v/$token'
+      fullPath: '/v/$token'
+      preLoaderRoute: typeof VTokenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/permohonan/baru': {
+      id: '/permohonan/baru'
+      path: '/permohonan/baru'
+      fullPath: '/permohonan/baru'
+      preLoaderRoute: typeof PermohonanBaruRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/permohonan/$id': {
+      id: '/permohonan/$id'
+      path: '/permohonan/$id'
+      fullPath: '/permohonan/$id'
+      preLoaderRoute: typeof PermohonanIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/layanan/$slug': {
+      id: '/layanan/$slug'
+      path: '/layanan/$slug'
+      fullPath: '/layanan/$slug'
+      preLoaderRoute: typeof LayananSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/instansi/$singkatan': {
+      id: '/instansi/$singkatan'
+      path: '/instansi/$singkatan'
+      fullPath: '/instansi/$singkatan'
+      preLoaderRoute: typeof InstansiSingkatanRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ikm/$id': {
+      id: '/ikm/$id'
+      path: '/ikm/$id'
+      fullPath: '/ikm/$id'
+      preLoaderRoute: typeof IkmIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/data-terbuka/$slug': {
+      id: '/data-terbuka/$slug'
+      path: '/data-terbuka/$slug'
+      fullPath: '/data-terbuka/$slug'
+      preLoaderRoute: typeof DataTerbukaSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/pemda': {
+      id: '/_authenticated/pemda'
+      path: '/pemda'
+      fullPath: '/pemda'
+      preLoaderRoute: typeof AuthenticatedPemdaRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/executive': {
+      id: '/_authenticated/executive'
+      path: '/executive'
+      fullPath: '/executive'
+      preLoaderRoute: typeof AuthenticatedExecutiveRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/akun': {
+      id: '/_authenticated/akun'
+      path: '/akun'
+      fullPath: '/akun'
+      preLoaderRoute: typeof AuthenticatedAkunRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/pengisian/': {
+      id: '/_authenticated/pengisian/'
+      path: '/pengisian'
+      fullPath: '/pengisian/'
+      preLoaderRoute: typeof AuthenticatedPengisianIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/': {
+      id: '/_authenticated/admin/'
+      path: '/admin'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AuthenticatedAdminIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/api/internal/metrics': {
+      id: '/api/internal/metrics'
+      path: '/api/internal/metrics'
+      fullPath: '/api/internal/metrics'
+      preLoaderRoute: typeof ApiInternalMetricsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/tugas/$assignmentId': {
+      id: '/_authenticated/tugas/$assignmentId'
+      path: '/tugas/$assignmentId'
+      fullPath: '/tugas/$assignmentId'
+      preLoaderRoute: typeof AuthenticatedTugasAssignmentIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/pengisian/$id': {
+      id: '/_authenticated/pengisian/$id'
+      path: '/pengisian/$id'
+      fullPath: '/pengisian/$id'
+      preLoaderRoute: typeof AuthenticatedPengisianIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/asn/verifikasi': {
+      id: '/_authenticated/asn/verifikasi'
+      path: '/asn/verifikasi'
+      fullPath: '/asn/verifikasi'
+      preLoaderRoute: typeof AuthenticatedAsnVerifikasiRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/asn/tugas': {
+      id: '/_authenticated/asn/tugas'
+      path: '/asn/tugas'
+      fullPath: '/asn/tugas'
+      preLoaderRoute: typeof AuthenticatedAsnTugasRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/asn/lembur': {
+      id: '/_authenticated/asn/lembur'
+      path: '/asn/lembur'
+      fullPath: '/asn/lembur'
+      preLoaderRoute: typeof AuthenticatedAsnLemburRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/asn/izin': {
+      id: '/_authenticated/asn/izin'
+      path: '/asn/izin'
+      fullPath: '/asn/izin'
+      preLoaderRoute: typeof AuthenticatedAsnIzinRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/asn/dokumen': {
+      id: '/_authenticated/asn/dokumen'
+      path: '/asn/dokumen'
+      fullPath: '/asn/dokumen'
+      preLoaderRoute: typeof AuthenticatedAsnDokumenRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/asn/aset': {
+      id: '/_authenticated/asn/aset'
+      path: '/asn/aset'
+      fullPath: '/asn/aset'
+      preLoaderRoute: typeof AuthenticatedAsnAsetRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/asn/absensi': {
+      id: '/_authenticated/asn/absensi'
+      path: '/asn/absensi'
+      fullPath: '/asn/absensi'
+      preLoaderRoute: typeof AuthenticatedAsnAbsensiRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/verifikasi-log': {
+      id: '/_authenticated/admin/verifikasi-log'
+      path: '/admin/verifikasi-log'
+      fullPath: '/admin/verifikasi-log'
+      preLoaderRoute: typeof AuthenticatedAdminVerifikasiLogRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/verifikasi': {
+      id: '/_authenticated/admin/verifikasi'
+      path: '/admin/verifikasi'
+      fullPath: '/admin/verifikasi'
+      preLoaderRoute: typeof AuthenticatedAdminVerifikasiRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/users': {
+      id: '/_authenticated/admin/users'
+      path: '/admin/users'
+      fullPath: '/admin/users'
+      preLoaderRoute: typeof AuthenticatedAdminUsersRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/system-health': {
+      id: '/_authenticated/admin/system-health'
+      path: '/admin/system-health'
+      fullPath: '/admin/system-health'
+      preLoaderRoute: typeof AuthenticatedAdminSystemHealthRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/submission-review': {
+      id: '/_authenticated/admin/submission-review'
+      path: '/admin/submission-review'
+      fullPath: '/admin/submission-review'
+      preLoaderRoute: typeof AuthenticatedAdminSubmissionReviewRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/storage': {
+      id: '/_authenticated/admin/storage'
+      path: '/admin/storage'
+      fullPath: '/admin/storage'
+      preLoaderRoute: typeof AuthenticatedAdminStorageRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/sistem': {
+      id: '/_authenticated/admin/sistem'
+      path: '/admin/sistem'
+      fullPath: '/admin/sistem'
+      preLoaderRoute: typeof AuthenticatedAdminSistemRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/rbac': {
+      id: '/_authenticated/admin/rbac'
+      path: '/admin/rbac'
+      fullPath: '/admin/rbac'
+      preLoaderRoute: typeof AuthenticatedAdminRbacRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/rating': {
+      id: '/_authenticated/admin/rating'
+      path: '/admin/rating'
+      fullPath: '/admin/rating'
+      preLoaderRoute: typeof AuthenticatedAdminRatingRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/pejabat': {
+      id: '/_authenticated/admin/pejabat'
+      path: '/admin/pejabat'
+      fullPath: '/admin/pejabat'
+      preLoaderRoute: typeof AuthenticatedAdminPejabatRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/opd': {
+      id: '/_authenticated/admin/opd'
+      path: '/admin/opd'
+      fullPath: '/admin/opd'
+      preLoaderRoute: typeof AuthenticatedAdminOpdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/nomor-surat': {
+      id: '/_authenticated/admin/nomor-surat'
+      path: '/admin/nomor-surat'
+      fullPath: '/admin/nomor-surat'
+      preLoaderRoute: typeof AuthenticatedAdminNomorSuratRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/master-jabatan': {
+      id: '/_authenticated/admin/master-jabatan'
+      path: '/admin/master-jabatan'
+      fullPath: '/admin/master-jabatan'
+      preLoaderRoute: typeof AuthenticatedAdminMasterJabatanRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/lokasi': {
+      id: '/_authenticated/admin/lokasi'
+      path: '/admin/lokasi'
+      fullPath: '/admin/lokasi'
+      preLoaderRoute: typeof AuthenticatedAdminLokasiRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/layanan': {
+      id: '/_authenticated/admin/layanan'
+      path: '/admin/layanan'
+      fullPath: '/admin/layanan'
+      preLoaderRoute: typeof AuthenticatedAdminLayananRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/laporan': {
+      id: '/_authenticated/admin/laporan'
+      path: '/admin/laporan'
+      fullPath: '/admin/laporan'
+      preLoaderRoute: typeof AuthenticatedAdminLaporanRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/izin': {
+      id: '/_authenticated/admin/izin'
+      path: '/admin/izin'
+      fullPath: '/admin/izin'
+      preLoaderRoute: typeof AuthenticatedAdminIzinRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/ikm': {
+      id: '/_authenticated/admin/ikm'
+      path: '/admin/ikm'
+      fullPath: '/admin/ikm'
+      preLoaderRoute: typeof AuthenticatedAdminIkmRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/hari-libur': {
+      id: '/_authenticated/admin/hari-libur'
+      path: '/admin/hari-libur'
+      fullPath: '/admin/hari-libur'
+      preLoaderRoute: typeof AuthenticatedAdminHariLiburRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/governance': {
+      id: '/_authenticated/admin/governance'
+      path: '/admin/governance'
+      fullPath: '/admin/governance'
+      preLoaderRoute: typeof AuthenticatedAdminGovernanceRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/eksekutif': {
+      id: '/_authenticated/admin/eksekutif'
+      path: '/admin/eksekutif'
+      fullPath: '/admin/eksekutif'
+      preLoaderRoute: typeof AuthenticatedAdminEksekutifRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/digital-signature': {
+      id: '/_authenticated/admin/digital-signature'
+      path: '/admin/digital-signature'
+      fullPath: '/admin/digital-signature'
+      preLoaderRoute: typeof AuthenticatedAdminDigitalSignatureRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/desa': {
+      id: '/_authenticated/admin/desa'
+      path: '/admin/desa'
+      fullPath: '/admin/desa'
+      preLoaderRoute: typeof AuthenticatedAdminDesaRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/dataset': {
+      id: '/_authenticated/admin/dataset'
+      path: '/admin/dataset'
+      fullPath: '/admin/dataset'
+      preLoaderRoute: typeof AuthenticatedAdminDatasetRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/config': {
+      id: '/_authenticated/admin/config'
+      path: '/admin/config'
+      fullPath: '/admin/config'
+      preLoaderRoute: typeof AuthenticatedAdminConfigRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/compliance': {
+      id: '/_authenticated/admin/compliance'
+      path: '/admin/compliance'
+      fullPath: '/admin/compliance'
+      preLoaderRoute: typeof AuthenticatedAdminComplianceRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/cms': {
+      id: '/_authenticated/admin/cms'
+      path: '/admin/cms'
+      fullPath: '/admin/cms'
+      preLoaderRoute: typeof AuthenticatedAdminCmsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/branding': {
+      id: '/_authenticated/admin/branding'
+      path: '/admin/branding'
+      fullPath: '/admin/branding'
+      preLoaderRoute: typeof AuthenticatedAdminBrandingRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/backup': {
+      id: '/_authenticated/admin/backup'
+      path: '/admin/backup'
+      fullPath: '/admin/backup'
+      preLoaderRoute: typeof AuthenticatedAdminBackupRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/audit': {
+      id: '/_authenticated/admin/audit'
+      path: '/admin/audit'
+      fullPath: '/admin/audit'
+      preLoaderRoute: typeof AuthenticatedAdminAuditRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/asn-kepatuhan': {
+      id: '/_authenticated/admin/asn-kepatuhan'
+      path: '/admin/asn-kepatuhan'
+      fullPath: '/admin/asn-kepatuhan'
+      preLoaderRoute: typeof AuthenticatedAdminAsnKepatuhanRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/asn': {
+      id: '/_authenticated/admin/asn'
+      path: '/admin/asn'
+      fullPath: '/admin/asn'
+      preLoaderRoute: typeof AuthenticatedAdminAsnRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/aset-kampanye': {
+      id: '/_authenticated/admin/aset-kampanye'
+      path: '/admin/aset-kampanye'
+      fullPath: '/admin/aset-kampanye'
+      preLoaderRoute: typeof AuthenticatedAdminAsetKampanyeRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/aset-extra': {
+      id: '/_authenticated/admin/aset-extra'
+      path: '/admin/aset-extra'
+      fullPath: '/admin/aset-extra'
+      preLoaderRoute: typeof AuthenticatedAdminAsetExtraRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/aset': {
+      id: '/_authenticated/admin/aset'
+      path: '/admin/aset'
+      fullPath: '/admin/aset'
+      preLoaderRoute: typeof AuthenticatedAdminAsetRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/approvals': {
+      id: '/_authenticated/admin/approvals'
+      path: '/admin/approvals'
+      fullPath: '/admin/approvals'
+      preLoaderRoute: typeof AuthenticatedAdminApprovalsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/forms/': {
+      id: '/_authenticated/admin/forms/'
+      path: '/admin/forms'
+      fullPath: '/admin/forms/'
+      preLoaderRoute: typeof AuthenticatedAdminFormsIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/digital-signature/': {
+      id: '/_authenticated/admin/digital-signature/'
+      path: '/'
+      fullPath: '/admin/digital-signature/'
+      preLoaderRoute: typeof AuthenticatedAdminDigitalSignatureIndexRouteImport
+      parentRoute: typeof AuthenticatedAdminDigitalSignatureRoute
+    }
+    '/api/public/hooks/upload-integrity': {
+      id: '/api/public/hooks/upload-integrity'
+      path: '/api/public/hooks/upload-integrity'
+      fullPath: '/api/public/hooks/upload-integrity'
+      preLoaderRoute: typeof ApiPublicHooksUploadIntegrityRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/hooks/stuck-jobs': {
+      id: '/api/public/hooks/stuck-jobs'
+      path: '/api/public/hooks/stuck-jobs'
+      fullPath: '/api/public/hooks/stuck-jobs'
+      preLoaderRoute: typeof ApiPublicHooksStuckJobsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/hooks/storage-cleanup': {
+      id: '/api/public/hooks/storage-cleanup'
+      path: '/api/public/hooks/storage-cleanup'
+      fullPath: '/api/public/hooks/storage-cleanup'
+      preLoaderRoute: typeof ApiPublicHooksStorageCleanupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/hooks/sla-reminder': {
+      id: '/api/public/hooks/sla-reminder'
+      path: '/api/public/hooks/sla-reminder'
+      fullPath: '/api/public/hooks/sla-reminder'
+      preLoaderRoute: typeof ApiPublicHooksSlaReminderRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/hooks/sla-escalation': {
+      id: '/api/public/hooks/sla-escalation'
+      path: '/api/public/hooks/sla-escalation'
+      fullPath: '/api/public/hooks/sla-escalation'
+      preLoaderRoute: typeof ApiPublicHooksSlaEscalationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/hooks/retry-queue': {
+      id: '/api/public/hooks/retry-queue'
+      path: '/api/public/hooks/retry-queue'
+      fullPath: '/api/public/hooks/retry-queue'
+      preLoaderRoute: typeof ApiPublicHooksRetryQueueRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/hooks/retention-cleanup': {
+      id: '/api/public/hooks/retention-cleanup'
+      path: '/api/public/hooks/retention-cleanup'
+      fullPath: '/api/public/hooks/retention-cleanup'
+      preLoaderRoute: typeof ApiPublicHooksRetentionCleanupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/hooks/form-deadline-reminder': {
+      id: '/api/public/hooks/form-deadline-reminder'
+      path: '/api/public/hooks/form-deadline-reminder'
+      fullPath: '/api/public/hooks/form-deadline-reminder'
+      preLoaderRoute: typeof ApiPublicHooksFormDeadlineReminderRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/hooks/cron-watchdog': {
+      id: '/api/public/hooks/cron-watchdog'
+      path: '/api/public/hooks/cron-watchdog'
+      fullPath: '/api/public/hooks/cron-watchdog'
+      preLoaderRoute: typeof ApiPublicHooksCronWatchdogRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/hooks/cleanup-uploads': {
+      id: '/api/public/hooks/cleanup-uploads'
+      path: '/api/public/hooks/cleanup-uploads'
+      fullPath: '/api/public/hooks/cleanup-uploads'
+      preLoaderRoute: typeof ApiPublicHooksCleanupUploadsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/hooks/backup-snapshot': {
+      id: '/api/public/hooks/backup-snapshot'
+      path: '/api/public/hooks/backup-snapshot'
+      fullPath: '/api/public/hooks/backup-snapshot'
+      preLoaderRoute: typeof ApiPublicHooksBackupSnapshotRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/hooks/assignment-reminder': {
+      id: '/api/public/hooks/assignment-reminder'
+      path: '/api/public/hooks/assignment-reminder'
+      fullPath: '/api/public/hooks/assignment-reminder'
+      preLoaderRoute: typeof ApiPublicHooksAssignmentReminderRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/hooks/aset-warranty-reminder': {
+      id: '/api/public/hooks/aset-warranty-reminder'
+      path: '/api/public/hooks/aset-warranty-reminder'
+      fullPath: '/api/public/hooks/aset-warranty-reminder'
+      preLoaderRoute: typeof ApiPublicHooksAsetWarrantyReminderRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/hooks/aset-susut-bulanan': {
+      id: '/api/public/hooks/aset-susut-bulanan'
+      path: '/api/public/hooks/aset-susut-bulanan'
+      fullPath: '/api/public/hooks/aset-susut-bulanan'
+      preLoaderRoute: typeof ApiPublicHooksAsetSusutBulananRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/asn/scan/$token': {
+      id: '/_authenticated/asn/scan/$token'
+      path: '/asn/scan/$token'
+      fullPath: '/asn/scan/$token'
+      preLoaderRoute: typeof AuthenticatedAsnScanTokenRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/system/uat': {
+      id: '/_authenticated/admin/system/uat'
+      path: '/admin/system/uat'
+      fullPath: '/admin/system/uat'
+      preLoaderRoute: typeof AuthenticatedAdminSystemUatRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/system/storage-provider': {
+      id: '/_authenticated/admin/system/storage-provider'
+      path: '/admin/system/storage-provider'
+      fullPath: '/admin/system/storage-provider'
+      preLoaderRoute: typeof AuthenticatedAdminSystemStorageProviderRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/system/settings': {
+      id: '/_authenticated/admin/system/settings'
+      path: '/admin/system/settings'
+      fullPath: '/admin/system/settings'
+      preLoaderRoute: typeof AuthenticatedAdminSystemSettingsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/system/retention': {
+      id: '/_authenticated/admin/system/retention'
+      path: '/admin/system/retention'
+      fullPath: '/admin/system/retention'
+      preLoaderRoute: typeof AuthenticatedAdminSystemRetentionRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/system/load-readiness': {
+      id: '/_authenticated/admin/system/load-readiness'
+      path: '/admin/system/load-readiness'
+      fullPath: '/admin/system/load-readiness'
+      preLoaderRoute: typeof AuthenticatedAdminSystemLoadReadinessRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/system/go-live': {
+      id: '/_authenticated/admin/system/go-live'
+      path: '/admin/system/go-live'
+      fullPath: '/admin/system/go-live'
+      preLoaderRoute: typeof AuthenticatedAdminSystemGoLiveRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/system/feature-flags': {
+      id: '/_authenticated/admin/system/feature-flags'
+      path: '/admin/system/feature-flags'
+      fullPath: '/admin/system/feature-flags'
+      preLoaderRoute: typeof AuthenticatedAdminSystemFeatureFlagsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/system/disaster-recovery': {
+      id: '/_authenticated/admin/system/disaster-recovery'
+      path: '/admin/system/disaster-recovery'
+      fullPath: '/admin/system/disaster-recovery'
+      preLoaderRoute: typeof AuthenticatedAdminSystemDisasterRecoveryRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/system/backup-status': {
+      id: '/_authenticated/admin/system/backup-status'
+      path: '/admin/system/backup-status'
+      fullPath: '/admin/system/backup-status'
+      preLoaderRoute: typeof AuthenticatedAdminSystemBackupStatusRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/security/permissions': {
+      id: '/_authenticated/admin/security/permissions'
+      path: '/admin/security/permissions'
+      fullPath: '/admin/security/permissions'
+      preLoaderRoute: typeof AuthenticatedAdminSecurityPermissionsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/rbac/audit': {
+      id: '/_authenticated/admin/rbac/audit'
+      path: '/audit'
+      fullPath: '/admin/rbac/audit'
+      preLoaderRoute: typeof AuthenticatedAdminRbacAuditRouteImport
+      parentRoute: typeof AuthenticatedAdminRbacRoute
+    }
+    '/_authenticated/admin/rbac/$userId': {
+      id: '/_authenticated/admin/rbac/$userId'
+      path: '/$userId'
+      fullPath: '/admin/rbac/$userId'
+      preLoaderRoute: typeof AuthenticatedAdminRbacUserIdRouteImport
+      parentRoute: typeof AuthenticatedAdminRbacRoute
+    }
+    '/_authenticated/admin/layanan/escalation': {
+      id: '/_authenticated/admin/layanan/escalation'
+      path: '/escalation'
+      fullPath: '/admin/layanan/escalation'
+      preLoaderRoute: typeof AuthenticatedAdminLayananEscalationRouteImport
+      parentRoute: typeof AuthenticatedAdminLayananRoute
+    }
+    '/_authenticated/admin/layanan/disposisi-inbox': {
+      id: '/_authenticated/admin/layanan/disposisi-inbox'
+      path: '/disposisi-inbox'
+      fullPath: '/admin/layanan/disposisi-inbox'
+      preLoaderRoute: typeof AuthenticatedAdminLayananDisposisiInboxRouteImport
+      parentRoute: typeof AuthenticatedAdminLayananRoute
+    }
+    '/_authenticated/admin/forms/$id': {
+      id: '/_authenticated/admin/forms/$id'
+      path: '/admin/forms/$id'
+      fullPath: '/admin/forms/$id'
+      preLoaderRoute: typeof AuthenticatedAdminFormsIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/digital-signature/status': {
+      id: '/_authenticated/admin/digital-signature/status'
+      path: '/status'
+      fullPath: '/admin/digital-signature/status'
+      preLoaderRoute: typeof AuthenticatedAdminDigitalSignatureStatusRouteImport
+      parentRoute: typeof AuthenticatedAdminDigitalSignatureRoute
+    }
+    '/_authenticated/admin/digital-signature/signatures': {
+      id: '/_authenticated/admin/digital-signature/signatures'
+      path: '/signatures'
+      fullPath: '/admin/digital-signature/signatures'
+      preLoaderRoute: typeof AuthenticatedAdminDigitalSignatureSignaturesRouteImport
+      parentRoute: typeof AuthenticatedAdminDigitalSignatureRoute
+    }
+    '/_authenticated/admin/digital-signature/documents': {
+      id: '/_authenticated/admin/digital-signature/documents'
+      path: '/documents'
+      fullPath: '/admin/digital-signature/documents'
+      preLoaderRoute: typeof AuthenticatedAdminDigitalSignatureDocumentsRouteImport
+      parentRoute: typeof AuthenticatedAdminDigitalSignatureRoute
+    }
+    '/_authenticated/admin/digital-signature/audit': {
+      id: '/_authenticated/admin/digital-signature/audit'
+      path: '/audit'
+      fullPath: '/admin/digital-signature/audit'
+      preLoaderRoute: typeof AuthenticatedAdminDigitalSignatureAuditRouteImport
+      parentRoute: typeof AuthenticatedAdminDigitalSignatureRoute
+    }
+    '/_authenticated/admin/dataset/review': {
+      id: '/_authenticated/admin/dataset/review'
+      path: '/review'
+      fullPath: '/admin/dataset/review'
+      preLoaderRoute: typeof AuthenticatedAdminDatasetReviewRouteImport
+      parentRoute: typeof AuthenticatedAdminDatasetRoute
+    }
+    '/_authenticated/admin/asn/shift': {
+      id: '/_authenticated/admin/asn/shift'
+      path: '/shift'
+      fullPath: '/admin/asn/shift'
+      preLoaderRoute: typeof AuthenticatedAdminAsnShiftRouteImport
+      parentRoute: typeof AuthenticatedAdminAsnRoute
+    }
+    '/_authenticated/admin/asn/payroll-lock': {
+      id: '/_authenticated/admin/asn/payroll-lock'
+      path: '/payroll-lock'
+      fullPath: '/admin/asn/payroll-lock'
+      preLoaderRoute: typeof AuthenticatedAdminAsnPayrollLockRouteImport
+      parentRoute: typeof AuthenticatedAdminAsnRoute
+    }
+    '/_authenticated/admin/asn/cuti-saldo': {
+      id: '/_authenticated/admin/asn/cuti-saldo'
+      path: '/cuti-saldo'
+      fullPath: '/admin/asn/cuti-saldo'
+      preLoaderRoute: typeof AuthenticatedAdminAsnCutiSaldoRouteImport
+      parentRoute: typeof AuthenticatedAdminAsnRoute
+    }
+    '/_authenticated/admin/aset/penyusutan': {
+      id: '/_authenticated/admin/aset/penyusutan'
+      path: '/penyusutan'
+      fullPath: '/admin/aset/penyusutan'
+      preLoaderRoute: typeof AuthenticatedAdminAsetPenyusutanRouteImport
+      parentRoute: typeof AuthenticatedAdminAsetRoute
+    }
+    '/_authenticated/admin/aset/opname': {
+      id: '/_authenticated/admin/aset/opname'
+      path: '/opname'
+      fullPath: '/admin/aset/opname'
+      preLoaderRoute: typeof AuthenticatedAdminAsetOpnameRouteImport
+      parentRoute: typeof AuthenticatedAdminAsetRoute
+    }
+    '/_authenticated/admin/aset/kib': {
+      id: '/_authenticated/admin/aset/kib'
+      path: '/kib'
+      fullPath: '/admin/aset/kib'
+      preLoaderRoute: typeof AuthenticatedAdminAsetKibRouteImport
+      parentRoute: typeof AuthenticatedAdminAsetRoute
+    }
+    '/_authenticated/admin/aset/bast': {
+      id: '/_authenticated/admin/aset/bast'
+      path: '/bast'
+      fullPath: '/admin/aset/bast'
+      preLoaderRoute: typeof AuthenticatedAdminAsetBastRouteImport
+      parentRoute: typeof AuthenticatedAdminAsetRoute
+    }
   }
 }
 
+interface AuthenticatedAdminAsetRouteChildren {
+  AuthenticatedAdminAsetBastRoute: typeof AuthenticatedAdminAsetBastRoute
+  AuthenticatedAdminAsetKibRoute: typeof AuthenticatedAdminAsetKibRoute
+  AuthenticatedAdminAsetOpnameRoute: typeof AuthenticatedAdminAsetOpnameRoute
+  AuthenticatedAdminAsetPenyusutanRoute: typeof AuthenticatedAdminAsetPenyusutanRoute
+}
+
+const AuthenticatedAdminAsetRouteChildren: AuthenticatedAdminAsetRouteChildren =
+  {
+    AuthenticatedAdminAsetBastRoute: AuthenticatedAdminAsetBastRoute,
+    AuthenticatedAdminAsetKibRoute: AuthenticatedAdminAsetKibRoute,
+    AuthenticatedAdminAsetOpnameRoute: AuthenticatedAdminAsetOpnameRoute,
+    AuthenticatedAdminAsetPenyusutanRoute:
+      AuthenticatedAdminAsetPenyusutanRoute,
+  }
+
+const AuthenticatedAdminAsetRouteWithChildren =
+  AuthenticatedAdminAsetRoute._addFileChildren(
+    AuthenticatedAdminAsetRouteChildren,
+  )
+
+interface AuthenticatedAdminAsnRouteChildren {
+  AuthenticatedAdminAsnCutiSaldoRoute: typeof AuthenticatedAdminAsnCutiSaldoRoute
+  AuthenticatedAdminAsnPayrollLockRoute: typeof AuthenticatedAdminAsnPayrollLockRoute
+  AuthenticatedAdminAsnShiftRoute: typeof AuthenticatedAdminAsnShiftRoute
+}
+
+const AuthenticatedAdminAsnRouteChildren: AuthenticatedAdminAsnRouteChildren = {
+  AuthenticatedAdminAsnCutiSaldoRoute: AuthenticatedAdminAsnCutiSaldoRoute,
+  AuthenticatedAdminAsnPayrollLockRoute: AuthenticatedAdminAsnPayrollLockRoute,
+  AuthenticatedAdminAsnShiftRoute: AuthenticatedAdminAsnShiftRoute,
+}
+
+const AuthenticatedAdminAsnRouteWithChildren =
+  AuthenticatedAdminAsnRoute._addFileChildren(
+    AuthenticatedAdminAsnRouteChildren,
+  )
+
+interface AuthenticatedAdminDatasetRouteChildren {
+  AuthenticatedAdminDatasetReviewRoute: typeof AuthenticatedAdminDatasetReviewRoute
+}
+
+const AuthenticatedAdminDatasetRouteChildren: AuthenticatedAdminDatasetRouteChildren =
+  {
+    AuthenticatedAdminDatasetReviewRoute: AuthenticatedAdminDatasetReviewRoute,
+  }
+
+const AuthenticatedAdminDatasetRouteWithChildren =
+  AuthenticatedAdminDatasetRoute._addFileChildren(
+    AuthenticatedAdminDatasetRouteChildren,
+  )
+
+interface AuthenticatedAdminDigitalSignatureRouteChildren {
+  AuthenticatedAdminDigitalSignatureAuditRoute: typeof AuthenticatedAdminDigitalSignatureAuditRoute
+  AuthenticatedAdminDigitalSignatureDocumentsRoute: typeof AuthenticatedAdminDigitalSignatureDocumentsRoute
+  AuthenticatedAdminDigitalSignatureSignaturesRoute: typeof AuthenticatedAdminDigitalSignatureSignaturesRoute
+  AuthenticatedAdminDigitalSignatureStatusRoute: typeof AuthenticatedAdminDigitalSignatureStatusRoute
+  AuthenticatedAdminDigitalSignatureIndexRoute: typeof AuthenticatedAdminDigitalSignatureIndexRoute
+}
+
+const AuthenticatedAdminDigitalSignatureRouteChildren: AuthenticatedAdminDigitalSignatureRouteChildren =
+  {
+    AuthenticatedAdminDigitalSignatureAuditRoute:
+      AuthenticatedAdminDigitalSignatureAuditRoute,
+    AuthenticatedAdminDigitalSignatureDocumentsRoute:
+      AuthenticatedAdminDigitalSignatureDocumentsRoute,
+    AuthenticatedAdminDigitalSignatureSignaturesRoute:
+      AuthenticatedAdminDigitalSignatureSignaturesRoute,
+    AuthenticatedAdminDigitalSignatureStatusRoute:
+      AuthenticatedAdminDigitalSignatureStatusRoute,
+    AuthenticatedAdminDigitalSignatureIndexRoute:
+      AuthenticatedAdminDigitalSignatureIndexRoute,
+  }
+
+const AuthenticatedAdminDigitalSignatureRouteWithChildren =
+  AuthenticatedAdminDigitalSignatureRoute._addFileChildren(
+    AuthenticatedAdminDigitalSignatureRouteChildren,
+  )
+
+interface AuthenticatedAdminLayananRouteChildren {
+  AuthenticatedAdminLayananDisposisiInboxRoute: typeof AuthenticatedAdminLayananDisposisiInboxRoute
+  AuthenticatedAdminLayananEscalationRoute: typeof AuthenticatedAdminLayananEscalationRoute
+}
+
+const AuthenticatedAdminLayananRouteChildren: AuthenticatedAdminLayananRouteChildren =
+  {
+    AuthenticatedAdminLayananDisposisiInboxRoute:
+      AuthenticatedAdminLayananDisposisiInboxRoute,
+    AuthenticatedAdminLayananEscalationRoute:
+      AuthenticatedAdminLayananEscalationRoute,
+  }
+
+const AuthenticatedAdminLayananRouteWithChildren =
+  AuthenticatedAdminLayananRoute._addFileChildren(
+    AuthenticatedAdminLayananRouteChildren,
+  )
+
+interface AuthenticatedAdminRbacRouteChildren {
+  AuthenticatedAdminRbacUserIdRoute: typeof AuthenticatedAdminRbacUserIdRoute
+  AuthenticatedAdminRbacAuditRoute: typeof AuthenticatedAdminRbacAuditRoute
+}
+
+const AuthenticatedAdminRbacRouteChildren: AuthenticatedAdminRbacRouteChildren =
+  {
+    AuthenticatedAdminRbacUserIdRoute: AuthenticatedAdminRbacUserIdRoute,
+    AuthenticatedAdminRbacAuditRoute: AuthenticatedAdminRbacAuditRoute,
+  }
+
+const AuthenticatedAdminRbacRouteWithChildren =
+  AuthenticatedAdminRbacRoute._addFileChildren(
+    AuthenticatedAdminRbacRouteChildren,
+  )
+
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAkunRoute: typeof AuthenticatedAkunRoute
+  AuthenticatedExecutiveRoute: typeof AuthenticatedExecutiveRoute
+  AuthenticatedPemdaRoute: typeof AuthenticatedPemdaRoute
+  AuthenticatedAdminApprovalsRoute: typeof AuthenticatedAdminApprovalsRoute
+  AuthenticatedAdminAsetRoute: typeof AuthenticatedAdminAsetRouteWithChildren
+  AuthenticatedAdminAsetExtraRoute: typeof AuthenticatedAdminAsetExtraRoute
+  AuthenticatedAdminAsetKampanyeRoute: typeof AuthenticatedAdminAsetKampanyeRoute
+  AuthenticatedAdminAsnRoute: typeof AuthenticatedAdminAsnRouteWithChildren
+  AuthenticatedAdminAsnKepatuhanRoute: typeof AuthenticatedAdminAsnKepatuhanRoute
+  AuthenticatedAdminAuditRoute: typeof AuthenticatedAdminAuditRoute
+  AuthenticatedAdminBackupRoute: typeof AuthenticatedAdminBackupRoute
+  AuthenticatedAdminBrandingRoute: typeof AuthenticatedAdminBrandingRoute
+  AuthenticatedAdminCmsRoute: typeof AuthenticatedAdminCmsRoute
+  AuthenticatedAdminComplianceRoute: typeof AuthenticatedAdminComplianceRoute
+  AuthenticatedAdminConfigRoute: typeof AuthenticatedAdminConfigRoute
+  AuthenticatedAdminDatasetRoute: typeof AuthenticatedAdminDatasetRouteWithChildren
+  AuthenticatedAdminDesaRoute: typeof AuthenticatedAdminDesaRoute
+  AuthenticatedAdminDigitalSignatureRoute: typeof AuthenticatedAdminDigitalSignatureRouteWithChildren
+  AuthenticatedAdminEksekutifRoute: typeof AuthenticatedAdminEksekutifRoute
+  AuthenticatedAdminGovernanceRoute: typeof AuthenticatedAdminGovernanceRoute
+  AuthenticatedAdminHariLiburRoute: typeof AuthenticatedAdminHariLiburRoute
+  AuthenticatedAdminIkmRoute: typeof AuthenticatedAdminIkmRoute
+  AuthenticatedAdminIzinRoute: typeof AuthenticatedAdminIzinRoute
+  AuthenticatedAdminLaporanRoute: typeof AuthenticatedAdminLaporanRoute
+  AuthenticatedAdminLayananRoute: typeof AuthenticatedAdminLayananRouteWithChildren
+  AuthenticatedAdminLokasiRoute: typeof AuthenticatedAdminLokasiRoute
+  AuthenticatedAdminMasterJabatanRoute: typeof AuthenticatedAdminMasterJabatanRoute
+  AuthenticatedAdminNomorSuratRoute: typeof AuthenticatedAdminNomorSuratRoute
+  AuthenticatedAdminOpdRoute: typeof AuthenticatedAdminOpdRoute
+  AuthenticatedAdminPejabatRoute: typeof AuthenticatedAdminPejabatRoute
+  AuthenticatedAdminRatingRoute: typeof AuthenticatedAdminRatingRoute
+  AuthenticatedAdminRbacRoute: typeof AuthenticatedAdminRbacRouteWithChildren
+  AuthenticatedAdminSistemRoute: typeof AuthenticatedAdminSistemRoute
+  AuthenticatedAdminStorageRoute: typeof AuthenticatedAdminStorageRoute
+  AuthenticatedAdminSubmissionReviewRoute: typeof AuthenticatedAdminSubmissionReviewRoute
+  AuthenticatedAdminSystemHealthRoute: typeof AuthenticatedAdminSystemHealthRoute
+  AuthenticatedAdminUsersRoute: typeof AuthenticatedAdminUsersRoute
+  AuthenticatedAdminVerifikasiRoute: typeof AuthenticatedAdminVerifikasiRoute
+  AuthenticatedAdminVerifikasiLogRoute: typeof AuthenticatedAdminVerifikasiLogRoute
+  AuthenticatedAsnAbsensiRoute: typeof AuthenticatedAsnAbsensiRoute
+  AuthenticatedAsnAsetRoute: typeof AuthenticatedAsnAsetRoute
+  AuthenticatedAsnDokumenRoute: typeof AuthenticatedAsnDokumenRoute
+  AuthenticatedAsnIzinRoute: typeof AuthenticatedAsnIzinRoute
+  AuthenticatedAsnLemburRoute: typeof AuthenticatedAsnLemburRoute
+  AuthenticatedAsnTugasRoute: typeof AuthenticatedAsnTugasRoute
+  AuthenticatedAsnVerifikasiRoute: typeof AuthenticatedAsnVerifikasiRoute
+  AuthenticatedPengisianIdRoute: typeof AuthenticatedPengisianIdRoute
+  AuthenticatedTugasAssignmentIdRoute: typeof AuthenticatedTugasAssignmentIdRoute
+  AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
+  AuthenticatedPengisianIndexRoute: typeof AuthenticatedPengisianIndexRoute
+  AuthenticatedAdminFormsIdRoute: typeof AuthenticatedAdminFormsIdRoute
+  AuthenticatedAdminSecurityPermissionsRoute: typeof AuthenticatedAdminSecurityPermissionsRoute
+  AuthenticatedAdminSystemBackupStatusRoute: typeof AuthenticatedAdminSystemBackupStatusRoute
+  AuthenticatedAdminSystemDisasterRecoveryRoute: typeof AuthenticatedAdminSystemDisasterRecoveryRoute
+  AuthenticatedAdminSystemFeatureFlagsRoute: typeof AuthenticatedAdminSystemFeatureFlagsRoute
+  AuthenticatedAdminSystemGoLiveRoute: typeof AuthenticatedAdminSystemGoLiveRoute
+  AuthenticatedAdminSystemLoadReadinessRoute: typeof AuthenticatedAdminSystemLoadReadinessRoute
+  AuthenticatedAdminSystemRetentionRoute: typeof AuthenticatedAdminSystemRetentionRoute
+  AuthenticatedAdminSystemSettingsRoute: typeof AuthenticatedAdminSystemSettingsRoute
+  AuthenticatedAdminSystemStorageProviderRoute: typeof AuthenticatedAdminSystemStorageProviderRoute
+  AuthenticatedAdminSystemUatRoute: typeof AuthenticatedAdminSystemUatRoute
+  AuthenticatedAsnScanTokenRoute: typeof AuthenticatedAsnScanTokenRoute
+  AuthenticatedAdminFormsIndexRoute: typeof AuthenticatedAdminFormsIndexRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAkunRoute: AuthenticatedAkunRoute,
+  AuthenticatedExecutiveRoute: AuthenticatedExecutiveRoute,
+  AuthenticatedPemdaRoute: AuthenticatedPemdaRoute,
+  AuthenticatedAdminApprovalsRoute: AuthenticatedAdminApprovalsRoute,
+  AuthenticatedAdminAsetRoute: AuthenticatedAdminAsetRouteWithChildren,
+  AuthenticatedAdminAsetExtraRoute: AuthenticatedAdminAsetExtraRoute,
+  AuthenticatedAdminAsetKampanyeRoute: AuthenticatedAdminAsetKampanyeRoute,
+  AuthenticatedAdminAsnRoute: AuthenticatedAdminAsnRouteWithChildren,
+  AuthenticatedAdminAsnKepatuhanRoute: AuthenticatedAdminAsnKepatuhanRoute,
+  AuthenticatedAdminAuditRoute: AuthenticatedAdminAuditRoute,
+  AuthenticatedAdminBackupRoute: AuthenticatedAdminBackupRoute,
+  AuthenticatedAdminBrandingRoute: AuthenticatedAdminBrandingRoute,
+  AuthenticatedAdminCmsRoute: AuthenticatedAdminCmsRoute,
+  AuthenticatedAdminComplianceRoute: AuthenticatedAdminComplianceRoute,
+  AuthenticatedAdminConfigRoute: AuthenticatedAdminConfigRoute,
+  AuthenticatedAdminDatasetRoute: AuthenticatedAdminDatasetRouteWithChildren,
+  AuthenticatedAdminDesaRoute: AuthenticatedAdminDesaRoute,
+  AuthenticatedAdminDigitalSignatureRoute:
+    AuthenticatedAdminDigitalSignatureRouteWithChildren,
+  AuthenticatedAdminEksekutifRoute: AuthenticatedAdminEksekutifRoute,
+  AuthenticatedAdminGovernanceRoute: AuthenticatedAdminGovernanceRoute,
+  AuthenticatedAdminHariLiburRoute: AuthenticatedAdminHariLiburRoute,
+  AuthenticatedAdminIkmRoute: AuthenticatedAdminIkmRoute,
+  AuthenticatedAdminIzinRoute: AuthenticatedAdminIzinRoute,
+  AuthenticatedAdminLaporanRoute: AuthenticatedAdminLaporanRoute,
+  AuthenticatedAdminLayananRoute: AuthenticatedAdminLayananRouteWithChildren,
+  AuthenticatedAdminLokasiRoute: AuthenticatedAdminLokasiRoute,
+  AuthenticatedAdminMasterJabatanRoute: AuthenticatedAdminMasterJabatanRoute,
+  AuthenticatedAdminNomorSuratRoute: AuthenticatedAdminNomorSuratRoute,
+  AuthenticatedAdminOpdRoute: AuthenticatedAdminOpdRoute,
+  AuthenticatedAdminPejabatRoute: AuthenticatedAdminPejabatRoute,
+  AuthenticatedAdminRatingRoute: AuthenticatedAdminRatingRoute,
+  AuthenticatedAdminRbacRoute: AuthenticatedAdminRbacRouteWithChildren,
+  AuthenticatedAdminSistemRoute: AuthenticatedAdminSistemRoute,
+  AuthenticatedAdminStorageRoute: AuthenticatedAdminStorageRoute,
+  AuthenticatedAdminSubmissionReviewRoute:
+    AuthenticatedAdminSubmissionReviewRoute,
+  AuthenticatedAdminSystemHealthRoute: AuthenticatedAdminSystemHealthRoute,
+  AuthenticatedAdminUsersRoute: AuthenticatedAdminUsersRoute,
+  AuthenticatedAdminVerifikasiRoute: AuthenticatedAdminVerifikasiRoute,
+  AuthenticatedAdminVerifikasiLogRoute: AuthenticatedAdminVerifikasiLogRoute,
+  AuthenticatedAsnAbsensiRoute: AuthenticatedAsnAbsensiRoute,
+  AuthenticatedAsnAsetRoute: AuthenticatedAsnAsetRoute,
+  AuthenticatedAsnDokumenRoute: AuthenticatedAsnDokumenRoute,
+  AuthenticatedAsnIzinRoute: AuthenticatedAsnIzinRoute,
+  AuthenticatedAsnLemburRoute: AuthenticatedAsnLemburRoute,
+  AuthenticatedAsnTugasRoute: AuthenticatedAsnTugasRoute,
+  AuthenticatedAsnVerifikasiRoute: AuthenticatedAsnVerifikasiRoute,
+  AuthenticatedPengisianIdRoute: AuthenticatedPengisianIdRoute,
+  AuthenticatedTugasAssignmentIdRoute: AuthenticatedTugasAssignmentIdRoute,
+  AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
+  AuthenticatedPengisianIndexRoute: AuthenticatedPengisianIndexRoute,
+  AuthenticatedAdminFormsIdRoute: AuthenticatedAdminFormsIdRoute,
+  AuthenticatedAdminSecurityPermissionsRoute:
+    AuthenticatedAdminSecurityPermissionsRoute,
+  AuthenticatedAdminSystemBackupStatusRoute:
+    AuthenticatedAdminSystemBackupStatusRoute,
+  AuthenticatedAdminSystemDisasterRecoveryRoute:
+    AuthenticatedAdminSystemDisasterRecoveryRoute,
+  AuthenticatedAdminSystemFeatureFlagsRoute:
+    AuthenticatedAdminSystemFeatureFlagsRoute,
+  AuthenticatedAdminSystemGoLiveRoute: AuthenticatedAdminSystemGoLiveRoute,
+  AuthenticatedAdminSystemLoadReadinessRoute:
+    AuthenticatedAdminSystemLoadReadinessRoute,
+  AuthenticatedAdminSystemRetentionRoute:
+    AuthenticatedAdminSystemRetentionRoute,
+  AuthenticatedAdminSystemSettingsRoute: AuthenticatedAdminSystemSettingsRoute,
+  AuthenticatedAdminSystemStorageProviderRoute:
+    AuthenticatedAdminSystemStorageProviderRoute,
+  AuthenticatedAdminSystemUatRoute: AuthenticatedAdminSystemUatRoute,
+  AuthenticatedAsnScanTokenRoute: AuthenticatedAsnScanTokenRoute,
+  AuthenticatedAdminFormsIndexRoute: AuthenticatedAdminFormsIndexRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  AuthRoute: AuthRoute,
+  BeritaRoute: BeritaRoute,
+  DataRoute: DataRoute,
+  KinerjaOpdRoute: KinerjaOpdRoute,
+  KontakRoute: KontakRoute,
+  PendingVerificationRoute: PendingVerificationRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
+  TentangRoute: TentangRoute,
+  DataTerbukaSlugRoute: DataTerbukaSlugRoute,
+  IkmIdRoute: IkmIdRoute,
+  InstansiSingkatanRoute: InstansiSingkatanRoute,
+  LayananSlugRoute: LayananSlugRoute,
+  PermohonanIdRoute: PermohonanIdRoute,
+  PermohonanBaruRoute: PermohonanBaruRoute,
+  VTokenRoute: VTokenRoute,
+  VerifyTokenRoute: VerifyTokenRoute,
+  DataTerbukaIndexRoute: DataTerbukaIndexRoute,
+  LayananIndexRoute: LayananIndexRoute,
+  PermohonanIndexRoute: PermohonanIndexRoute,
+  ApiInternalMetricsRoute: ApiInternalMetricsRoute,
+  ApiPublicHooksAsetSusutBulananRoute: ApiPublicHooksAsetSusutBulananRoute,
+  ApiPublicHooksAsetWarrantyReminderRoute:
+    ApiPublicHooksAsetWarrantyReminderRoute,
+  ApiPublicHooksAssignmentReminderRoute: ApiPublicHooksAssignmentReminderRoute,
+  ApiPublicHooksBackupSnapshotRoute: ApiPublicHooksBackupSnapshotRoute,
+  ApiPublicHooksCleanupUploadsRoute: ApiPublicHooksCleanupUploadsRoute,
+  ApiPublicHooksCronWatchdogRoute: ApiPublicHooksCronWatchdogRoute,
+  ApiPublicHooksFormDeadlineReminderRoute:
+    ApiPublicHooksFormDeadlineReminderRoute,
+  ApiPublicHooksRetentionCleanupRoute: ApiPublicHooksRetentionCleanupRoute,
+  ApiPublicHooksRetryQueueRoute: ApiPublicHooksRetryQueueRoute,
+  ApiPublicHooksSlaEscalationRoute: ApiPublicHooksSlaEscalationRoute,
+  ApiPublicHooksSlaReminderRoute: ApiPublicHooksSlaReminderRoute,
+  ApiPublicHooksStorageCleanupRoute: ApiPublicHooksStorageCleanupRoute,
+  ApiPublicHooksStuckJobsRoute: ApiPublicHooksStuckJobsRoute,
+  ApiPublicHooksUploadIntegrityRoute: ApiPublicHooksUploadIntegrityRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
