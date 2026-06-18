@@ -49,7 +49,7 @@ type NavItem = {
 const baseNav: NavItem[] = [
   { to: "/admin", label: "Dashboard", icon: LayoutDashboard },
   { to: "/admin", label: "Permohonan", icon: Inbox, hash: "tabel" },
-  { to: "/admin/forms", label: "Form Builder", icon: FileClock },
+  { to: "/admin/form-builder", label: "Form Builder", icon: FileClock },
   { to: "/admin/submission-review", label: "Review Submission", icon: ListChecks },
   { to: "/admin/laporan", label: "Laporan Masyarakat", icon: MessageSquare },
   { to: "/admin/layanan", label: "Layanan OPD", icon: ListChecks },
@@ -125,7 +125,8 @@ const superNavGroups: NavGroup[] = [
       { to: "/admin/asn-kepatuhan", label: "Kepatuhan Kehadiran", icon: FileClock },
       { to: "/admin/izin", label: "Persetujuan Izin/Cuti", icon: ListChecks },
       { to: "/admin/hari-libur", label: "Hari Libur", icon: FileClock },
-      { to: "/admin/forms", label: "Form Builder", icon: FileClock },
+      { to: "/admin/form-builder", label: "Form Builder", icon: FileClock },
+      { to: "/admin/forms", label: "Form Builder (Legacy)", icon: FileClock },
       { to: "/admin/submission-review", label: "Review Submission", icon: ListChecks },
     ],
   },
