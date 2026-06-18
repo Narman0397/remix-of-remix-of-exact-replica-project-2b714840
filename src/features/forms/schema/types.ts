@@ -1,8 +1,14 @@
 // Schema kontrak form runtime — sumber kebenaran untuk builder, renderer,
 // validator, dan snapshot pada saat publish.
+//
+// Phase 1B catatan: enum FIELD_TYPES diperluas (additive). Tipe lama tetap
+// berperilaku sama; tipe baru hanya dipakai oleh Form Builder UI baru.
+// Renderer & validator wajib menangani semua entri di FIELD_TYPES (lihat
+// FieldRenderer.tsx & validator.ts).
 import { z } from "zod";
 
 export const FIELD_TYPES = [
+  // legacy / runtime existing
   "short_text",
   "long_text",
   "dropdown",
@@ -12,8 +18,28 @@ export const FIELD_TYPES = [
   "date",
   "file_upload",
   "multi_file_upload",
+  // Phase 1B additions (builder enterprise)
+  "currency",
+  "email",
+  "phone",
+  "date_range",
+  "multi_select",
+  "signature",
+  "heading",
+  "section",
+  "divider",
 ] as const;
 export type FieldType = (typeof FIELD_TYPES)[number];
+
+/** Tipe presentational yang tidak menyimpan value pada submission. */
+export const PRESENTATIONAL_FIELD_TYPES: ReadonlyArray<FieldType> = [
+  "heading",
+  "section",
+  "divider",
+];
+export function isPresentationalField(t: FieldType): boolean {
+  return PRESENTATIONAL_FIELD_TYPES.includes(t);
+}
 
 export const fieldOptionSchema = z.object({
   value: z.string().trim().min(1).max(120),
@@ -38,7 +64,7 @@ export type FieldValidation = z.infer<typeof fieldValidationSchema>;
 export const visibleIfSchema = z
   .object({
     field: z.string().min(1).max(60),
-    op: z.enum(["eq", "neq", "in", "not_in", "filled", "empty"]),
+    op: z.enum(["eq", "neq", "in", "not_in", "filled", "empty", "gt", "gte", "lt", "lte", "contains", "not_contains"]),
     value: z.union([z.string().max(200), z.array(z.string().max(200)).max(50)]).optional(),
   })
   .nullable()
@@ -70,26 +96,36 @@ export function isFieldVisible(field: FormField, values: Record<string, unknown>
   if (!rule) return true;
   const v = values[rule.field];
   const asStr = v == null ? "" : Array.isArray(v) ? v.map(String) : String(v);
+  const rhsStr = String(rule.value ?? "");
+  const rhsList = Array.isArray(rule.value) ? rule.value : rule.value ? [rule.value] : [];
   switch (rule.op) {
     case "filled":
       return Array.isArray(asStr) ? asStr.length > 0 : asStr !== "";
     case "empty":
       return Array.isArray(asStr) ? asStr.length === 0 : asStr === "";
     case "eq":
-      return Array.isArray(asStr)
-        ? asStr.includes(String(rule.value ?? ""))
-        : asStr === String(rule.value ?? "");
+      return Array.isArray(asStr) ? asStr.includes(rhsStr) : asStr === rhsStr;
     case "neq":
-      return Array.isArray(asStr)
-        ? !asStr.includes(String(rule.value ?? ""))
-        : asStr !== String(rule.value ?? "");
-    case "in": {
-      const list = Array.isArray(rule.value) ? rule.value : rule.value ? [rule.value] : [];
-      return Array.isArray(asStr) ? asStr.some((x) => list.includes(x)) : list.includes(asStr);
-    }
-    case "not_in": {
-      const list = Array.isArray(rule.value) ? rule.value : rule.value ? [rule.value] : [];
-      return Array.isArray(asStr) ? !asStr.some((x) => list.includes(x)) : !list.includes(asStr);
+      return Array.isArray(asStr) ? !asStr.includes(rhsStr) : asStr !== rhsStr;
+    case "in":
+      return Array.isArray(asStr) ? asStr.some((x) => rhsList.includes(x)) : rhsList.includes(asStr);
+    case "not_in":
+      return Array.isArray(asStr) ? !asStr.some((x) => rhsList.includes(x)) : !rhsList.includes(asStr);
+    case "contains":
+      return Array.isArray(asStr) ? asStr.some((x) => x.includes(rhsStr)) : asStr.includes(rhsStr);
+    case "not_contains":
+      return Array.isArray(asStr) ? !asStr.some((x) => x.includes(rhsStr)) : !asStr.includes(rhsStr);
+    case "gt":
+    case "gte":
+    case "lt":
+    case "lte": {
+      const a = Number(Array.isArray(asStr) ? asStr[0] : asStr);
+      const b = Number(rhsStr);
+      if (Number.isNaN(a) || Number.isNaN(b)) return false;
+      if (rule.op === "gt") return a > b;
+      if (rule.op === "gte") return a >= b;
+      if (rule.op === "lt") return a < b;
+      return a <= b;
     }
     default:
       return true;
