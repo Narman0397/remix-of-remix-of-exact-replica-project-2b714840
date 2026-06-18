@@ -5,7 +5,7 @@
 // Wizard pembuatan form dimasukkan pada sub-batch 1B.2; untuk sekarang
 // tombol "Form Baru" memunculkan dialog ringkas (Name + Code + Category +
 // Employment Type) lalu redirect ke editor existing.
-import { createFileRoute, Link, useNavigate, useSearch } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { z } from "zod";
 import {
@@ -72,8 +72,8 @@ type Opd = { id: string; nama: string; singkatan: string };
 type Template = { id: string; name: string; category: string | null; scope: string };
 
 function FormsPage() {
-  const search = useSearch({ from: "/_authenticated/admin/form-builder/" });
-  const nav = useNavigate({ from: "/_authenticated/admin/form-builder/" });
+  const search = Route.useSearch();
+  const nav = Route.useNavigate();
   const { isSuperAdmin, isAdminPemda } = useAuth();
   const isElevated = isSuperAdmin || isAdminPemda;
 
@@ -134,7 +134,10 @@ function FormsPage() {
   ]);
 
   function updateSearch(patch: Partial<typeof search>) {
-    void nav({ search: (prev) => ({ ...prev, ...patch }), replace: true });
+    void nav({
+      search: (prev: Record<string, unknown>) => ({ ...(prev ?? {}), ...patch }),
+      replace: true,
+    });
   }
 
   async function openTemplatePicker() {

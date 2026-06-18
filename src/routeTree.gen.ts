@@ -83,6 +83,7 @@ import { Route as AuthenticatedAdminAsetExtraRouteImport } from './routes/_authe
 import { Route as AuthenticatedAdminAsetRouteImport } from './routes/_authenticated/admin.aset'
 import { Route as AuthenticatedAdminApprovalsRouteImport } from './routes/_authenticated/admin.approvals'
 import { Route as AuthenticatedAdminFormsIndexRouteImport } from './routes/_authenticated/admin.forms.index'
+import { Route as AuthenticatedAdminFormBuilderIndexRouteImport } from './routes/_authenticated/admin.form-builder.index'
 import { Route as AuthenticatedAdminDigitalSignatureIndexRouteImport } from './routes/_authenticated/admin.digital-signature.index'
 import { Route as ApiPublicHooksUploadIntegrityRouteImport } from './routes/api/public/hooks/upload-integrity'
 import { Route as ApiPublicHooksStuckJobsRouteImport } from './routes/api/public/hooks/stuck-jobs'
@@ -114,6 +115,8 @@ import { Route as AuthenticatedAdminRbacUserIdRouteImport } from './routes/_auth
 import { Route as AuthenticatedAdminLayananEscalationRouteImport } from './routes/_authenticated/admin.layanan.escalation'
 import { Route as AuthenticatedAdminLayananDisposisiInboxRouteImport } from './routes/_authenticated/admin.layanan.disposisi-inbox'
 import { Route as AuthenticatedAdminFormsIdRouteImport } from './routes/_authenticated/admin.forms.$id'
+import { Route as AuthenticatedAdminFormBuilderTemplatesRouteImport } from './routes/_authenticated/admin.form-builder.templates'
+import { Route as AuthenticatedAdminFormBuilderSettingsRouteImport } from './routes/_authenticated/admin.form-builder.settings'
 import { Route as AuthenticatedAdminDigitalSignatureStatusRouteImport } from './routes/_authenticated/admin.digital-signature.status'
 import { Route as AuthenticatedAdminDigitalSignatureSignaturesRouteImport } from './routes/_authenticated/admin.digital-signature.signatures'
 import { Route as AuthenticatedAdminDigitalSignatureDocumentsRouteImport } from './routes/_authenticated/admin.digital-signature.documents'
@@ -528,6 +531,12 @@ const AuthenticatedAdminFormsIndexRoute =
     path: '/admin/forms/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedAdminFormBuilderIndexRoute =
+  AuthenticatedAdminFormBuilderIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedAdminFormBuilderRoute,
+  } as any)
 const AuthenticatedAdminDigitalSignatureIndexRoute =
   AuthenticatedAdminDigitalSignatureIndexRouteImport.update({
     id: '/',
@@ -713,6 +722,18 @@ const AuthenticatedAdminFormsIdRoute =
     path: '/admin/forms/$id',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedAdminFormBuilderTemplatesRoute =
+  AuthenticatedAdminFormBuilderTemplatesRouteImport.update({
+    id: '/templates',
+    path: '/templates',
+    getParentRoute: () => AuthenticatedAdminFormBuilderRoute,
+  } as any)
+const AuthenticatedAdminFormBuilderSettingsRoute =
+  AuthenticatedAdminFormBuilderSettingsRouteImport.update({
+    id: '/settings',
+    path: '/settings',
+    getParentRoute: () => AuthenticatedAdminFormBuilderRoute,
+  } as any)
 const AuthenticatedAdminDigitalSignatureStatusRoute =
   AuthenticatedAdminDigitalSignatureStatusRouteImport.update({
     id: '/status',
@@ -826,7 +847,7 @@ export interface FileRoutesByFullPath {
   '/admin/desa': typeof AuthenticatedAdminDesaRoute
   '/admin/digital-signature': typeof AuthenticatedAdminDigitalSignatureRouteWithChildren
   '/admin/eksekutif': typeof AuthenticatedAdminEksekutifRoute
-  '/admin/form-builder': typeof AuthenticatedAdminFormBuilderRoute
+  '/admin/form-builder': typeof AuthenticatedAdminFormBuilderRouteWithChildren
   '/admin/governance': typeof AuthenticatedAdminGovernanceRoute
   '/admin/hari-libur': typeof AuthenticatedAdminHariLiburRoute
   '/admin/ikm': typeof AuthenticatedAdminIkmRoute
@@ -871,6 +892,8 @@ export interface FileRoutesByFullPath {
   '/admin/digital-signature/documents': typeof AuthenticatedAdminDigitalSignatureDocumentsRoute
   '/admin/digital-signature/signatures': typeof AuthenticatedAdminDigitalSignatureSignaturesRoute
   '/admin/digital-signature/status': typeof AuthenticatedAdminDigitalSignatureStatusRoute
+  '/admin/form-builder/settings': typeof AuthenticatedAdminFormBuilderSettingsRoute
+  '/admin/form-builder/templates': typeof AuthenticatedAdminFormBuilderTemplatesRoute
   '/admin/forms/$id': typeof AuthenticatedAdminFormsIdRoute
   '/admin/layanan/disposisi-inbox': typeof AuthenticatedAdminLayananDisposisiInboxRoute
   '/admin/layanan/escalation': typeof AuthenticatedAdminLayananEscalationRoute
@@ -902,6 +925,7 @@ export interface FileRoutesByFullPath {
   '/api/public/hooks/stuck-jobs': typeof ApiPublicHooksStuckJobsRoute
   '/api/public/hooks/upload-integrity': typeof ApiPublicHooksUploadIntegrityRoute
   '/admin/digital-signature/': typeof AuthenticatedAdminDigitalSignatureIndexRoute
+  '/admin/form-builder/': typeof AuthenticatedAdminFormBuilderIndexRoute
   '/admin/forms/': typeof AuthenticatedAdminFormsIndexRoute
 }
 export interface FileRoutesByTo {
@@ -943,7 +967,6 @@ export interface FileRoutesByTo {
   '/admin/dataset': typeof AuthenticatedAdminDatasetRouteWithChildren
   '/admin/desa': typeof AuthenticatedAdminDesaRoute
   '/admin/eksekutif': typeof AuthenticatedAdminEksekutifRoute
-  '/admin/form-builder': typeof AuthenticatedAdminFormBuilderRoute
   '/admin/governance': typeof AuthenticatedAdminGovernanceRoute
   '/admin/hari-libur': typeof AuthenticatedAdminHariLiburRoute
   '/admin/ikm': typeof AuthenticatedAdminIkmRoute
@@ -988,6 +1011,8 @@ export interface FileRoutesByTo {
   '/admin/digital-signature/documents': typeof AuthenticatedAdminDigitalSignatureDocumentsRoute
   '/admin/digital-signature/signatures': typeof AuthenticatedAdminDigitalSignatureSignaturesRoute
   '/admin/digital-signature/status': typeof AuthenticatedAdminDigitalSignatureStatusRoute
+  '/admin/form-builder/settings': typeof AuthenticatedAdminFormBuilderSettingsRoute
+  '/admin/form-builder/templates': typeof AuthenticatedAdminFormBuilderTemplatesRoute
   '/admin/forms/$id': typeof AuthenticatedAdminFormsIdRoute
   '/admin/layanan/disposisi-inbox': typeof AuthenticatedAdminLayananDisposisiInboxRoute
   '/admin/layanan/escalation': typeof AuthenticatedAdminLayananEscalationRoute
@@ -1019,6 +1044,7 @@ export interface FileRoutesByTo {
   '/api/public/hooks/stuck-jobs': typeof ApiPublicHooksStuckJobsRoute
   '/api/public/hooks/upload-integrity': typeof ApiPublicHooksUploadIntegrityRoute
   '/admin/digital-signature': typeof AuthenticatedAdminDigitalSignatureIndexRoute
+  '/admin/form-builder': typeof AuthenticatedAdminFormBuilderIndexRoute
   '/admin/forms': typeof AuthenticatedAdminFormsIndexRoute
 }
 export interface FileRoutesById {
@@ -1063,7 +1089,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/desa': typeof AuthenticatedAdminDesaRoute
   '/_authenticated/admin/digital-signature': typeof AuthenticatedAdminDigitalSignatureRouteWithChildren
   '/_authenticated/admin/eksekutif': typeof AuthenticatedAdminEksekutifRoute
-  '/_authenticated/admin/form-builder': typeof AuthenticatedAdminFormBuilderRoute
+  '/_authenticated/admin/form-builder': typeof AuthenticatedAdminFormBuilderRouteWithChildren
   '/_authenticated/admin/governance': typeof AuthenticatedAdminGovernanceRoute
   '/_authenticated/admin/hari-libur': typeof AuthenticatedAdminHariLiburRoute
   '/_authenticated/admin/ikm': typeof AuthenticatedAdminIkmRoute
@@ -1108,6 +1134,8 @@ export interface FileRoutesById {
   '/_authenticated/admin/digital-signature/documents': typeof AuthenticatedAdminDigitalSignatureDocumentsRoute
   '/_authenticated/admin/digital-signature/signatures': typeof AuthenticatedAdminDigitalSignatureSignaturesRoute
   '/_authenticated/admin/digital-signature/status': typeof AuthenticatedAdminDigitalSignatureStatusRoute
+  '/_authenticated/admin/form-builder/settings': typeof AuthenticatedAdminFormBuilderSettingsRoute
+  '/_authenticated/admin/form-builder/templates': typeof AuthenticatedAdminFormBuilderTemplatesRoute
   '/_authenticated/admin/forms/$id': typeof AuthenticatedAdminFormsIdRoute
   '/_authenticated/admin/layanan/disposisi-inbox': typeof AuthenticatedAdminLayananDisposisiInboxRoute
   '/_authenticated/admin/layanan/escalation': typeof AuthenticatedAdminLayananEscalationRoute
@@ -1139,6 +1167,7 @@ export interface FileRoutesById {
   '/api/public/hooks/stuck-jobs': typeof ApiPublicHooksStuckJobsRoute
   '/api/public/hooks/upload-integrity': typeof ApiPublicHooksUploadIntegrityRoute
   '/_authenticated/admin/digital-signature/': typeof AuthenticatedAdminDigitalSignatureIndexRoute
+  '/_authenticated/admin/form-builder/': typeof AuthenticatedAdminFormBuilderIndexRoute
   '/_authenticated/admin/forms/': typeof AuthenticatedAdminFormsIndexRoute
 }
 export interface FileRouteTypes {
@@ -1228,6 +1257,8 @@ export interface FileRouteTypes {
     | '/admin/digital-signature/documents'
     | '/admin/digital-signature/signatures'
     | '/admin/digital-signature/status'
+    | '/admin/form-builder/settings'
+    | '/admin/form-builder/templates'
     | '/admin/forms/$id'
     | '/admin/layanan/disposisi-inbox'
     | '/admin/layanan/escalation'
@@ -1259,6 +1290,7 @@ export interface FileRouteTypes {
     | '/api/public/hooks/stuck-jobs'
     | '/api/public/hooks/upload-integrity'
     | '/admin/digital-signature/'
+    | '/admin/form-builder/'
     | '/admin/forms/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -1300,7 +1332,6 @@ export interface FileRouteTypes {
     | '/admin/dataset'
     | '/admin/desa'
     | '/admin/eksekutif'
-    | '/admin/form-builder'
     | '/admin/governance'
     | '/admin/hari-libur'
     | '/admin/ikm'
@@ -1345,6 +1376,8 @@ export interface FileRouteTypes {
     | '/admin/digital-signature/documents'
     | '/admin/digital-signature/signatures'
     | '/admin/digital-signature/status'
+    | '/admin/form-builder/settings'
+    | '/admin/form-builder/templates'
     | '/admin/forms/$id'
     | '/admin/layanan/disposisi-inbox'
     | '/admin/layanan/escalation'
@@ -1376,6 +1409,7 @@ export interface FileRouteTypes {
     | '/api/public/hooks/stuck-jobs'
     | '/api/public/hooks/upload-integrity'
     | '/admin/digital-signature'
+    | '/admin/form-builder'
     | '/admin/forms'
   id:
     | '__root__'
@@ -1464,6 +1498,8 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/digital-signature/documents'
     | '/_authenticated/admin/digital-signature/signatures'
     | '/_authenticated/admin/digital-signature/status'
+    | '/_authenticated/admin/form-builder/settings'
+    | '/_authenticated/admin/form-builder/templates'
     | '/_authenticated/admin/forms/$id'
     | '/_authenticated/admin/layanan/disposisi-inbox'
     | '/_authenticated/admin/layanan/escalation'
@@ -1495,6 +1531,7 @@ export interface FileRouteTypes {
     | '/api/public/hooks/stuck-jobs'
     | '/api/public/hooks/upload-integrity'
     | '/_authenticated/admin/digital-signature/'
+    | '/_authenticated/admin/form-builder/'
     | '/_authenticated/admin/forms/'
   fileRoutesById: FileRoutesById
 }
@@ -2057,6 +2094,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminFormsIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/admin/form-builder/': {
+      id: '/_authenticated/admin/form-builder/'
+      path: '/'
+      fullPath: '/admin/form-builder/'
+      preLoaderRoute: typeof AuthenticatedAdminFormBuilderIndexRouteImport
+      parentRoute: typeof AuthenticatedAdminFormBuilderRoute
+    }
     '/_authenticated/admin/digital-signature/': {
       id: '/_authenticated/admin/digital-signature/'
       path: '/'
@@ -2274,6 +2318,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminFormsIdRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/admin/form-builder/templates': {
+      id: '/_authenticated/admin/form-builder/templates'
+      path: '/templates'
+      fullPath: '/admin/form-builder/templates'
+      preLoaderRoute: typeof AuthenticatedAdminFormBuilderTemplatesRouteImport
+      parentRoute: typeof AuthenticatedAdminFormBuilderRoute
+    }
+    '/_authenticated/admin/form-builder/settings': {
+      id: '/_authenticated/admin/form-builder/settings'
+      path: '/settings'
+      fullPath: '/admin/form-builder/settings'
+      preLoaderRoute: typeof AuthenticatedAdminFormBuilderSettingsRouteImport
+      parentRoute: typeof AuthenticatedAdminFormBuilderRoute
+    }
     '/_authenticated/admin/digital-signature/status': {
       id: '/_authenticated/admin/digital-signature/status'
       path: '/status'
@@ -2440,6 +2498,27 @@ const AuthenticatedAdminDigitalSignatureRouteWithChildren =
     AuthenticatedAdminDigitalSignatureRouteChildren,
   )
 
+interface AuthenticatedAdminFormBuilderRouteChildren {
+  AuthenticatedAdminFormBuilderSettingsRoute: typeof AuthenticatedAdminFormBuilderSettingsRoute
+  AuthenticatedAdminFormBuilderTemplatesRoute: typeof AuthenticatedAdminFormBuilderTemplatesRoute
+  AuthenticatedAdminFormBuilderIndexRoute: typeof AuthenticatedAdminFormBuilderIndexRoute
+}
+
+const AuthenticatedAdminFormBuilderRouteChildren: AuthenticatedAdminFormBuilderRouteChildren =
+  {
+    AuthenticatedAdminFormBuilderSettingsRoute:
+      AuthenticatedAdminFormBuilderSettingsRoute,
+    AuthenticatedAdminFormBuilderTemplatesRoute:
+      AuthenticatedAdminFormBuilderTemplatesRoute,
+    AuthenticatedAdminFormBuilderIndexRoute:
+      AuthenticatedAdminFormBuilderIndexRoute,
+  }
+
+const AuthenticatedAdminFormBuilderRouteWithChildren =
+  AuthenticatedAdminFormBuilderRoute._addFileChildren(
+    AuthenticatedAdminFormBuilderRouteChildren,
+  )
+
 interface AuthenticatedAdminLayananRouteChildren {
   AuthenticatedAdminLayananDisposisiInboxRoute: typeof AuthenticatedAdminLayananDisposisiInboxRoute
   AuthenticatedAdminLayananEscalationRoute: typeof AuthenticatedAdminLayananEscalationRoute
@@ -2494,7 +2573,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedAdminDesaRoute: typeof AuthenticatedAdminDesaRoute
   AuthenticatedAdminDigitalSignatureRoute: typeof AuthenticatedAdminDigitalSignatureRouteWithChildren
   AuthenticatedAdminEksekutifRoute: typeof AuthenticatedAdminEksekutifRoute
-  AuthenticatedAdminFormBuilderRoute: typeof AuthenticatedAdminFormBuilderRoute
+  AuthenticatedAdminFormBuilderRoute: typeof AuthenticatedAdminFormBuilderRouteWithChildren
   AuthenticatedAdminGovernanceRoute: typeof AuthenticatedAdminGovernanceRoute
   AuthenticatedAdminHariLiburRoute: typeof AuthenticatedAdminHariLiburRoute
   AuthenticatedAdminIkmRoute: typeof AuthenticatedAdminIkmRoute
@@ -2562,7 +2641,8 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAdminDigitalSignatureRoute:
     AuthenticatedAdminDigitalSignatureRouteWithChildren,
   AuthenticatedAdminEksekutifRoute: AuthenticatedAdminEksekutifRoute,
-  AuthenticatedAdminFormBuilderRoute: AuthenticatedAdminFormBuilderRoute,
+  AuthenticatedAdminFormBuilderRoute:
+    AuthenticatedAdminFormBuilderRouteWithChildren,
   AuthenticatedAdminGovernanceRoute: AuthenticatedAdminGovernanceRoute,
   AuthenticatedAdminHariLiburRoute: AuthenticatedAdminHariLiburRoute,
   AuthenticatedAdminIkmRoute: AuthenticatedAdminIkmRoute,
