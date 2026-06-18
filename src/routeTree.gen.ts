@@ -65,6 +65,7 @@ import { Route as AuthenticatedAdminIzinRouteImport } from './routes/_authentica
 import { Route as AuthenticatedAdminIkmRouteImport } from './routes/_authenticated/admin.ikm'
 import { Route as AuthenticatedAdminHariLiburRouteImport } from './routes/_authenticated/admin.hari-libur'
 import { Route as AuthenticatedAdminGovernanceRouteImport } from './routes/_authenticated/admin.governance'
+import { Route as AuthenticatedAdminFormBuilderRouteImport } from './routes/_authenticated/admin.form-builder'
 import { Route as AuthenticatedAdminEksekutifRouteImport } from './routes/_authenticated/admin.eksekutif'
 import { Route as AuthenticatedAdminDigitalSignatureRouteImport } from './routes/_authenticated/admin.digital-signature'
 import { Route as AuthenticatedAdminDesaRouteImport } from './routes/_authenticated/admin.desa'
@@ -422,6 +423,12 @@ const AuthenticatedAdminGovernanceRoute =
   AuthenticatedAdminGovernanceRouteImport.update({
     id: '/admin/governance',
     path: '/admin/governance',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAdminFormBuilderRoute =
+  AuthenticatedAdminFormBuilderRouteImport.update({
+    id: '/admin/form-builder',
+    path: '/admin/form-builder',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedAdminEksekutifRoute =
@@ -819,6 +826,7 @@ export interface FileRoutesByFullPath {
   '/admin/desa': typeof AuthenticatedAdminDesaRoute
   '/admin/digital-signature': typeof AuthenticatedAdminDigitalSignatureRouteWithChildren
   '/admin/eksekutif': typeof AuthenticatedAdminEksekutifRoute
+  '/admin/form-builder': typeof AuthenticatedAdminFormBuilderRoute
   '/admin/governance': typeof AuthenticatedAdminGovernanceRoute
   '/admin/hari-libur': typeof AuthenticatedAdminHariLiburRoute
   '/admin/ikm': typeof AuthenticatedAdminIkmRoute
@@ -935,6 +943,7 @@ export interface FileRoutesByTo {
   '/admin/dataset': typeof AuthenticatedAdminDatasetRouteWithChildren
   '/admin/desa': typeof AuthenticatedAdminDesaRoute
   '/admin/eksekutif': typeof AuthenticatedAdminEksekutifRoute
+  '/admin/form-builder': typeof AuthenticatedAdminFormBuilderRoute
   '/admin/governance': typeof AuthenticatedAdminGovernanceRoute
   '/admin/hari-libur': typeof AuthenticatedAdminHariLiburRoute
   '/admin/ikm': typeof AuthenticatedAdminIkmRoute
@@ -1054,6 +1063,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/desa': typeof AuthenticatedAdminDesaRoute
   '/_authenticated/admin/digital-signature': typeof AuthenticatedAdminDigitalSignatureRouteWithChildren
   '/_authenticated/admin/eksekutif': typeof AuthenticatedAdminEksekutifRoute
+  '/_authenticated/admin/form-builder': typeof AuthenticatedAdminFormBuilderRoute
   '/_authenticated/admin/governance': typeof AuthenticatedAdminGovernanceRoute
   '/_authenticated/admin/hari-libur': typeof AuthenticatedAdminHariLiburRoute
   '/_authenticated/admin/ikm': typeof AuthenticatedAdminIkmRoute
@@ -1173,6 +1183,7 @@ export interface FileRouteTypes {
     | '/admin/desa'
     | '/admin/digital-signature'
     | '/admin/eksekutif'
+    | '/admin/form-builder'
     | '/admin/governance'
     | '/admin/hari-libur'
     | '/admin/ikm'
@@ -1289,6 +1300,7 @@ export interface FileRouteTypes {
     | '/admin/dataset'
     | '/admin/desa'
     | '/admin/eksekutif'
+    | '/admin/form-builder'
     | '/admin/governance'
     | '/admin/hari-libur'
     | '/admin/ikm'
@@ -1407,6 +1419,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/desa'
     | '/_authenticated/admin/digital-signature'
     | '/_authenticated/admin/eksekutif'
+    | '/_authenticated/admin/form-builder'
     | '/_authenticated/admin/governance'
     | '/_authenticated/admin/hari-libur'
     | '/_authenticated/admin/ikm'
@@ -1916,6 +1929,13 @@ declare module '@tanstack/react-router' {
       path: '/admin/governance'
       fullPath: '/admin/governance'
       preLoaderRoute: typeof AuthenticatedAdminGovernanceRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/form-builder': {
+      id: '/_authenticated/admin/form-builder'
+      path: '/admin/form-builder'
+      fullPath: '/admin/form-builder'
+      preLoaderRoute: typeof AuthenticatedAdminFormBuilderRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/admin/eksekutif': {
@@ -2474,6 +2494,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedAdminDesaRoute: typeof AuthenticatedAdminDesaRoute
   AuthenticatedAdminDigitalSignatureRoute: typeof AuthenticatedAdminDigitalSignatureRouteWithChildren
   AuthenticatedAdminEksekutifRoute: typeof AuthenticatedAdminEksekutifRoute
+  AuthenticatedAdminFormBuilderRoute: typeof AuthenticatedAdminFormBuilderRoute
   AuthenticatedAdminGovernanceRoute: typeof AuthenticatedAdminGovernanceRoute
   AuthenticatedAdminHariLiburRoute: typeof AuthenticatedAdminHariLiburRoute
   AuthenticatedAdminIkmRoute: typeof AuthenticatedAdminIkmRoute
@@ -2541,6 +2562,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAdminDigitalSignatureRoute:
     AuthenticatedAdminDigitalSignatureRouteWithChildren,
   AuthenticatedAdminEksekutifRoute: AuthenticatedAdminEksekutifRoute,
+  AuthenticatedAdminFormBuilderRoute: AuthenticatedAdminFormBuilderRoute,
   AuthenticatedAdminGovernanceRoute: AuthenticatedAdminGovernanceRoute,
   AuthenticatedAdminHariLiburRoute: AuthenticatedAdminHariLiburRoute,
   AuthenticatedAdminIkmRoute: AuthenticatedAdminIkmRoute,
