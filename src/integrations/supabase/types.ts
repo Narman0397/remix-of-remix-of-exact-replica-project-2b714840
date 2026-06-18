@@ -1535,6 +1535,69 @@ export type Database = {
           },
         ]
       }
+      document_templates: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          deleted_at: string | null
+          description: string | null
+          form_id: string | null
+          id: string
+          name: string
+          owner_opd_id: string | null
+          status: string
+          template_html: string | null
+          template_storage_path: string | null
+          updated_at: string
+          variables: Json
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          deleted_at?: string | null
+          description?: string | null
+          form_id?: string | null
+          id?: string
+          name: string
+          owner_opd_id?: string | null
+          status?: string
+          template_html?: string | null
+          template_storage_path?: string | null
+          updated_at?: string
+          variables?: Json
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          deleted_at?: string | null
+          description?: string | null
+          form_id?: string | null
+          id?: string
+          name?: string
+          owner_opd_id?: string | null
+          status?: string
+          template_html?: string | null
+          template_storage_path?: string | null
+          updated_at?: string
+          variables?: Json
+        }
+        Relationships: [
+          {
+            foreignKeyName: "document_templates_form_id_fkey"
+            columns: ["form_id"]
+            isOneToOne: false
+            referencedRelation: "forms"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "document_templates_owner_opd_id_fkey"
+            columns: ["owner_opd_id"]
+            isOneToOne: false
+            referencedRelation: "opd"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       documents: {
         Row: {
           created_at: string
@@ -1782,6 +1845,42 @@ export type Database = {
           },
         ]
       }
+      form_audit_logs: {
+        Row: {
+          action: string
+          created_at: string
+          id: string
+          ip_address: unknown
+          metadata: Json
+          resource_id: string | null
+          resource_type: string
+          user_agent: string | null
+          user_id: string | null
+        }
+        Insert: {
+          action: string
+          created_at?: string
+          id?: string
+          ip_address?: unknown
+          metadata?: Json
+          resource_id?: string | null
+          resource_type: string
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          action?: string
+          created_at?: string
+          id?: string
+          ip_address?: unknown
+          metadata?: Json
+          resource_id?: string | null
+          resource_type?: string
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       form_fields: {
         Row: {
           created_at: string
@@ -1970,9 +2069,13 @@ export type Database = {
       form_submissions: {
         Row: {
           assignment_id: string | null
+          code: string | null
           created_at: string
+          current_version_id: string | null
+          current_workflow_node: string | null
           data: Json
           form_id: string
+          form_snapshot: Json | null
           id: string
           opd_id: string | null
           review_note: string | null
@@ -1984,12 +2087,17 @@ export type Database = {
           updated_at: string
           user_id: string | null
           version_number: number
+          workflow_version_id: string | null
         }
         Insert: {
           assignment_id?: string | null
+          code?: string | null
           created_at?: string
+          current_version_id?: string | null
+          current_workflow_node?: string | null
           data?: Json
           form_id: string
+          form_snapshot?: Json | null
           id?: string
           opd_id?: string | null
           review_note?: string | null
@@ -2001,12 +2109,17 @@ export type Database = {
           updated_at?: string
           user_id?: string | null
           version_number?: number
+          workflow_version_id?: string | null
         }
         Update: {
           assignment_id?: string | null
+          code?: string | null
           created_at?: string
+          current_version_id?: string | null
+          current_workflow_node?: string | null
           data?: Json
           form_id?: string
+          form_snapshot?: Json | null
           id?: string
           opd_id?: string | null
           review_note?: string | null
@@ -2018,6 +2131,7 @@ export type Database = {
           updated_at?: string
           user_id?: string | null
           version_number?: number
+          workflow_version_id?: string | null
         }
         Relationships: [
           {
@@ -2071,13 +2185,126 @@ export type Database = {
           },
         ]
       }
+      form_templates: {
+        Row: {
+          allowed_employee_types: Database["public"]["Enums"]["employment_type"][]
+          category: string | null
+          code: string | null
+          created_at: string
+          created_by: string | null
+          deleted_at: string | null
+          description: string | null
+          fields: Json
+          id: string
+          name: string
+          owner_opd_id: string | null
+          scope: string
+          status: string
+          updated_at: string
+          workflow: Json | null
+        }
+        Insert: {
+          allowed_employee_types?: Database["public"]["Enums"]["employment_type"][]
+          category?: string | null
+          code?: string | null
+          created_at?: string
+          created_by?: string | null
+          deleted_at?: string | null
+          description?: string | null
+          fields?: Json
+          id?: string
+          name: string
+          owner_opd_id?: string | null
+          scope?: string
+          status?: string
+          updated_at?: string
+          workflow?: Json | null
+        }
+        Update: {
+          allowed_employee_types?: Database["public"]["Enums"]["employment_type"][]
+          category?: string | null
+          code?: string | null
+          created_at?: string
+          created_by?: string | null
+          deleted_at?: string | null
+          description?: string | null
+          fields?: Json
+          id?: string
+          name?: string
+          owner_opd_id?: string | null
+          scope?: string
+          status?: string
+          updated_at?: string
+          workflow?: Json | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "form_templates_owner_opd_id_fkey"
+            columns: ["owner_opd_id"]
+            isOneToOne: false
+            referencedRelation: "opd"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      form_versions: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          fields: Json
+          form_id: string
+          id: string
+          meta: Json
+          published_at: string | null
+          published_by: string | null
+          version_number: number
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          fields?: Json
+          form_id: string
+          id?: string
+          meta?: Json
+          published_at?: string | null
+          published_by?: string | null
+          version_number: number
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          fields?: Json
+          form_id?: string
+          id?: string
+          meta?: Json
+          published_at?: string | null
+          published_by?: string | null
+          version_number?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "form_versions_form_id_fkey"
+            columns: ["form_id"]
+            isOneToOne: false
+            referencedRelation: "forms"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       forms: {
         Row: {
           allow_multiple_submit: boolean
+          allowed_employee_types: Database["public"]["Enums"]["employment_type"][]
           archived_at: string | null
+          category: string | null
+          code: string | null
           created_at: string
           created_by: string | null
+          current_version_id: string | null
+          current_workflow_version_id: string | null
           deadline: string | null
+          deleted_at: string | null
+          deleted_by: string | null
           deskripsi: string | null
           id: string
           is_public: boolean
@@ -2086,16 +2313,25 @@ export type Database = {
           published_at: string | null
           published_by: string | null
           schema_snapshot: Json | null
+          sla_days: number | null
           slug: string | null
           status: string
           updated_at: string
+          version_number: number
         }
         Insert: {
           allow_multiple_submit?: boolean
+          allowed_employee_types?: Database["public"]["Enums"]["employment_type"][]
           archived_at?: string | null
+          category?: string | null
+          code?: string | null
           created_at?: string
           created_by?: string | null
+          current_version_id?: string | null
+          current_workflow_version_id?: string | null
           deadline?: string | null
+          deleted_at?: string | null
+          deleted_by?: string | null
           deskripsi?: string | null
           id?: string
           is_public?: boolean
@@ -2104,16 +2340,25 @@ export type Database = {
           published_at?: string | null
           published_by?: string | null
           schema_snapshot?: Json | null
+          sla_days?: number | null
           slug?: string | null
           status?: string
           updated_at?: string
+          version_number?: number
         }
         Update: {
           allow_multiple_submit?: boolean
+          allowed_employee_types?: Database["public"]["Enums"]["employment_type"][]
           archived_at?: string | null
+          category?: string | null
+          code?: string | null
           created_at?: string
           created_by?: string | null
+          current_version_id?: string | null
+          current_workflow_version_id?: string | null
           deadline?: string | null
+          deleted_at?: string | null
+          deleted_by?: string | null
           deskripsi?: string | null
           id?: string
           is_public?: boolean
@@ -2122,9 +2367,11 @@ export type Database = {
           published_at?: string | null
           published_by?: string | null
           schema_snapshot?: Json | null
+          sla_days?: number | null
           slug?: string | null
           status?: string
           updated_at?: string
+          version_number?: number
         }
         Relationships: [
           {
@@ -2132,6 +2379,64 @@ export type Database = {
             columns: ["opd_pemilik_id"]
             isOneToOne: false
             referencedRelation: "opd"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      generated_documents: {
+        Row: {
+          generated_at: string
+          generated_by: string | null
+          id: string
+          mime: string
+          signed_document_id: string | null
+          size_bytes: number | null
+          storage_path: string
+          submission_id: string
+          template_id: string | null
+        }
+        Insert: {
+          generated_at?: string
+          generated_by?: string | null
+          id?: string
+          mime?: string
+          signed_document_id?: string | null
+          size_bytes?: number | null
+          storage_path: string
+          submission_id: string
+          template_id?: string | null
+        }
+        Update: {
+          generated_at?: string
+          generated_by?: string | null
+          id?: string
+          mime?: string
+          signed_document_id?: string | null
+          size_bytes?: number | null
+          storage_path?: string
+          submission_id?: string
+          template_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "generated_documents_signed_document_id_fkey"
+            columns: ["signed_document_id"]
+            isOneToOne: false
+            referencedRelation: "signed_documents"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "generated_documents_submission_id_fkey"
+            columns: ["submission_id"]
+            isOneToOne: false
+            referencedRelation: "form_submissions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "generated_documents_template_id_fkey"
+            columns: ["template_id"]
+            isOneToOne: false
+            referencedRelation: "document_templates"
             referencedColumns: ["id"]
           },
         ]
@@ -3381,6 +3686,7 @@ export type Database = {
           asn_type: string | null
           created_at: string
           desa: string | null
+          employment_type: Database["public"]["Enums"]["employment_type"] | null
           foto_url: string | null
           golongan: string | null
           id: string
@@ -3410,6 +3716,9 @@ export type Database = {
           asn_type?: string | null
           created_at?: string
           desa?: string | null
+          employment_type?:
+            | Database["public"]["Enums"]["employment_type"]
+            | null
           foto_url?: string | null
           golongan?: string | null
           id: string
@@ -3439,6 +3748,9 @@ export type Database = {
           asn_type?: string | null
           created_at?: string
           desa?: string | null
+          employment_type?:
+            | Database["public"]["Enums"]["employment_type"]
+            | null
           foto_url?: string | null
           golongan?: string | null
           id?: string
@@ -3776,6 +4088,76 @@ export type Database = {
         }
         Relationships: []
       }
+      submission_assignments: {
+        Row: {
+          assigned_at: string
+          assigned_by: string | null
+          assignee_id: string
+          id: string
+          status: string
+          task_id: string
+        }
+        Insert: {
+          assigned_at?: string
+          assigned_by?: string | null
+          assignee_id: string
+          id?: string
+          status?: string
+          task_id: string
+        }
+        Update: {
+          assigned_at?: string
+          assigned_by?: string | null
+          assignee_id?: string
+          id?: string
+          status?: string
+          task_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "submission_assignments_task_id_fkey"
+            columns: ["task_id"]
+            isOneToOne: false
+            referencedRelation: "submission_tasks"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      submission_delegations: {
+        Row: {
+          delegated_at: string
+          from_user_id: string
+          id: string
+          reason: string | null
+          task_id: string
+          to_user_id: string
+        }
+        Insert: {
+          delegated_at?: string
+          from_user_id: string
+          id?: string
+          reason?: string | null
+          task_id: string
+          to_user_id: string
+        }
+        Update: {
+          delegated_at?: string
+          from_user_id?: string
+          id?: string
+          reason?: string | null
+          task_id?: string
+          to_user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "submission_delegations_task_id_fkey"
+            columns: ["task_id"]
+            isOneToOne: false
+            referencedRelation: "submission_tasks"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       submission_dispositions: {
         Row: {
           acted_at: string | null
@@ -3827,6 +4209,65 @@ export type Database = {
           },
         ]
       }
+      submission_escalations: {
+        Row: {
+          escalated_at: string
+          escalated_to: string | null
+          id: string
+          level: number
+          reason: string | null
+          task_id: string
+        }
+        Insert: {
+          escalated_at?: string
+          escalated_to?: string | null
+          id?: string
+          level?: number
+          reason?: string | null
+          task_id: string
+        }
+        Update: {
+          escalated_at?: string
+          escalated_to?: string | null
+          id?: string
+          level?: number
+          reason?: string | null
+          task_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "submission_escalations_task_id_fkey"
+            columns: ["task_id"]
+            isOneToOne: false
+            referencedRelation: "submission_tasks"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      submission_sequences: {
+        Row: {
+          id: string
+          last_number: number
+          scope: string
+          tahun: number
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          last_number?: number
+          scope: string
+          tahun: number
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          last_number?: number
+          scope?: string
+          tahun?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
       submission_sla_events: {
         Row: {
           actor: string | null
@@ -3874,6 +4315,149 @@ export type Database = {
             columns: ["permohonan_id"]
             isOneToOne: false
             referencedRelation: "v_permohonan_overdue"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      submission_tasks: {
+        Row: {
+          completed_at: string | null
+          created_at: string
+          due_at: string | null
+          id: string
+          node_key: string
+          node_type: string
+          notes: string | null
+          result: Json | null
+          sla_hours: number | null
+          status: string
+          submission_id: string
+          updated_at: string
+          workflow_version_id: string | null
+        }
+        Insert: {
+          completed_at?: string | null
+          created_at?: string
+          due_at?: string | null
+          id?: string
+          node_key: string
+          node_type: string
+          notes?: string | null
+          result?: Json | null
+          sla_hours?: number | null
+          status?: string
+          submission_id: string
+          updated_at?: string
+          workflow_version_id?: string | null
+        }
+        Update: {
+          completed_at?: string | null
+          created_at?: string
+          due_at?: string | null
+          id?: string
+          node_key?: string
+          node_type?: string
+          notes?: string | null
+          result?: Json | null
+          sla_hours?: number | null
+          status?: string
+          submission_id?: string
+          updated_at?: string
+          workflow_version_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "submission_tasks_submission_id_fkey"
+            columns: ["submission_id"]
+            isOneToOne: false
+            referencedRelation: "form_submissions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "submission_tasks_workflow_version_id_fkey"
+            columns: ["workflow_version_id"]
+            isOneToOne: false
+            referencedRelation: "workflow_versions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      submission_values: {
+        Row: {
+          created_at: string
+          field_kode: string
+          id: string
+          submission_id: string
+          value: Json | null
+          version_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          field_kode: string
+          id?: string
+          submission_id: string
+          value?: Json | null
+          version_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          field_kode?: string
+          id?: string
+          submission_id?: string
+          value?: Json | null
+          version_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "submission_values_submission_id_fkey"
+            columns: ["submission_id"]
+            isOneToOne: false
+            referencedRelation: "form_submissions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "submission_values_version_id_fkey"
+            columns: ["version_id"]
+            isOneToOne: false
+            referencedRelation: "submission_versions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      submission_versions: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          id: string
+          reason: string | null
+          submission_id: string
+          values: Json
+          version_number: number
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          reason?: string | null
+          submission_id: string
+          values?: Json
+          version_number: number
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          reason?: string | null
+          submission_id?: string
+          values?: Json
+          version_number?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "submission_versions_submission_id_fkey"
+            columns: ["submission_id"]
+            isOneToOne: false
+            referencedRelation: "form_submissions"
             referencedColumns: ["id"]
           },
         ]
@@ -4168,6 +4752,182 @@ export type Database = {
           },
         ]
       }
+      workflow_definitions: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          current_version_id: string | null
+          deleted_at: string | null
+          description: string | null
+          form_id: string
+          id: string
+          name: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          current_version_id?: string | null
+          deleted_at?: string | null
+          description?: string | null
+          form_id: string
+          id?: string
+          name: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          current_version_id?: string | null
+          deleted_at?: string | null
+          description?: string | null
+          form_id?: string
+          id?: string
+          name?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "workflow_definitions_form_id_fkey"
+            columns: ["form_id"]
+            isOneToOne: false
+            referencedRelation: "forms"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      workflow_edges: {
+        Row: {
+          condition: Json | null
+          created_at: string
+          from_node: string
+          id: string
+          label: string | null
+          to_node: string
+          workflow_version_id: string
+        }
+        Insert: {
+          condition?: Json | null
+          created_at?: string
+          from_node: string
+          id?: string
+          label?: string | null
+          to_node: string
+          workflow_version_id: string
+        }
+        Update: {
+          condition?: Json | null
+          created_at?: string
+          from_node?: string
+          id?: string
+          label?: string | null
+          to_node?: string
+          workflow_version_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "workflow_edges_workflow_version_id_fkey"
+            columns: ["workflow_version_id"]
+            isOneToOne: false
+            referencedRelation: "workflow_versions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      workflow_nodes: {
+        Row: {
+          config: Json
+          created_at: string
+          id: string
+          label: string | null
+          node_key: string
+          node_type: string
+          position: Json | null
+          sla_hours: number | null
+          workflow_version_id: string
+        }
+        Insert: {
+          config?: Json
+          created_at?: string
+          id?: string
+          label?: string | null
+          node_key: string
+          node_type: string
+          position?: Json | null
+          sla_hours?: number | null
+          workflow_version_id: string
+        }
+        Update: {
+          config?: Json
+          created_at?: string
+          id?: string
+          label?: string | null
+          node_key?: string
+          node_type?: string
+          position?: Json | null
+          sla_hours?: number | null
+          workflow_version_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "workflow_nodes_workflow_version_id_fkey"
+            columns: ["workflow_version_id"]
+            isOneToOne: false
+            referencedRelation: "workflow_versions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      workflow_versions: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          graph: Json
+          id: string
+          locked: boolean
+          published_at: string | null
+          published_by: string | null
+          status: string
+          submission_count: number
+          version_number: number
+          workflow_id: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          graph?: Json
+          id?: string
+          locked?: boolean
+          published_at?: string | null
+          published_by?: string | null
+          status?: string
+          submission_count?: number
+          version_number: number
+          workflow_id: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          graph?: Json
+          id?: string
+          locked?: boolean
+          published_at?: string | null
+          published_by?: string | null
+          status?: string
+          submission_count?: number
+          version_number?: number
+          workflow_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "workflow_versions_workflow_id_fkey"
+            columns: ["workflow_id"]
+            isOneToOne: false
+            referencedRelation: "workflow_definitions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       aset_nilai_buku: {
@@ -4288,6 +5048,10 @@ export type Database = {
           _target_user_id: string
         }
         Returns: Json
+      }
+      fn_fb_generate_submission_code: {
+        Args: { _format: string; _scope: string }
+        Returns: string
       }
       fn_generate_nomor_surat: {
         Args: { _opd_id: string; _permohonan_id: string }
@@ -4463,6 +5227,7 @@ export type Database = {
         | "pimpinan"
       bast_status: "draft" | "issued" | "approved" | "cancelled"
       checklist_status: "todo" | "in_progress" | "done" | "na"
+      employment_type: "PNS" | "PPPK" | "PPPK_PW" | "NON_ASN"
       izin_jenis:
         | "cuti_tahunan"
         | "cuti_sakit"
@@ -4632,6 +5397,7 @@ export const Constants = {
       ],
       bast_status: ["draft", "issued", "approved", "cancelled"],
       checklist_status: ["todo", "in_progress", "done", "na"],
+      employment_type: ["PNS", "PPPK", "PPPK_PW", "NON_ASN"],
       izin_jenis: [
         "cuti_tahunan",
         "cuti_sakit",
