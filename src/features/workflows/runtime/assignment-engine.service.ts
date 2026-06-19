@@ -94,16 +94,21 @@ export async function resolveAssignees(
       };
     }
     case "current_user_manager": {
-      // Cari kepala_opd pada OPD pemohon.
+      // Cari kepala_opd: user dengan role kepala_opd & OPD sama dengan pemohon.
       if (!applicant.opd_id) return { assignees: [], reason: "missing_applicant_opd" };
-      const { data: pejabat } = await supabase
-        .from("pejabat")
+      const { data: roles } = await supabase
+        .from("user_roles")
         .select("user_id")
+        .eq("role", "kepala_opd" as never);
+      const candidateIds = (roles ?? []).map((r) => r.user_id as string);
+      if (candidateIds.length === 0) return { assignees: [], reason: "no_manager" };
+      const { data: profs } = await supabase
+        .from("profiles")
+        .select("id")
+        .in("id", candidateIds)
         .eq("opd_id", applicant.opd_id)
-        .eq("aktif", true)
-        .eq("pimpinan_type", "kepala_opd");
-      const ids = (pejabat ?? []).map((p) => p.user_id as string).filter(Boolean);
-      return { assignees: ids, reason: "manager" };
+        .eq("verification_status", "verified");
+      return { assignees: (profs ?? []).map((p) => p.id as string), reason: "manager" };
     }
   }
 }
