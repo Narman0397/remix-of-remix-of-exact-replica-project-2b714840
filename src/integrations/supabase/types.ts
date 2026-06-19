@@ -4793,38 +4793,83 @@ export type Database = {
           },
         ]
       }
+      workflow_audit_logs: {
+        Row: {
+          action: string
+          created_at: string
+          id: string
+          metadata: Json
+          resource_id: string | null
+          resource_type: string
+          user_id: string | null
+        }
+        Insert: {
+          action: string
+          created_at?: string
+          id?: string
+          metadata?: Json
+          resource_id?: string | null
+          resource_type: string
+          user_id?: string | null
+        }
+        Update: {
+          action?: string
+          created_at?: string
+          id?: string
+          metadata?: Json
+          resource_id?: string | null
+          resource_type?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       workflow_definitions: {
         Row: {
+          archived_at: string | null
+          category: string | null
+          code: string | null
           created_at: string
           created_by: string | null
           current_version_id: string | null
           deleted_at: string | null
           description: string | null
-          form_id: string
+          form_id: string | null
           id: string
           name: string
+          opd_pemilik_id: string | null
+          status: string
           updated_at: string
         }
         Insert: {
+          archived_at?: string | null
+          category?: string | null
+          code?: string | null
           created_at?: string
           created_by?: string | null
           current_version_id?: string | null
           deleted_at?: string | null
           description?: string | null
-          form_id: string
+          form_id?: string | null
           id?: string
           name: string
+          opd_pemilik_id?: string | null
+          status?: string
           updated_at?: string
         }
         Update: {
+          archived_at?: string | null
+          category?: string | null
+          code?: string | null
           created_at?: string
           created_by?: string | null
           current_version_id?: string | null
           deleted_at?: string | null
           description?: string | null
-          form_id?: string
+          form_id?: string | null
           id?: string
           name?: string
+          opd_pemilik_id?: string | null
+          status?: string
           updated_at?: string
         }
         Relationships: [
@@ -4833,6 +4878,13 @@ export type Database = {
             columns: ["form_id"]
             isOneToOne: false
             referencedRelation: "forms"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "workflow_definitions_opd_pemilik_id_fkey"
+            columns: ["opd_pemilik_id"]
+            isOneToOne: false
+            referencedRelation: "opd"
             referencedColumns: ["id"]
           },
         ]
@@ -4915,6 +4967,59 @@ export type Database = {
             columns: ["workflow_version_id"]
             isOneToOne: false
             referencedRelation: "workflow_versions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      workflow_templates: {
+        Row: {
+          category: string | null
+          code: string | null
+          created_at: string
+          created_by: string | null
+          description: string | null
+          graph: Json
+          id: string
+          name: string
+          owner_opd_id: string | null
+          scope: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          category?: string | null
+          code?: string | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          graph?: Json
+          id?: string
+          name: string
+          owner_opd_id?: string | null
+          scope?: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          category?: string | null
+          code?: string | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          graph?: Json
+          id?: string
+          name?: string
+          owner_opd_id?: string | null
+          scope?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "workflow_templates_owner_opd_id_fkey"
+            columns: ["owner_opd_id"]
+            isOneToOne: false
+            referencedRelation: "opd"
             referencedColumns: ["id"]
           },
         ]
