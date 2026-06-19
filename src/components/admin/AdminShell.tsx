@@ -23,6 +23,7 @@ import {
   X,
   Boxes,
   Hash,
+  FileSignature,
   ShieldCheck,
 } from "lucide-react";
 
