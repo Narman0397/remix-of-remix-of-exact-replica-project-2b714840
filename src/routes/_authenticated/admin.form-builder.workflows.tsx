@@ -65,7 +65,7 @@ function WorkflowsPage() {
     onSuccess: () => qc.invalidateQueries({ queryKey: ["wf-list"] }),
   });
   const seedMut = useMutation({
-    mutationFn: () => seed({}),
+    mutationFn: () => seed(),
     onSuccess: () => qc.invalidateQueries({ queryKey: ["wf-templates"] }),
   });
 
