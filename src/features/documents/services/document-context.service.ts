@@ -12,7 +12,7 @@ export async function buildMergeContext(
   const { data: sub } = await supabase
     .from("form_submissions")
     .select(
-      "id,user_id,opd_id,form_id,form_version_id,workflow_version_id,current_workflow_node,status,created_at,reviewed_at,reviewed_by",
+      "id,user_id,opd_id,form_id,workflow_version_id,current_workflow_node,status,created_at,reviewed_at,reviewed_by,data",
     )
     .eq("id", args.submission_id)
     .maybeSingle();
@@ -20,14 +20,20 @@ export async function buildMergeContext(
 
   const { data: values } = await supabase
     .from("submission_values")
-    .select("field_key,value")
+    .select("field_kode,value")
     .eq("submission_id", args.submission_id);
   const valueMap: Record<string, unknown> = {};
   for (const v of values ?? []) {
-    valueMap[(v.field_key as string) ?? ""] = v.value;
+    valueMap[(v.field_kode as string) ?? ""] = v.value;
   }
 
+  const dataObj =
+    sub.data && typeof sub.data === "object" && !Array.isArray(sub.data)
+      ? (sub.data as Record<string, unknown>)
+      : {};
+
   const submission: Record<string, unknown> = {
+    ...dataObj,
     ...valueMap,
     id: sub.id,
     status: sub.status,
