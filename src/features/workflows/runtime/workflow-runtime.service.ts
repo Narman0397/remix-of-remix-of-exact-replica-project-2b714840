@@ -114,6 +114,22 @@ export async function createTaskForNode(
   if (node.type === "start" || node.type === "parallel") {
     return { taskId: null, assignees: [] };
   }
+  // Signature node (Phase 3B): tandai event audit, biarkan task signer dibuat oleh
+  // signature-runtime (sigSendDocument) saat generate dokumen selesai. Tidak membuat task workflow.
+  if (node.type === "signature") {
+    await writeWorkflowAudit(supabase, {
+      action: "workflow.update",
+      resource_type: "workflow_version",
+      resource_id: ctx.workflowVersionId,
+      user_id: actorId,
+      metadata: {
+        kind: "signature.node_reached",
+        submission_id: ctx.submissionId,
+        node_key: node.id,
+      },
+    });
+    return { taskId: null, assignees: [] };
+  }
   // Resolve assignees.
   const { assignees, reason } = await resolveAssignees(
     supabase,
