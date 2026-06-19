@@ -83,6 +83,7 @@ import { Route as AuthenticatedAdminAsetKampanyeRouteImport } from './routes/_au
 import { Route as AuthenticatedAdminAsetExtraRouteImport } from './routes/_authenticated/admin.aset-extra'
 import { Route as AuthenticatedAdminAsetRouteImport } from './routes/_authenticated/admin.aset'
 import { Route as AuthenticatedAdminApprovalsRouteImport } from './routes/_authenticated/admin.approvals'
+import { Route as AuthenticatedAdminTasksIndexRouteImport } from './routes/_authenticated/admin.tasks.index'
 import { Route as AuthenticatedAdminFormsIndexRouteImport } from './routes/_authenticated/admin.forms.index'
 import { Route as AuthenticatedAdminFormBuilderIndexRouteImport } from './routes/_authenticated/admin.form-builder.index'
 import { Route as AuthenticatedAdminDigitalSignatureIndexRouteImport } from './routes/_authenticated/admin.digital-signature.index'
@@ -535,6 +536,12 @@ const AuthenticatedAdminApprovalsRoute =
     path: '/admin/approvals',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedAdminTasksIndexRoute =
+  AuthenticatedAdminTasksIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedAdminTasksRoute,
+  } as any)
 const AuthenticatedAdminFormsIndexRoute =
   AuthenticatedAdminFormsIndexRouteImport.update({
     id: '/admin/forms/',
@@ -899,7 +906,7 @@ export interface FileRoutesByFullPath {
   '/admin/storage': typeof AuthenticatedAdminStorageRoute
   '/admin/submission-review': typeof AuthenticatedAdminSubmissionReviewRoute
   '/admin/system-health': typeof AuthenticatedAdminSystemHealthRoute
-  '/admin/tasks': typeof AuthenticatedAdminTasksRoute
+  '/admin/tasks': typeof AuthenticatedAdminTasksRouteWithChildren
   '/admin/users': typeof AuthenticatedAdminUsersRoute
   '/admin/verifikasi': typeof AuthenticatedAdminVerifikasiRoute
   '/admin/verifikasi-log': typeof AuthenticatedAdminVerifikasiLogRoute
@@ -965,6 +972,7 @@ export interface FileRoutesByFullPath {
   '/admin/digital-signature/': typeof AuthenticatedAdminDigitalSignatureIndexRoute
   '/admin/form-builder/': typeof AuthenticatedAdminFormBuilderIndexRoute
   '/admin/forms/': typeof AuthenticatedAdminFormsIndexRoute
+  '/admin/tasks/': typeof AuthenticatedAdminTasksIndexRoute
   '/admin/form-builder/workflows/$id': typeof AuthenticatedAdminFormBuilderWorkflowsIdRoute
 }
 export interface FileRoutesByTo {
@@ -1023,7 +1031,6 @@ export interface FileRoutesByTo {
   '/admin/storage': typeof AuthenticatedAdminStorageRoute
   '/admin/submission-review': typeof AuthenticatedAdminSubmissionReviewRoute
   '/admin/system-health': typeof AuthenticatedAdminSystemHealthRoute
-  '/admin/tasks': typeof AuthenticatedAdminTasksRoute
   '/admin/users': typeof AuthenticatedAdminUsersRoute
   '/admin/verifikasi': typeof AuthenticatedAdminVerifikasiRoute
   '/admin/verifikasi-log': typeof AuthenticatedAdminVerifikasiLogRoute
@@ -1089,6 +1096,7 @@ export interface FileRoutesByTo {
   '/admin/digital-signature': typeof AuthenticatedAdminDigitalSignatureIndexRoute
   '/admin/form-builder': typeof AuthenticatedAdminFormBuilderIndexRoute
   '/admin/forms': typeof AuthenticatedAdminFormsIndexRoute
+  '/admin/tasks': typeof AuthenticatedAdminTasksIndexRoute
   '/admin/form-builder/workflows/$id': typeof AuthenticatedAdminFormBuilderWorkflowsIdRoute
 }
 export interface FileRoutesById {
@@ -1151,7 +1159,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/storage': typeof AuthenticatedAdminStorageRoute
   '/_authenticated/admin/submission-review': typeof AuthenticatedAdminSubmissionReviewRoute
   '/_authenticated/admin/system-health': typeof AuthenticatedAdminSystemHealthRoute
-  '/_authenticated/admin/tasks': typeof AuthenticatedAdminTasksRoute
+  '/_authenticated/admin/tasks': typeof AuthenticatedAdminTasksRouteWithChildren
   '/_authenticated/admin/users': typeof AuthenticatedAdminUsersRoute
   '/_authenticated/admin/verifikasi': typeof AuthenticatedAdminVerifikasiRoute
   '/_authenticated/admin/verifikasi-log': typeof AuthenticatedAdminVerifikasiLogRoute
@@ -1217,6 +1225,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/digital-signature/': typeof AuthenticatedAdminDigitalSignatureIndexRoute
   '/_authenticated/admin/form-builder/': typeof AuthenticatedAdminFormBuilderIndexRoute
   '/_authenticated/admin/forms/': typeof AuthenticatedAdminFormsIndexRoute
+  '/_authenticated/admin/tasks/': typeof AuthenticatedAdminTasksIndexRoute
   '/_authenticated/admin/form-builder/workflows/$id': typeof AuthenticatedAdminFormBuilderWorkflowsIdRoute
 }
 export interface FileRouteTypes {
@@ -1345,6 +1354,7 @@ export interface FileRouteTypes {
     | '/admin/digital-signature/'
     | '/admin/form-builder/'
     | '/admin/forms/'
+    | '/admin/tasks/'
     | '/admin/form-builder/workflows/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -1403,7 +1413,6 @@ export interface FileRouteTypes {
     | '/admin/storage'
     | '/admin/submission-review'
     | '/admin/system-health'
-    | '/admin/tasks'
     | '/admin/users'
     | '/admin/verifikasi'
     | '/admin/verifikasi-log'
@@ -1469,6 +1478,7 @@ export interface FileRouteTypes {
     | '/admin/digital-signature'
     | '/admin/form-builder'
     | '/admin/forms'
+    | '/admin/tasks'
     | '/admin/form-builder/workflows/$id'
   id:
     | '__root__'
@@ -1596,6 +1606,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/digital-signature/'
     | '/_authenticated/admin/form-builder/'
     | '/_authenticated/admin/forms/'
+    | '/_authenticated/admin/tasks/'
     | '/_authenticated/admin/form-builder/workflows/$id'
   fileRoutesById: FileRoutesById
 }
@@ -2159,6 +2170,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminApprovalsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/admin/tasks/': {
+      id: '/_authenticated/admin/tasks/'
+      path: '/'
+      fullPath: '/admin/tasks/'
+      preLoaderRoute: typeof AuthenticatedAdminTasksIndexRouteImport
+      parentRoute: typeof AuthenticatedAdminTasksRoute
+    }
     '/_authenticated/admin/forms/': {
       id: '/_authenticated/admin/forms/'
       path: '/admin/forms'
@@ -2674,6 +2692,20 @@ const AuthenticatedAdminRbacRouteWithChildren =
     AuthenticatedAdminRbacRouteChildren,
   )
 
+interface AuthenticatedAdminTasksRouteChildren {
+  AuthenticatedAdminTasksIndexRoute: typeof AuthenticatedAdminTasksIndexRoute
+}
+
+const AuthenticatedAdminTasksRouteChildren: AuthenticatedAdminTasksRouteChildren =
+  {
+    AuthenticatedAdminTasksIndexRoute: AuthenticatedAdminTasksIndexRoute,
+  }
+
+const AuthenticatedAdminTasksRouteWithChildren =
+  AuthenticatedAdminTasksRoute._addFileChildren(
+    AuthenticatedAdminTasksRouteChildren,
+  )
+
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAkunRoute: typeof AuthenticatedAkunRoute
   AuthenticatedExecutiveRoute: typeof AuthenticatedExecutiveRoute
@@ -2712,7 +2744,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedAdminStorageRoute: typeof AuthenticatedAdminStorageRoute
   AuthenticatedAdminSubmissionReviewRoute: typeof AuthenticatedAdminSubmissionReviewRoute
   AuthenticatedAdminSystemHealthRoute: typeof AuthenticatedAdminSystemHealthRoute
-  AuthenticatedAdminTasksRoute: typeof AuthenticatedAdminTasksRoute
+  AuthenticatedAdminTasksRoute: typeof AuthenticatedAdminTasksRouteWithChildren
   AuthenticatedAdminUsersRoute: typeof AuthenticatedAdminUsersRoute
   AuthenticatedAdminVerifikasiRoute: typeof AuthenticatedAdminVerifikasiRoute
   AuthenticatedAdminVerifikasiLogRoute: typeof AuthenticatedAdminVerifikasiLogRoute
@@ -2783,7 +2815,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAdminSubmissionReviewRoute:
     AuthenticatedAdminSubmissionReviewRoute,
   AuthenticatedAdminSystemHealthRoute: AuthenticatedAdminSystemHealthRoute,
-  AuthenticatedAdminTasksRoute: AuthenticatedAdminTasksRoute,
+  AuthenticatedAdminTasksRoute: AuthenticatedAdminTasksRouteWithChildren,
   AuthenticatedAdminUsersRoute: AuthenticatedAdminUsersRoute,
   AuthenticatedAdminVerifikasiRoute: AuthenticatedAdminVerifikasiRoute,
   AuthenticatedAdminVerifikasiLogRoute: AuthenticatedAdminVerifikasiLogRoute,
