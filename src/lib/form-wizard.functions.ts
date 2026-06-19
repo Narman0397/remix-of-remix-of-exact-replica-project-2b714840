@@ -226,7 +226,7 @@ export const fwLogFieldEvent = createServerFn({ method: "POST" })
           "field.update_validation",
           "field.update_conditional",
         ]),
-        metadata: z.record(z.unknown()).default({}),
+        metadata: z.record(z.string(), z.unknown()).default({}),
       })
       .parse(input),
   )
