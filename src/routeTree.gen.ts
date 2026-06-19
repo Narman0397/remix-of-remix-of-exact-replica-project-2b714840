@@ -48,6 +48,7 @@ import { Route as AuthenticatedAsnAbsensiRouteImport } from './routes/_authentic
 import { Route as AuthenticatedAdminVerifikasiLogRouteImport } from './routes/_authenticated/admin.verifikasi-log'
 import { Route as AuthenticatedAdminVerifikasiRouteImport } from './routes/_authenticated/admin.verifikasi'
 import { Route as AuthenticatedAdminUsersRouteImport } from './routes/_authenticated/admin.users'
+import { Route as AuthenticatedAdminTasksRouteImport } from './routes/_authenticated/admin.tasks'
 import { Route as AuthenticatedAdminSystemHealthRouteImport } from './routes/_authenticated/admin.system-health'
 import { Route as AuthenticatedAdminSubmissionReviewRouteImport } from './routes/_authenticated/admin.submission-review'
 import { Route as AuthenticatedAdminStorageRouteImport } from './routes/_authenticated/admin.storage'
@@ -332,6 +333,11 @@ const AuthenticatedAdminVerifikasiRoute =
 const AuthenticatedAdminUsersRoute = AuthenticatedAdminUsersRouteImport.update({
   id: '/admin/users',
   path: '/admin/users',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedAdminTasksRoute = AuthenticatedAdminTasksRouteImport.update({
+  id: '/admin/tasks',
+  path: '/admin/tasks',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedAdminSystemHealthRoute =
@@ -893,6 +899,7 @@ export interface FileRoutesByFullPath {
   '/admin/storage': typeof AuthenticatedAdminStorageRoute
   '/admin/submission-review': typeof AuthenticatedAdminSubmissionReviewRoute
   '/admin/system-health': typeof AuthenticatedAdminSystemHealthRoute
+  '/admin/tasks': typeof AuthenticatedAdminTasksRoute
   '/admin/users': typeof AuthenticatedAdminUsersRoute
   '/admin/verifikasi': typeof AuthenticatedAdminVerifikasiRoute
   '/admin/verifikasi-log': typeof AuthenticatedAdminVerifikasiLogRoute
@@ -1016,6 +1023,7 @@ export interface FileRoutesByTo {
   '/admin/storage': typeof AuthenticatedAdminStorageRoute
   '/admin/submission-review': typeof AuthenticatedAdminSubmissionReviewRoute
   '/admin/system-health': typeof AuthenticatedAdminSystemHealthRoute
+  '/admin/tasks': typeof AuthenticatedAdminTasksRoute
   '/admin/users': typeof AuthenticatedAdminUsersRoute
   '/admin/verifikasi': typeof AuthenticatedAdminVerifikasiRoute
   '/admin/verifikasi-log': typeof AuthenticatedAdminVerifikasiLogRoute
@@ -1143,6 +1151,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/storage': typeof AuthenticatedAdminStorageRoute
   '/_authenticated/admin/submission-review': typeof AuthenticatedAdminSubmissionReviewRoute
   '/_authenticated/admin/system-health': typeof AuthenticatedAdminSystemHealthRoute
+  '/_authenticated/admin/tasks': typeof AuthenticatedAdminTasksRoute
   '/_authenticated/admin/users': typeof AuthenticatedAdminUsersRoute
   '/_authenticated/admin/verifikasi': typeof AuthenticatedAdminVerifikasiRoute
   '/_authenticated/admin/verifikasi-log': typeof AuthenticatedAdminVerifikasiLogRoute
@@ -1270,6 +1279,7 @@ export interface FileRouteTypes {
     | '/admin/storage'
     | '/admin/submission-review'
     | '/admin/system-health'
+    | '/admin/tasks'
     | '/admin/users'
     | '/admin/verifikasi'
     | '/admin/verifikasi-log'
@@ -1393,6 +1403,7 @@ export interface FileRouteTypes {
     | '/admin/storage'
     | '/admin/submission-review'
     | '/admin/system-health'
+    | '/admin/tasks'
     | '/admin/users'
     | '/admin/verifikasi'
     | '/admin/verifikasi-log'
@@ -1519,6 +1530,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/storage'
     | '/_authenticated/admin/submission-review'
     | '/_authenticated/admin/system-health'
+    | '/_authenticated/admin/tasks'
     | '/_authenticated/admin/users'
     | '/_authenticated/admin/verifikasi'
     | '/_authenticated/admin/verifikasi-log'
@@ -1900,6 +1912,13 @@ declare module '@tanstack/react-router' {
       path: '/admin/users'
       fullPath: '/admin/users'
       preLoaderRoute: typeof AuthenticatedAdminUsersRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/tasks': {
+      id: '/_authenticated/admin/tasks'
+      path: '/admin/tasks'
+      fullPath: '/admin/tasks'
+      preLoaderRoute: typeof AuthenticatedAdminTasksRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/admin/system-health': {
@@ -2693,6 +2712,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedAdminStorageRoute: typeof AuthenticatedAdminStorageRoute
   AuthenticatedAdminSubmissionReviewRoute: typeof AuthenticatedAdminSubmissionReviewRoute
   AuthenticatedAdminSystemHealthRoute: typeof AuthenticatedAdminSystemHealthRoute
+  AuthenticatedAdminTasksRoute: typeof AuthenticatedAdminTasksRoute
   AuthenticatedAdminUsersRoute: typeof AuthenticatedAdminUsersRoute
   AuthenticatedAdminVerifikasiRoute: typeof AuthenticatedAdminVerifikasiRoute
   AuthenticatedAdminVerifikasiLogRoute: typeof AuthenticatedAdminVerifikasiLogRoute
@@ -2763,6 +2783,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAdminSubmissionReviewRoute:
     AuthenticatedAdminSubmissionReviewRoute,
   AuthenticatedAdminSystemHealthRoute: AuthenticatedAdminSystemHealthRoute,
+  AuthenticatedAdminTasksRoute: AuthenticatedAdminTasksRoute,
   AuthenticatedAdminUsersRoute: AuthenticatedAdminUsersRoute,
   AuthenticatedAdminVerifikasiRoute: AuthenticatedAdminVerifikasiRoute,
   AuthenticatedAdminVerifikasiLogRoute: AuthenticatedAdminVerifikasiLogRoute,
