@@ -115,6 +115,7 @@ import { Route as AuthenticatedAdminRbacUserIdRouteImport } from './routes/_auth
 import { Route as AuthenticatedAdminLayananEscalationRouteImport } from './routes/_authenticated/admin.layanan.escalation'
 import { Route as AuthenticatedAdminLayananDisposisiInboxRouteImport } from './routes/_authenticated/admin.layanan.disposisi-inbox'
 import { Route as AuthenticatedAdminFormsIdRouteImport } from './routes/_authenticated/admin.forms.$id'
+import { Route as AuthenticatedAdminFormBuilderWizardRouteImport } from './routes/_authenticated/admin.form-builder.wizard'
 import { Route as AuthenticatedAdminFormBuilderTemplatesRouteImport } from './routes/_authenticated/admin.form-builder.templates'
 import { Route as AuthenticatedAdminFormBuilderSettingsRouteImport } from './routes/_authenticated/admin.form-builder.settings'
 import { Route as AuthenticatedAdminDigitalSignatureStatusRouteImport } from './routes/_authenticated/admin.digital-signature.status'
@@ -722,6 +723,12 @@ const AuthenticatedAdminFormsIdRoute =
     path: '/admin/forms/$id',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedAdminFormBuilderWizardRoute =
+  AuthenticatedAdminFormBuilderWizardRouteImport.update({
+    id: '/wizard',
+    path: '/wizard',
+    getParentRoute: () => AuthenticatedAdminFormBuilderRoute,
+  } as any)
 const AuthenticatedAdminFormBuilderTemplatesRoute =
   AuthenticatedAdminFormBuilderTemplatesRouteImport.update({
     id: '/templates',
@@ -894,6 +901,7 @@ export interface FileRoutesByFullPath {
   '/admin/digital-signature/status': typeof AuthenticatedAdminDigitalSignatureStatusRoute
   '/admin/form-builder/settings': typeof AuthenticatedAdminFormBuilderSettingsRoute
   '/admin/form-builder/templates': typeof AuthenticatedAdminFormBuilderTemplatesRoute
+  '/admin/form-builder/wizard': typeof AuthenticatedAdminFormBuilderWizardRoute
   '/admin/forms/$id': typeof AuthenticatedAdminFormsIdRoute
   '/admin/layanan/disposisi-inbox': typeof AuthenticatedAdminLayananDisposisiInboxRoute
   '/admin/layanan/escalation': typeof AuthenticatedAdminLayananEscalationRoute
@@ -1013,6 +1021,7 @@ export interface FileRoutesByTo {
   '/admin/digital-signature/status': typeof AuthenticatedAdminDigitalSignatureStatusRoute
   '/admin/form-builder/settings': typeof AuthenticatedAdminFormBuilderSettingsRoute
   '/admin/form-builder/templates': typeof AuthenticatedAdminFormBuilderTemplatesRoute
+  '/admin/form-builder/wizard': typeof AuthenticatedAdminFormBuilderWizardRoute
   '/admin/forms/$id': typeof AuthenticatedAdminFormsIdRoute
   '/admin/layanan/disposisi-inbox': typeof AuthenticatedAdminLayananDisposisiInboxRoute
   '/admin/layanan/escalation': typeof AuthenticatedAdminLayananEscalationRoute
@@ -1136,6 +1145,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/digital-signature/status': typeof AuthenticatedAdminDigitalSignatureStatusRoute
   '/_authenticated/admin/form-builder/settings': typeof AuthenticatedAdminFormBuilderSettingsRoute
   '/_authenticated/admin/form-builder/templates': typeof AuthenticatedAdminFormBuilderTemplatesRoute
+  '/_authenticated/admin/form-builder/wizard': typeof AuthenticatedAdminFormBuilderWizardRoute
   '/_authenticated/admin/forms/$id': typeof AuthenticatedAdminFormsIdRoute
   '/_authenticated/admin/layanan/disposisi-inbox': typeof AuthenticatedAdminLayananDisposisiInboxRoute
   '/_authenticated/admin/layanan/escalation': typeof AuthenticatedAdminLayananEscalationRoute
@@ -1259,6 +1269,7 @@ export interface FileRouteTypes {
     | '/admin/digital-signature/status'
     | '/admin/form-builder/settings'
     | '/admin/form-builder/templates'
+    | '/admin/form-builder/wizard'
     | '/admin/forms/$id'
     | '/admin/layanan/disposisi-inbox'
     | '/admin/layanan/escalation'
@@ -1378,6 +1389,7 @@ export interface FileRouteTypes {
     | '/admin/digital-signature/status'
     | '/admin/form-builder/settings'
     | '/admin/form-builder/templates'
+    | '/admin/form-builder/wizard'
     | '/admin/forms/$id'
     | '/admin/layanan/disposisi-inbox'
     | '/admin/layanan/escalation'
@@ -1500,6 +1512,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/digital-signature/status'
     | '/_authenticated/admin/form-builder/settings'
     | '/_authenticated/admin/form-builder/templates'
+    | '/_authenticated/admin/form-builder/wizard'
     | '/_authenticated/admin/forms/$id'
     | '/_authenticated/admin/layanan/disposisi-inbox'
     | '/_authenticated/admin/layanan/escalation'
@@ -2318,6 +2331,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminFormsIdRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/admin/form-builder/wizard': {
+      id: '/_authenticated/admin/form-builder/wizard'
+      path: '/wizard'
+      fullPath: '/admin/form-builder/wizard'
+      preLoaderRoute: typeof AuthenticatedAdminFormBuilderWizardRouteImport
+      parentRoute: typeof AuthenticatedAdminFormBuilderRoute
+    }
     '/_authenticated/admin/form-builder/templates': {
       id: '/_authenticated/admin/form-builder/templates'
       path: '/templates'
@@ -2501,6 +2521,7 @@ const AuthenticatedAdminDigitalSignatureRouteWithChildren =
 interface AuthenticatedAdminFormBuilderRouteChildren {
   AuthenticatedAdminFormBuilderSettingsRoute: typeof AuthenticatedAdminFormBuilderSettingsRoute
   AuthenticatedAdminFormBuilderTemplatesRoute: typeof AuthenticatedAdminFormBuilderTemplatesRoute
+  AuthenticatedAdminFormBuilderWizardRoute: typeof AuthenticatedAdminFormBuilderWizardRoute
   AuthenticatedAdminFormBuilderIndexRoute: typeof AuthenticatedAdminFormBuilderIndexRoute
 }
 
@@ -2510,6 +2531,8 @@ const AuthenticatedAdminFormBuilderRouteChildren: AuthenticatedAdminFormBuilderR
       AuthenticatedAdminFormBuilderSettingsRoute,
     AuthenticatedAdminFormBuilderTemplatesRoute:
       AuthenticatedAdminFormBuilderTemplatesRoute,
+    AuthenticatedAdminFormBuilderWizardRoute:
+      AuthenticatedAdminFormBuilderWizardRoute,
     AuthenticatedAdminFormBuilderIndexRoute:
       AuthenticatedAdminFormBuilderIndexRoute,
   }
