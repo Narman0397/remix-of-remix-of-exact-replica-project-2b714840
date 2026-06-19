@@ -14,7 +14,7 @@ export interface WizardDraftRow {
   form_id: string | null;
   step: string;
   title: string | null;
-  payload: Record<string, unknown>;
+  payload: Json;
   updated_at: string;
   created_at: string;
 }
@@ -29,7 +29,7 @@ export async function listWizardDrafts(supabase: SB, userId: string): Promise<Wi
   if (error) throw new Error(error.message);
   return (data ?? []).map((r) => ({
     ...r,
-    payload: (r.payload ?? {}) as Record<string, unknown>,
+    payload: (r.payload ?? {}) as Json,
   })) as WizardDraftRow[];
 }
 
@@ -46,7 +46,7 @@ export async function getWizardDraft(
     .maybeSingle();
   if (error) throw new Error(error.message);
   if (!data) return null;
-  return { ...data, payload: (data.payload ?? {}) as Record<string, unknown> } as WizardDraftRow;
+  return { ...data, payload: (data.payload ?? {}) as Json } as WizardDraftRow;
 }
 
 export async function upsertWizardDraft(
@@ -57,7 +57,7 @@ export async function upsertWizardDraft(
     formId?: string | null;
     step: string;
     title: string | null;
-    payload: Record<string, unknown>;
+    payload: Json;
   },
 ): Promise<{ id: string; updated_at: string }> {
   if (params.id) {
