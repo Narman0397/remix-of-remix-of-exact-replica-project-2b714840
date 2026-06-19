@@ -45,6 +45,7 @@ import { Route as AuthenticatedAsnIzinRouteImport } from './routes/_authenticate
 import { Route as AuthenticatedAsnDokumenRouteImport } from './routes/_authenticated/asn.dokumen'
 import { Route as AuthenticatedAsnAsetRouteImport } from './routes/_authenticated/asn.aset'
 import { Route as AuthenticatedAsnAbsensiRouteImport } from './routes/_authenticated/asn.absensi'
+import { Route as AuthenticatedAdminWorkflowInstancesRouteImport } from './routes/_authenticated/admin.workflow-instances'
 import { Route as AuthenticatedAdminVerifikasiLogRouteImport } from './routes/_authenticated/admin.verifikasi-log'
 import { Route as AuthenticatedAdminVerifikasiRouteImport } from './routes/_authenticated/admin.verifikasi'
 import { Route as AuthenticatedAdminUsersRouteImport } from './routes/_authenticated/admin.users'
@@ -320,6 +321,12 @@ const AuthenticatedAsnAbsensiRoute = AuthenticatedAsnAbsensiRouteImport.update({
   path: '/asn/absensi',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedAdminWorkflowInstancesRoute =
+  AuthenticatedAdminWorkflowInstancesRouteImport.update({
+    id: '/admin/workflow-instances',
+    path: '/admin/workflow-instances',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedAdminVerifikasiLogRoute =
   AuthenticatedAdminVerifikasiLogRouteImport.update({
     id: '/admin/verifikasi-log',
@@ -917,6 +924,7 @@ export interface FileRoutesByFullPath {
   '/admin/users': typeof AuthenticatedAdminUsersRoute
   '/admin/verifikasi': typeof AuthenticatedAdminVerifikasiRoute
   '/admin/verifikasi-log': typeof AuthenticatedAdminVerifikasiLogRoute
+  '/admin/workflow-instances': typeof AuthenticatedAdminWorkflowInstancesRoute
   '/asn/absensi': typeof AuthenticatedAsnAbsensiRoute
   '/asn/aset': typeof AuthenticatedAsnAsetRoute
   '/asn/dokumen': typeof AuthenticatedAsnDokumenRoute
@@ -1042,6 +1050,7 @@ export interface FileRoutesByTo {
   '/admin/users': typeof AuthenticatedAdminUsersRoute
   '/admin/verifikasi': typeof AuthenticatedAdminVerifikasiRoute
   '/admin/verifikasi-log': typeof AuthenticatedAdminVerifikasiLogRoute
+  '/admin/workflow-instances': typeof AuthenticatedAdminWorkflowInstancesRoute
   '/asn/absensi': typeof AuthenticatedAsnAbsensiRoute
   '/asn/aset': typeof AuthenticatedAsnAsetRoute
   '/asn/dokumen': typeof AuthenticatedAsnDokumenRoute
@@ -1172,6 +1181,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/users': typeof AuthenticatedAdminUsersRoute
   '/_authenticated/admin/verifikasi': typeof AuthenticatedAdminVerifikasiRoute
   '/_authenticated/admin/verifikasi-log': typeof AuthenticatedAdminVerifikasiLogRoute
+  '/_authenticated/admin/workflow-instances': typeof AuthenticatedAdminWorkflowInstancesRoute
   '/_authenticated/asn/absensi': typeof AuthenticatedAsnAbsensiRoute
   '/_authenticated/asn/aset': typeof AuthenticatedAsnAsetRoute
   '/_authenticated/asn/dokumen': typeof AuthenticatedAsnDokumenRoute
@@ -1302,6 +1312,7 @@ export interface FileRouteTypes {
     | '/admin/users'
     | '/admin/verifikasi'
     | '/admin/verifikasi-log'
+    | '/admin/workflow-instances'
     | '/asn/absensi'
     | '/asn/aset'
     | '/asn/dokumen'
@@ -1427,6 +1438,7 @@ export interface FileRouteTypes {
     | '/admin/users'
     | '/admin/verifikasi'
     | '/admin/verifikasi-log'
+    | '/admin/workflow-instances'
     | '/asn/absensi'
     | '/asn/aset'
     | '/asn/dokumen'
@@ -1556,6 +1568,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/users'
     | '/_authenticated/admin/verifikasi'
     | '/_authenticated/admin/verifikasi-log'
+    | '/_authenticated/admin/workflow-instances'
     | '/_authenticated/asn/absensi'
     | '/_authenticated/asn/aset'
     | '/_authenticated/asn/dokumen'
@@ -1915,6 +1928,13 @@ declare module '@tanstack/react-router' {
       path: '/asn/absensi'
       fullPath: '/asn/absensi'
       preLoaderRoute: typeof AuthenticatedAsnAbsensiRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/workflow-instances': {
+      id: '/_authenticated/admin/workflow-instances'
+      path: '/admin/workflow-instances'
+      fullPath: '/admin/workflow-instances'
+      preLoaderRoute: typeof AuthenticatedAdminWorkflowInstancesRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/admin/verifikasi-log': {
@@ -2770,6 +2790,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedAdminUsersRoute: typeof AuthenticatedAdminUsersRoute
   AuthenticatedAdminVerifikasiRoute: typeof AuthenticatedAdminVerifikasiRoute
   AuthenticatedAdminVerifikasiLogRoute: typeof AuthenticatedAdminVerifikasiLogRoute
+  AuthenticatedAdminWorkflowInstancesRoute: typeof AuthenticatedAdminWorkflowInstancesRoute
   AuthenticatedAsnAbsensiRoute: typeof AuthenticatedAsnAbsensiRoute
   AuthenticatedAsnAsetRoute: typeof AuthenticatedAsnAsetRoute
   AuthenticatedAsnDokumenRoute: typeof AuthenticatedAsnDokumenRoute
@@ -2841,6 +2862,8 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAdminUsersRoute: AuthenticatedAdminUsersRoute,
   AuthenticatedAdminVerifikasiRoute: AuthenticatedAdminVerifikasiRoute,
   AuthenticatedAdminVerifikasiLogRoute: AuthenticatedAdminVerifikasiLogRoute,
+  AuthenticatedAdminWorkflowInstancesRoute:
+    AuthenticatedAdminWorkflowInstancesRoute,
   AuthenticatedAsnAbsensiRoute: AuthenticatedAsnAbsensiRoute,
   AuthenticatedAsnAsetRoute: AuthenticatedAsnAsetRoute,
   AuthenticatedAsnDokumenRoute: AuthenticatedAsnDokumenRoute,
