@@ -26,7 +26,7 @@ export const Route = createFileRoute("/_authenticated/admin/tasks/$id")({
   }),
   component: () => (
     <AdminGuard>
-      <AdminShell breadcrumb={[{ label: "Tugas Saya", href: "/admin/tasks" }, { label: "Detail" }]}>
+      <AdminShell breadcrumb={[{ label: "Tugas Saya", to: "/admin/tasks" }, { label: "Detail" }]}>
         <DetailPage />
       </AdminShell>
     </AdminGuard>
