@@ -151,6 +151,15 @@ const superNavGroups: NavGroup[] = [
     ],
   },
   {
+    title: "Document Center",
+    items: [
+      { to: "/admin/documents/templates", label: "Templates", icon: FileText },
+      { to: "/admin/documents/generated", label: "Generated Documents", icon: FileSignature },
+      { to: "/admin/documents/numbering", label: "Numbering Rules", icon: Hash },
+      { to: "/admin/documents/archive", label: "Archive", icon: Boxes },
+    ],
+  },
+  {
     title: "Data & Laporan",
     items: [{ to: "/admin/dataset", label: "Pelaporan Data", icon: DbIcon }],
   },
