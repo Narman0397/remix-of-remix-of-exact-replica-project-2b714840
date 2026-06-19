@@ -90,7 +90,7 @@ export async function handleProviderWebhook(
   });
 
   if (newStatus === "signed") {
-    // Download signed file from provider & archive
+    // Download signed file from provider & archive into signed-documents bucket.
     try {
       const { bytes, mime } = await provider.downloadSignedDocument(
         evt.externalRequestId,
@@ -102,25 +102,10 @@ export async function handleProviderWebhook(
         upsert: true,
       });
       const signedHash = await sha256Hex(bytes);
-      // Create signed_documents row + verification token
-      const token = crypto.randomUUID().replace(/-/g, "");
-      const { data: signedRow } = await supabase
-        .from("signed_documents")
-        .insert({
-          document_id: req.generated_document_id as string,
-          document_hash: signedHash,
-          verification_token: token,
-          status: "signed",
-          signed_file_path: signedPath,
-          signed_at: new Date().toISOString(),
-        })
-        .select("id")
-        .single();
       await supabase
         .from("generated_documents")
         .update({
           status: "signed",
-          signed_document_id: signedRow?.id as string | undefined,
           archived_at: new Date().toISOString(),
         })
         .eq("id", req.generated_document_id as string);
