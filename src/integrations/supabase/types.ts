@@ -4244,6 +4244,224 @@ export type Database = {
         }
         Relationships: []
       }
+      signature_events: {
+        Row: {
+          actor: string | null
+          created_at: string
+          event: string
+          id: string
+          payload: Json
+          request_id: string
+          signer_id: string | null
+        }
+        Insert: {
+          actor?: string | null
+          created_at?: string
+          event: string
+          id?: string
+          payload?: Json
+          request_id: string
+          signer_id?: string | null
+        }
+        Update: {
+          actor?: string | null
+          created_at?: string
+          event?: string
+          id?: string
+          payload?: Json
+          request_id?: string
+          signer_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "signature_events_request_id_fkey"
+            columns: ["request_id"]
+            isOneToOne: false
+            referencedRelation: "signature_requests"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "signature_events_signer_id_fkey"
+            columns: ["signer_id"]
+            isOneToOne: false
+            referencedRelation: "signature_request_signers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      signature_providers: {
+        Row: {
+          code: string
+          config: Json
+          created_at: string
+          id: string
+          kind: string
+          name: string
+          status: string
+          updated_at: string
+          webhook_secret: string | null
+        }
+        Insert: {
+          code: string
+          config?: Json
+          created_at?: string
+          id?: string
+          kind: string
+          name: string
+          status?: string
+          updated_at?: string
+          webhook_secret?: string | null
+        }
+        Update: {
+          code?: string
+          config?: Json
+          created_at?: string
+          id?: string
+          kind?: string
+          name?: string
+          status?: string
+          updated_at?: string
+          webhook_secret?: string | null
+        }
+        Relationships: []
+      }
+      signature_request_signers: {
+        Row: {
+          created_at: string
+          external_signer_id: string | null
+          id: string
+          opd_id: string | null
+          order_index: number
+          position: string | null
+          reject_reason: string | null
+          rejected_at: string | null
+          request_id: string
+          role: string | null
+          signed_at: string | null
+          signer_type: string
+          status: string
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          external_signer_id?: string | null
+          id?: string
+          opd_id?: string | null
+          order_index?: number
+          position?: string | null
+          reject_reason?: string | null
+          rejected_at?: string | null
+          request_id: string
+          role?: string | null
+          signed_at?: string | null
+          signer_type: string
+          status?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          external_signer_id?: string | null
+          id?: string
+          opd_id?: string | null
+          order_index?: number
+          position?: string | null
+          reject_reason?: string | null
+          rejected_at?: string | null
+          request_id?: string
+          role?: string | null
+          signed_at?: string | null
+          signer_type?: string
+          status?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "signature_request_signers_request_id_fkey"
+            columns: ["request_id"]
+            isOneToOne: false
+            referencedRelation: "signature_requests"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      signature_requests: {
+        Row: {
+          cancelled_at: string | null
+          completed_at: string | null
+          created_at: string
+          created_by: string | null
+          current_step: number
+          error: string | null
+          external_request_id: string | null
+          file_hash: string | null
+          generated_document_id: string
+          id: string
+          mode: string
+          opd_id: string | null
+          provider_id: string
+          sent_at: string | null
+          status: string
+          submission_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          cancelled_at?: string | null
+          completed_at?: string | null
+          created_at?: string
+          created_by?: string | null
+          current_step?: number
+          error?: string | null
+          external_request_id?: string | null
+          file_hash?: string | null
+          generated_document_id: string
+          id?: string
+          mode?: string
+          opd_id?: string | null
+          provider_id: string
+          sent_at?: string | null
+          status?: string
+          submission_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          cancelled_at?: string | null
+          completed_at?: string | null
+          created_at?: string
+          created_by?: string | null
+          current_step?: number
+          error?: string | null
+          external_request_id?: string | null
+          file_hash?: string | null
+          generated_document_id?: string
+          id?: string
+          mode?: string
+          opd_id?: string | null
+          provider_id?: string
+          sent_at?: string | null
+          status?: string
+          submission_id?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "signature_requests_generated_document_id_fkey"
+            columns: ["generated_document_id"]
+            isOneToOne: false
+            referencedRelation: "generated_documents"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "signature_requests_provider_id_fkey"
+            columns: ["provider_id"]
+            isOneToOne: false
+            referencedRelation: "signature_providers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       signed_documents: {
         Row: {
           created_at: string

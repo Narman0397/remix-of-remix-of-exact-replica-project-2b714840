@@ -1,95 +1,124 @@
-## Phase 3A — Document Runtime & Generation Engine
 
-### Audit hasil
+# Phase 3B — Digital Signature (TTE) Runtime & QR Verification
 
-Tabel existing yang akan dipakai (TANPA ubah konsep):
-- `document_templates` (id, form_id, owner_opd_id, name, description, template_html, template_storage_path, variables jsonb, status, audit cols)
-- `generated_documents` (id, submission_id, template_id, storage_path, mime, size_bytes, signed_document_id, generated_at, generated_by)
-- `submission_versions`, `form_versions`, `workflow_versions` → sumber snapshot
-- `nomor_surat_sequence` + `nomor_surat_issued` + RPC `fn_generate_nomor_surat` → numbering existing per-OPD (akan dipakai sebagai engine inti; rule baru untuk format custom per-jenis-dokumen)
+Goal: tanda-tangani dokumen final hasil workflow melalui provider TTE (BSrE / e-Sign / Mock), kelola antrian + status, monitoring, QR public verification, webhook, retry, hash integrity, dan audit immutable. Tanpa KPI/BI dashboard.
 
-### Migration baru (minimal, additive)
+## 1. Audit schema existing
 
-1. `document_templates` — tambah kolom:
-   - `kind text not null default 'html'` (`html` | `docx` | `pdf`)
-   - `category text` (jenis dokumen, dipakai numbering rule)
-   - `current_version int not null default 1`
-   - `numbering_rule_id uuid` (FK → document_numbering_rules)
-2. `document_template_versions` (baru, immutable snapshot):
-   - id, template_id, version_number, kind, template_html, template_storage_path, variables jsonb, created_by, created_at, UNIQUE(template_id, version_number)
-3. `generated_documents` — tambah kolom:
-   - `doc_number text` (unique partial), `name text`, `status text default 'generated'` (draft|generated|pending_signature|signed|rejected|archived), `template_version int`, `snapshot jsonb default '{}'`, `archived_at timestamptz`, `numbering_rule_id uuid`
-4. `document_numbering_rules` (baru):
-   - id, code, name, format text (`PB-{YEAR}-{SEQ}` / `800/{SEQ}/{OPD}/{YEAR}`), scope text (`global`|`per_opd`|`per_category`|`per_opd_category`), category text, opd_id uuid, reset_period text (`yearly`|`never`), padding int default 6, status text, audit
-5. `document_numbering_sequences` (baru): rule_id, scope_key text, year int, last_number int, UNIQUE(rule_id, scope_key, year) + RPC `fn_doc_next_number(rule_id, opd_id, category)`
-6. `document_history` (baru): id, document_id, action text (created|generated|downloaded|archived|sent_for_signature|signed|rejected), actor_id, metadata jsonb, created_at
-7. Storage bucket `documents` (private) untuk hasil generate; bucket `document-templates` (private) untuk DOCX/PDF template raw
-8. GRANTs + RLS lengkap (admin/operator OPD/pemohon mengikuti submission RLS)
+Yang sudah ada dan dipakai-ulang:
+- `documents`, `signed_documents` (id, document_id, document_hash, verification_token, status, signed_file_path, expires_at, revoked_*)
+- `signing_certificates`, `digital_signatures` (spesimen)
+- `document_audit` (untuk hash mismatch / verify event)
+- `generated_documents` (status, snapshot, signed_document_id, archived_at)
+- `workflow_audit_logs` (audit immutable)
 
-### Server services (`src/features/documents/services/`)
-- `document-template.service.ts` — CRUD + clone + publish + snapshot version
-- `document-numbering.service.ts` — resolve rule → call RPC → format string
-- `document-generator.service.ts` — load template snapshot + submission snapshot + workflow snapshot → merge → render PDF/DOCX/HTML
-- `document-preview.service.ts` — merge tanpa persist (returns HTML preview)
-- `document-archive.service.ts` — archive/restore + history
-- `placeholder-engine.ts` — parser `{{a.b.c}}` dengan source map (submission/profile/workflow/system)
-- `placeholder-catalog.ts` — daftar placeholder per kategori untuk picker
+Belum ada → migration baru:
+- `signature_providers` (kode, nama, kind, status, config jsonb, webhook_secret)
+- `signature_requests` (id, generated_document_id, provider_id, mode `sequential|parallel`, status, external_request_id, file_hash, current_step, created_by, sent_at, completed_at, cancelled_at, error)
+- `signature_request_signers` (request_id, order_index, signer_type `user|role|position`, user_id, role, position, opd_id, status, external_signer_id, signed_at, rejected_at, reject_reason)
+- `signature_events` (request_id, signer_id?, event `requested|sent|viewed|signed|rejected|expired|cancelled|downloaded|webhook_received|retry|failed`, payload jsonb, actor, created_at) — INSERT only via trigger guard.
 
-### Server functions (`src/lib/documents.functions.ts`)
-docListTemplates, docGetTemplate, docCreateTemplate, docUpdateTemplate, docCloneTemplate, docArchiveTemplate, docPublishTemplate, docPreview, docGenerate, docListDocuments, docGetDocument, docArchiveDocument, docDownloadDocument (signed URL), docListNumberingRules, docCreateNumberingRule, docUpdateNumberingRule, docArchiveNumberingRule, docPreviewNumbering, docPlaceholderCatalog.
+RLS: SELECT untuk pemilik submission / OPD admin / super_admin; INSERT/UPDATE hanya via server functions (service_role). Public verification page tidak query langsung — pakai server function read-only.
 
-Semua pakai `requireSupabaseAuth`. Audit ke `audit_log` (`document.template.*`, `document.generated`, `document.number.assigned`, `document.archived`, `document.downloaded`).
+## 2. Provider abstraction
 
-### Generation engine
-- **HTML**: template_html + Handlebars-like merge → simpan sebagai `.html`
-- **PDF**: render HTML → PDF via `@react-pdf/renderer` tidak cocok untuk HTML arbitrer → pakai **pdf-lib + html sederhana** ATAU pendekatan: generate HTML, lalu konversi via worker-friendly lib. Karena Cloudflare Worker tidak mendukung headless Chromium, gunakan **`pdfmake`** (pure JS, worker-safe) untuk PDF dari struktur Doc Definition; untuk template HTML kompleks → render server-side ke pdfmake doc def via mapping sederhana, atau simpan HTML + sajikan print-view (browser print → PDF).
-  - Keputusan: HTML template → server hasilkan HTML final + simpan; PDF dihasilkan via `pdfmake` dari `template_html` yang sudah di-merge (heading/paragraph/table sederhana). Cukup untuk surat resmi.
-- **DOCX**: pakai `docx` (npm, worker-safe pure JS) dengan templating placeholder pada paragraph; untuk template DOCX upload → gunakan `docxtemplater` + `pizzip` (worker-compatible, pure JS).
-- File hasil → upload ke bucket `documents/<submission_id>/<doc_id>.<ext>`
-
-### Auto numbering
-- Rule format tokens: `{YEAR}`, `{SEQ}`, `{OPD}`, `{OPD_CODE}`, `{CATEGORY}`, `{MONTH}`
-- Scope key dihitung berdasarkan `scope` rule → query/insert `document_numbering_sequences` atomic via RPC `fn_doc_next_number` (SECURITY DEFINER + advisory lock)
-- Preview tanpa increment
-
-### UI (routes `_authenticated/admin/documents/*`)
+`src/features/signature/providers/types.ts`
 ```
-/admin/documents               → landing (cards)
-/admin/documents/templates     → list + filter + create
-/admin/documents/templates/$id → editor (meta, type, content, placeholder picker, version history, preview)
-/admin/documents/generated     → list + filters (status, OPD, jenis, tanggal, workflow) + view + download + archive
-/admin/documents/numbering     → rules CRUD + preview
-/admin/documents/archive       → search archived + history + metadata
+interface SignatureProvider {
+  code: 'mock' | 'bsre' | 'esign';
+  sendDocument(input): Promise<{ externalRequestId; status }>;
+  checkStatus(externalRequestId): Promise<ProviderStatus>;
+  downloadSignedDocument(externalRequestId): Promise<{ bytes; mime }>;
+  cancelRequest(externalRequestId, reason): Promise<void>;
+  verifyWebhook(headers, rawBody, secret): WebhookEvent | null;
+}
 ```
-Sidebar AdminShell menu group baru **Document Center** → Templates, Generated, Numbering, Archive.
+Implementasi:
+- `MockProvider` (langsung mark signed setelah delay simulasi, untuk dev/test).
+- `BSrEProvider` (skeleton: REST call ke endpoint BSrE, header `Authorization` dari secret `BSRE_API_KEY`/`BSRE_BASE_URL`).
+- `ESignProvider` (skeleton serupa).
+Registry: `getProvider(code)` di `provider-registry.ts`.
 
-Komponen:
-- `TemplateEditor` (tabs: Meta | Content | Placeholders | Preview | Versions)
-- `PlaceholderPicker` (4 kategori, click-to-insert)
-- `DocumentPreviewPanel` (desktop & print view, iframe srcDoc)
-- `NumberingRuleEditor` + `NumberingPreview`
-- `GenerateDocumentDialog` (pilih template → preview → generate)
+## 3. Runtime services
 
-Trigger generate juga tersedia dari **Task Detail** Phase 2B (tombol "Generate Dokumen") setelah approval.
+`src/features/signature/services/`
+- `signature-runtime.service.ts` — `createRequest(generated_document_id, providerCode, mode, signers[])`, hitung SHA-256 dari signed-file/source, simpan `file_hash`, kirim ke provider, log event `requested`+`sent`.
+- `signature-queue.service.ts` — listing + filter (status, provider, signer, tanggal, OPD).
+- `signature-monitoring.service.ts` — aggregate counts (pending/rejected/expired/completed/failed) tanpa chart KPI.
+- `qr-verification.service.ts` — generate URL `/verify-doc/{token}`, hitung & bandingkan hash.
+- `signer-resolver.service.ts` — resolve `user|role|position` → user_id (mirip assignment engine).
+- `webhook.service.ts` — verifikasi signature webhook (HMAC SHA-256 timing-safe) per provider, advance sequential step, mark signed/rejected/expired, simpan signed file ke bucket `signed-documents`, update `generated_documents.status='signed'` + `signed_document_id` + `archived_at` jika sesuai.
+- `retry.service.ts` — resend ke provider tanpa membuat request baru (update external_request_id + reset status pending).
 
-### Audit & RLS
-- RLS: `document_templates` (admin/operator OPD owner), `generated_documents` (mengikuti submission policies: pemohon, operator OPD, admin OPD, super admin via `has_role`), `document_numbering_rules` (admin only)
-- Semua mutasi tulis ke `audit_log` + `document_history`
-- Tidak ada cek role di UI; gunakan server-side `has_role`
+## 4. Workflow integration
 
-### Constraints
-- Snapshot wajib: generated_documents.snapshot menyimpan `{ submission, workflow, profile, template_version }`
-- Immutable: update generated_documents hanya field status/archived
-- Tidak ada `any`, semua strict types
-- Tidak menyentuh Form Builder & Workflow Runtime (hanya tombol generate ditambahkan di task detail)
+Edit `src/features/workflows/runtime/workflow-runtime.service.ts`:
+- Saat node bertipe `digital_signature` ATAU saat finalizeSubmission jika workflow snapshot config `requires_signature=true` → panggil `createRequest`. Tidak blocking: status submission jadi `awaiting_signature`; lanjut ke `completed` saat webhook signed.
+- Tidak mengubah API publik service lain.
 
-### NPM packages
-- `docxtemplater`, `pizzip`, `pdfmake`, `handlebars` (worker-safe, pure JS)
+## 5. Server functions
 
-### Estimasi file
-- ~7 migration SQL blocks (1 file)
-- ~8 service files
-- ~1 server-functions file
-- ~10 route/komponen UI
+`src/lib/signature.functions.ts` (createServerFn + `requireSupabaseAuth`):
+- `sigSendDocument({ generatedDocumentId, providerCode, mode, signers })`
+- `sigGetStatus({ requestId })`
+- `sigRetry({ requestId })` (admin only)
+- `sigCancel({ requestId, reason })`
+- `sigListQueue({ filters })`
+- `sigListMonitoring()`
+- `sigGetVerification({ token })` — **publik**: tanpa middleware auth, hanya field aman (doc number, name, date, signer name+position, signed_at, status, hash, hash_match).
+- `sigListProviders()` (admin)
 
-Setelah disetujui saya akan eksekusi end-to-end dalam batch paralel.
+## 6. Routes
+
+Public:
+- `src/routes/verify-doc.$token.tsx` — halaman verifikasi (server-side load via `sigGetVerification`), tampilkan field aman + status badge. Tidak menampilkan storage path / snapshot lengkap.
+
+Admin (`_authenticated/admin.signature.*`):
+- `admin.signature.tsx` (layout dengan tab)
+- `admin.signature.index.tsx` → dashboard mini (monitoring counts + provider list)
+- `admin.signature.queue.tsx` → tabel + filter + action (view, retry, cancel)
+- `admin.signature.monitoring.tsx` → counts + table per status
+- `admin.signature.providers.tsx` → enable/disable provider, update config (super_admin)
+- `admin.signature.requests.$id.tsx` → detail request: signers timeline, events, link signed file (signed URL)
+
+Sidebar group "Tanda Tangan Digital (TTE)" di `AdminShell`.
+
+## 7. Webhook endpoint
+
+`src/routes/api/public/hooks/signature-webhook.$provider.ts` — POST raw body. Lookup provider config, verify HMAC, parse event, dispatch ke `webhook.service.handleEvent()`. Selalu return 200 setelah event tersimpan (idempotent by `external_request_id + event_id`).
+
+## 8. Hash & QR
+
+- Saat `createRequest`: download bytes dari bucket `documents` (storage_path generated_documents), compute SHA-256 (Web Crypto), simpan ke `signature_requests.file_hash` dan `signed_documents.document_hash`.
+- QR di-render di halaman verify-doc (pakai lib pure `qrcode` → SVG inline).
+- Saat verify: re-fetch signed file → recompute hash → compare. Set `hashMatch` di response. Log `document_audit` action `VERIFIED` atau `HASH_MISMATCH`.
+
+## 9. Audit & immutability
+
+- Trigger di `signature_events`: BLOCK UPDATE/DELETE (raise exception), allow INSERT.
+- Setiap aksi (request, send, webhook, retry, cancel, download) → INSERT `signature_events` + `document_audit`.
+
+## 10. Security
+
+- Provider webhook_secret disimpan di kolom (terenkripsi via pgsodium tidak tersedia → cukup secret table dengan RLS ketat super_admin-only) + ENV fallback `BSRE_WEBHOOK_SECRET`, `ESIGN_WEBHOOK_SECRET`.
+- Public verification: rate-limit via existing `rate_limit_increment`.
+- Storage: bucket `signed-documents` private; akses lewat signed URL 10 menit.
+- Tidak ada `any`. Semua tipe di-derive dari `Database`.
+
+## 11. Tidak diimplementasi
+
+KPI / BI / executive dashboard / analytics chart — skip ke phase berikutnya.
+
+## 12. Deliverables
+
+- 1 migration SQL (3 tabel + RLS + GRANT + trigger immutability + index)
+- Provider layer (`types.ts`, `mock.ts`, `bsre.ts`, `esign.ts`, `registry.ts`)
+- 6 service files
+- 1 server functions file (8 functions)
+- Webhook route
+- 1 public verify-doc route
+- 5 admin route files + sidebar entry
+- Workflow runtime hook (1 file edit)
+- `qrcode` npm dependency
+
+Setelah disetujui akan dijalankan migrasi dulu, lalu kode.
