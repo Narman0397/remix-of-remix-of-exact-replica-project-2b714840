@@ -103,6 +103,7 @@ import { Route as ApiPublicHooksAssignmentReminderRouteImport } from './routes/a
 import { Route as ApiPublicHooksAsetWarrantyReminderRouteImport } from './routes/api/public/hooks/aset-warranty-reminder'
 import { Route as ApiPublicHooksAsetSusutBulananRouteImport } from './routes/api/public/hooks/aset-susut-bulanan'
 import { Route as AuthenticatedAsnScanTokenRouteImport } from './routes/_authenticated/asn.scan.$token'
+import { Route as AuthenticatedAdminTasksIdRouteImport } from './routes/_authenticated/admin.tasks.$id'
 import { Route as AuthenticatedAdminSystemUatRouteImport } from './routes/_authenticated/admin.system.uat'
 import { Route as AuthenticatedAdminSystemStorageProviderRouteImport } from './routes/_authenticated/admin.system.storage-provider'
 import { Route as AuthenticatedAdminSystemSettingsRouteImport } from './routes/_authenticated/admin.system.settings'
@@ -655,6 +656,12 @@ const AuthenticatedAsnScanTokenRoute =
     path: '/asn/scan/$token',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedAdminTasksIdRoute =
+  AuthenticatedAdminTasksIdRouteImport.update({
+    id: '/$id',
+    path: '/$id',
+    getParentRoute: () => AuthenticatedAdminTasksRoute,
+  } as any)
 const AuthenticatedAdminSystemUatRoute =
   AuthenticatedAdminSystemUatRouteImport.update({
     id: '/admin/system/uat',
@@ -953,6 +960,7 @@ export interface FileRoutesByFullPath {
   '/admin/system/settings': typeof AuthenticatedAdminSystemSettingsRoute
   '/admin/system/storage-provider': typeof AuthenticatedAdminSystemStorageProviderRoute
   '/admin/system/uat': typeof AuthenticatedAdminSystemUatRoute
+  '/admin/tasks/$id': typeof AuthenticatedAdminTasksIdRoute
   '/asn/scan/$token': typeof AuthenticatedAsnScanTokenRoute
   '/api/public/hooks/aset-susut-bulanan': typeof ApiPublicHooksAsetSusutBulananRoute
   '/api/public/hooks/aset-warranty-reminder': typeof ApiPublicHooksAsetWarrantyReminderRoute
@@ -1077,6 +1085,7 @@ export interface FileRoutesByTo {
   '/admin/system/settings': typeof AuthenticatedAdminSystemSettingsRoute
   '/admin/system/storage-provider': typeof AuthenticatedAdminSystemStorageProviderRoute
   '/admin/system/uat': typeof AuthenticatedAdminSystemUatRoute
+  '/admin/tasks/$id': typeof AuthenticatedAdminTasksIdRoute
   '/asn/scan/$token': typeof AuthenticatedAsnScanTokenRoute
   '/api/public/hooks/aset-susut-bulanan': typeof ApiPublicHooksAsetSusutBulananRoute
   '/api/public/hooks/aset-warranty-reminder': typeof ApiPublicHooksAsetWarrantyReminderRoute
@@ -1206,6 +1215,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/system/settings': typeof AuthenticatedAdminSystemSettingsRoute
   '/_authenticated/admin/system/storage-provider': typeof AuthenticatedAdminSystemStorageProviderRoute
   '/_authenticated/admin/system/uat': typeof AuthenticatedAdminSystemUatRoute
+  '/_authenticated/admin/tasks/$id': typeof AuthenticatedAdminTasksIdRoute
   '/_authenticated/asn/scan/$token': typeof AuthenticatedAsnScanTokenRoute
   '/api/public/hooks/aset-susut-bulanan': typeof ApiPublicHooksAsetSusutBulananRoute
   '/api/public/hooks/aset-warranty-reminder': typeof ApiPublicHooksAsetWarrantyReminderRoute
@@ -1335,6 +1345,7 @@ export interface FileRouteTypes {
     | '/admin/system/settings'
     | '/admin/system/storage-provider'
     | '/admin/system/uat'
+    | '/admin/tasks/$id'
     | '/asn/scan/$token'
     | '/api/public/hooks/aset-susut-bulanan'
     | '/api/public/hooks/aset-warranty-reminder'
@@ -1459,6 +1470,7 @@ export interface FileRouteTypes {
     | '/admin/system/settings'
     | '/admin/system/storage-provider'
     | '/admin/system/uat'
+    | '/admin/tasks/$id'
     | '/asn/scan/$token'
     | '/api/public/hooks/aset-susut-bulanan'
     | '/api/public/hooks/aset-warranty-reminder'
@@ -1587,6 +1599,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/system/settings'
     | '/_authenticated/admin/system/storage-provider'
     | '/_authenticated/admin/system/uat'
+    | '/_authenticated/admin/tasks/$id'
     | '/_authenticated/asn/scan/$token'
     | '/api/public/hooks/aset-susut-bulanan'
     | '/api/public/hooks/aset-warranty-reminder'
@@ -2310,6 +2323,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAsnScanTokenRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/admin/tasks/$id': {
+      id: '/_authenticated/admin/tasks/$id'
+      path: '/$id'
+      fullPath: '/admin/tasks/$id'
+      preLoaderRoute: typeof AuthenticatedAdminTasksIdRouteImport
+      parentRoute: typeof AuthenticatedAdminTasksRoute
+    }
     '/_authenticated/admin/system/uat': {
       id: '/_authenticated/admin/system/uat'
       path: '/admin/system/uat'
@@ -2693,11 +2713,13 @@ const AuthenticatedAdminRbacRouteWithChildren =
   )
 
 interface AuthenticatedAdminTasksRouteChildren {
+  AuthenticatedAdminTasksIdRoute: typeof AuthenticatedAdminTasksIdRoute
   AuthenticatedAdminTasksIndexRoute: typeof AuthenticatedAdminTasksIndexRoute
 }
 
 const AuthenticatedAdminTasksRouteChildren: AuthenticatedAdminTasksRouteChildren =
   {
+    AuthenticatedAdminTasksIdRoute: AuthenticatedAdminTasksIdRoute,
     AuthenticatedAdminTasksIndexRoute: AuthenticatedAdminTasksIndexRoute,
   }
 
