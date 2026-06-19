@@ -82,13 +82,21 @@ export interface WorkflowNode {
 
 export type EdgePathKind = "approve" | "reject" | "revision" | "default";
 
+export type EdgeConditionValue =
+  | string
+  | number
+  | boolean
+  | null
+  | EdgeConditionValue[]
+  | { [key: string]: EdgeConditionValue };
+
 export interface WorkflowEdge {
   id: string;
   from: string;
   to: string;
   label?: string;
   kind: EdgePathKind;
-  condition?: Record<string, unknown> | null;
+  condition?: EdgeConditionValue | null;
 }
 
 export interface WorkflowGraph {
