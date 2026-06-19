@@ -1,84 +1,95 @@
+## Phase 3A — Document Runtime & Generation Engine
 
-# Full Bring-Up Plan — Replikasi `narmantest11`
+### Audit hasil
 
-Tujuan: dari kondisi "file sudah di-mirror tapi backend kosong" menjadi aplikasi yang bisa dibuka, login, dan dipakai end-to-end di Lovable Cloud baru.
+Tabel existing yang akan dipakai (TANPA ubah konsep):
+- `document_templates` (id, form_id, owner_opd_id, name, description, template_html, template_storage_path, variables jsonb, status, audit cols)
+- `generated_documents` (id, submission_id, template_id, storage_path, mime, size_bytes, signed_document_id, generated_at, generated_by)
+- `submission_versions`, `form_versions`, `workflow_versions` → sumber snapshot
+- `nomor_surat_sequence` + `nomor_surat_issued` + RPC `fn_generate_nomor_surat` → numbering existing per-OPD (akan dipakai sebagai engine inti; rule baru untuk format custom per-jenis-dokumen)
 
-## Fase 1 — Aktifkan Lovable Cloud (prasyarat)
-1. Enable Lovable Cloud → otomatis menyediakan `SUPABASE_URL`, `SUPABASE_PUBLISHABLE_KEY`, `SUPABASE_SERVICE_ROLE_KEY`, `VITE_SUPABASE_*`.
-2. Update `.env` lokal: hapus kredensial proyek lama (`mzaugcjfdtlmwfmtvgzk`) supaya tidak ada split-brain antara dev & prod.
-3. Pastikan extension Postgres aktif: `pgcrypto`, `pg_net`, `pg_cron`.
+### Migration baru (minimal, additive)
 
-## Fase 2 — Skema Database (30 migrasi)
-1. Jalankan seluruh file di `supabase/migrations/` sesuai urutan timestamp.
-2. Verifikasi objek kritikal hadir:
-   - Enum `app_role` + tabel `user_roles`, `permissions`, `user_permissions`, `rbac_audit`.
-   - Function `has_role`, `has_permission`, `get_effective_permissions` (security definer).
-   - Tabel domain: `profiles`, `opd`, `desa`, `pejabat`, `forms`, `assignments`, `submissions`, `permohonan`, `aset_*`, `asn_*`, `dokumen_*`, `ikm_*`, `share_paket`, `notifications`, `audit_log`, dll.
-   - Trigger `handle_new_user` untuk auto-create profile.
-3. Jika ada migrasi yang gagal (drift dari proyek sumber), perbaiki di tempat sebelum lanjut — jangan skip.
+1. `document_templates` — tambah kolom:
+   - `kind text not null default 'html'` (`html` | `docx` | `pdf`)
+   - `category text` (jenis dokumen, dipakai numbering rule)
+   - `current_version int not null default 1`
+   - `numbering_rule_id uuid` (FK → document_numbering_rules)
+2. `document_template_versions` (baru, immutable snapshot):
+   - id, template_id, version_number, kind, template_html, template_storage_path, variables jsonb, created_by, created_at, UNIQUE(template_id, version_number)
+3. `generated_documents` — tambah kolom:
+   - `doc_number text` (unique partial), `name text`, `status text default 'generated'` (draft|generated|pending_signature|signed|rejected|archived), `template_version int`, `snapshot jsonb default '{}'`, `archived_at timestamptz`, `numbering_rule_id uuid`
+4. `document_numbering_rules` (baru):
+   - id, code, name, format text (`PB-{YEAR}-{SEQ}` / `800/{SEQ}/{OPD}/{YEAR}`), scope text (`global`|`per_opd`|`per_category`|`per_opd_category`), category text, opd_id uuid, reset_period text (`yearly`|`never`), padding int default 6, status text, audit
+5. `document_numbering_sequences` (baru): rule_id, scope_key text, year int, last_number int, UNIQUE(rule_id, scope_key, year) + RPC `fn_doc_next_number(rule_id, opd_id, category)`
+6. `document_history` (baru): id, document_id, action text (created|generated|downloaded|archived|sent_for_signature|signed|rejected), actor_id, metadata jsonb, created_at
+7. Storage bucket `documents` (private) untuk hasil generate; bucket `document-templates` (private) untuk DOCX/PDF template raw
+8. GRANTs + RLS lengkap (admin/operator OPD/pemohon mengikuti submission RLS)
 
-## Fase 3 — Storage Buckets + RLS
-Buat 7 bucket sesuai audit:
+### Server services (`src/features/documents/services/`)
+- `document-template.service.ts` — CRUD + clone + publish + snapshot version
+- `document-numbering.service.ts` — resolve rule → call RPC → format string
+- `document-generator.service.ts` — load template snapshot + submission snapshot + workflow snapshot → merge → render PDF/DOCX/HTML
+- `document-preview.service.ts` — merge tanpa persist (returns HTML preview)
+- `document-archive.service.ts` — archive/restore + history
+- `placeholder-engine.ts` — parser `{{a.b.c}}` dengan source map (submission/profile/workflow/system)
+- `placeholder-catalog.ts` — daftar placeholder per kategori untuk picker
 
-| Bucket | Public | MIME | Size |
-|---|---|---|---|
-| `branding` | ✅ | image/* | 2 MB |
-| `pejabat-foto` | ✅ | image/* | 1 MB |
-| `berkas-permohonan` | ❌ | pdf/image/doc | 10 MB |
-| `aset-foto` | ❌ | image/* | 5 MB |
-| `absensi-foto` | ❌ | image/* | 2 MB |
-| `form-uploads` | ❌ | pdf/image/doc | 20 MB |
-| `share-files` | ❌ | * | 50 MB |
+### Server functions (`src/lib/documents.functions.ts`)
+docListTemplates, docGetTemplate, docCreateTemplate, docUpdateTemplate, docCloneTemplate, docArchiveTemplate, docPublishTemplate, docPreview, docGenerate, docListDocuments, docGetDocument, docArchiveDocument, docDownloadDocument (signed URL), docListNumberingRules, docCreateNumberingRule, docUpdateNumberingRule, docArchiveNumberingRule, docPreviewNumbering, docPlaceholderCatalog.
 
-Tambah 1 migrasi `storage_policies.sql`: per bucket pasang policy `SELECT` (owner/admin OPD/role), `INSERT` (path harus diawali `auth.uid()`), `DELETE` (owner/admin).
+Semua pakai `requireSupabaseAuth`. Audit ke `audit_log` (`document.template.*`, `document.generated`, `document.number.assigned`, `document.archived`, `document.downloaded`).
 
-## Fase 4 — Secrets & Konfigurasi Runtime
-Tambahkan via `add_secret`:
-- `CRON_SECRET` — dipakai oleh `src/lib/cron-auth.server.ts` untuk gate 15 endpoint `/api/public/hooks/*`.
-- `VAPID_PUBLIC_KEY` + `VAPID_PRIVATE_KEY` — web push (NotificationBell, PushAutoEnable).
-- (opsional) `R2_ACCOUNT_ID`, `R2_ACCESS_KEY_ID`, `R2_SECRET_ACCESS_KEY`, `R2_BUCKET` — hybrid storage provider Cloudflare R2.
-- (opsional) `RESEND_API_KEY` jika modul email transaksional dipakai.
+### Generation engine
+- **HTML**: template_html + Handlebars-like merge → simpan sebagai `.html`
+- **PDF**: render HTML → PDF via `@react-pdf/renderer` tidak cocok untuk HTML arbitrer → pakai **pdf-lib + html sederhana** ATAU pendekatan: generate HTML, lalu konversi via worker-friendly lib. Karena Cloudflare Worker tidak mendukung headless Chromium, gunakan **`pdfmake`** (pure JS, worker-safe) untuk PDF dari struktur Doc Definition; untuk template HTML kompleks → render server-side ke pdfmake doc def via mapping sederhana, atau simpan HTML + sajikan print-view (browser print → PDF).
+  - Keputusan: HTML template → server hasilkan HTML final + simpan; PDF dihasilkan via `pdfmake` dari `template_html` yang sudah di-merge (heading/paragraph/table sederhana). Cukup untuk surat resmi.
+- **DOCX**: pakai `docx` (npm, worker-safe pure JS) dengan templating placeholder pada paragraph; untuk template DOCX upload → gunakan `docxtemplater` + `pizzip` (worker-compatible, pure JS).
+- File hasil → upload ke bucket `documents/<submission_id>/<doc_id>.<ext>`
 
-Auth providers:
-- Default email/password sudah on.
-- Google OAuth: tanya user apakah perlu; jika ya, konfigurasi via tool sosial auth.
-- Scaffold custom auth email template hanya jika user minta branding email.
+### Auto numbering
+- Rule format tokens: `{YEAR}`, `{SEQ}`, `{OPD}`, `{OPD_CODE}`, `{CATEGORY}`, `{MONTH}`
+- Scope key dihitung berdasarkan `scope` rule → query/insert `document_numbering_sequences` atomic via RPC `fn_doc_next_number` (SECURITY DEFINER + advisory lock)
+- Preview tanpa increment
 
-## Fase 5 — Seed Master Data + Super Admin
-1. User pertama: minta user sign up via UI `/auth`, lalu jalankan SQL:
-   ```sql
-   INSERT INTO user_roles(user_id, role) VALUES ('<uuid>', 'super_admin');
-   ```
-2. Seed minimal (migrasi `seed_master.sql`):
-   - 1 baris OPD default + assign super admin ke OPD itu.
-   - Catalog `permissions` (jika belum diisi migrasi sumber).
-   - Default branding (`app_setting`: nama instansi, logo placeholder).
-3. Cron schedules — buat migrasi `pg_cron_schedules.sql` yang `cron.schedule(...)` ke 15 hooks dengan header `Authorization: Bearer <CRON_SECRET>` ke stable URL `project--<id>.lovable.app/api/public/hooks/<name>`.
+### UI (routes `_authenticated/admin/documents/*`)
+```
+/admin/documents               → landing (cards)
+/admin/documents/templates     → list + filter + create
+/admin/documents/templates/$id → editor (meta, type, content, placeholder picker, version history, preview)
+/admin/documents/generated     → list + filters (status, OPD, jenis, tanggal, workflow) + view + download + archive
+/admin/documents/numbering     → rules CRUD + preview
+/admin/documents/archive       → search archived + history + metadata
+```
+Sidebar AdminShell menu group baru **Document Center** → Templates, Generated, Numbering, Archive.
 
-## Fase 6 — Smoke Test End-to-End
-Verifikasi tanpa berasumsi:
-1. Build harus hijau (auto-build Lovable).
-2. Halaman publik 200: `/`, `/layanan`, `/berita`, `/data-terbuka`, `/kinerja-opd`, `/tentang`, `/kontak`, `/ikm/<id>`, `/instansi/<singkatan>`.
-3. Auth flow: sign-up → trigger profile → sign-in → redirect `_authenticated/route.tsx` → `/admin` super admin terbuka.
-4. RBAC: `/admin/rbac` menampilkan user, dapat grant role.
-5. Upload: 1 test upload per bucket (branding logo, berkas permohonan, aset foto).
-6. Server function: panggil 1 `requireSupabaseAuth` fn (mis. `rbacListUsers`) — pastikan bearer terkirim.
-7. Cron hook: curl 1 endpoint dengan `CRON_SECRET` — pastikan 200.
-8. Pemeriksaan security: `security--run_security_scan` sebelum publish.
+Komponen:
+- `TemplateEditor` (tabs: Meta | Content | Placeholders | Preview | Versions)
+- `PlaceholderPicker` (4 kategori, click-to-insert)
+- `DocumentPreviewPanel` (desktop & print view, iframe srcDoc)
+- `NumberingRuleEditor` + `NumberingPreview`
+- `GenerateDocumentDialog` (pilih template → preview → generate)
 
-## Daftar Sentuhan Kode (minim — hanya yang perlu)
-- `.env` — bersihkan kredensial lama.
-- `supabase/migrations/<new>_storage_policies.sql` — policy 7 bucket.
-- `supabase/migrations/<new>_seed_master.sql` — OPD default + permissions catalog jika kosong.
-- `supabase/migrations/<new>_pg_cron_schedules.sql` — 15 jadwal cron.
-- Tidak ada perubahan pada source code aplikasi kecuali ditemukan bug saat smoke test.
+Trigger generate juga tersedia dari **Task Detail** Phase 2B (tombol "Generate Dokumen") setelah approval.
 
-## Yang Tetap Manual oleh User
-- Mengisi nilai secrets di dialog `add_secret`.
-- Sign-up user pertama supaya bisa di-promote ke super admin.
-- Mengganti aset visual final (lambang, hero) jika versi di zip placeholder.
-- Connect custom domain (opsional, pasca-publish).
+### Audit & RLS
+- RLS: `document_templates` (admin/operator OPD owner), `generated_documents` (mengikuti submission policies: pemohon, operator OPD, admin OPD, super admin via `has_role`), `document_numbering_rules` (admin only)
+- Semua mutasi tulis ke `audit_log` + `document_history`
+- Tidak ada cek role di UI; gunakan server-side `has_role`
 
-## Yang Sengaja Tidak Termasuk
-- Re-implementasi modul yang membutuhkan Edge Function eksternal tidak ada di zip — akan dicatat di laporan akhir, bukan dibuat ulang dari nol kecuali user minta.
-- Migrasi data riil dari proyek sumber (hanya skema + seed minimal).
+### Constraints
+- Snapshot wajib: generated_documents.snapshot menyimpan `{ submission, workflow, profile, template_version }`
+- Immutable: update generated_documents hanya field status/archived
+- Tidak ada `any`, semua strict types
+- Tidak menyentuh Form Builder & Workflow Runtime (hanya tombol generate ditambahkan di task detail)
+
+### NPM packages
+- `docxtemplater`, `pizzip`, `pdfmake`, `handlebars` (worker-safe, pure JS)
+
+### Estimasi file
+- ~7 migration SQL blocks (1 file)
+- ~8 service files
+- ~1 server-functions file
+- ~10 route/komponen UI
+
+Setelah disetujui saya akan eksekusi end-to-end dalam batch paralel.
