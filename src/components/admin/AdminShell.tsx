@@ -161,6 +161,15 @@ const superNavGroups: NavGroup[] = [
     ],
   },
   {
+    title: "Tanda Tangan Digital (TTE)",
+    items: [
+      { to: "/admin/signature", label: "Dashboard TTE", icon: ShieldCheck },
+      { to: "/admin/signature/queue", label: "Signature Queue", icon: FileSignature },
+      { to: "/admin/signature/monitoring", label: "Monitoring TTE", icon: LayoutDashboard },
+      { to: "/admin/signature/providers", label: "Provider TTE", icon: ShieldCheck },
+    ],
+  },
+  {
     title: "Data & Laporan",
     items: [{ to: "/admin/dataset", label: "Pelaporan Data", icon: DbIcon }],
   },
@@ -169,7 +178,7 @@ const superNavGroups: NavGroup[] = [
     items: [
       { to: "/admin/nomor-surat", label: "Nomor Surat", icon: Hash },
       { to: "/admin/verifikasi-log", label: "Log Verifikasi", icon: ShieldCheck },
-      { to: "/admin/digital-signature", label: "Tanda Tangan Digital", icon: ShieldCheck },
+      { to: "/admin/digital-signature", label: "Tanda Tangan (Spesimen)", icon: ShieldCheck },
     ],
   },
 ];

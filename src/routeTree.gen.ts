@@ -55,6 +55,7 @@ import { Route as AuthenticatedAdminSystemHealthRouteImport } from './routes/_au
 import { Route as AuthenticatedAdminSubmissionReviewRouteImport } from './routes/_authenticated/admin.submission-review'
 import { Route as AuthenticatedAdminStorageRouteImport } from './routes/_authenticated/admin.storage'
 import { Route as AuthenticatedAdminSistemRouteImport } from './routes/_authenticated/admin.sistem'
+import { Route as AuthenticatedAdminSignatureRouteImport } from './routes/_authenticated/admin.signature'
 import { Route as AuthenticatedAdminRbacRouteImport } from './routes/_authenticated/admin.rbac'
 import { Route as AuthenticatedAdminRatingRouteImport } from './routes/_authenticated/admin.rating'
 import { Route as AuthenticatedAdminPejabatRouteImport } from './routes/_authenticated/admin.pejabat'
@@ -87,6 +88,7 @@ import { Route as AuthenticatedAdminAsetExtraRouteImport } from './routes/_authe
 import { Route as AuthenticatedAdminAsetRouteImport } from './routes/_authenticated/admin.aset'
 import { Route as AuthenticatedAdminApprovalsRouteImport } from './routes/_authenticated/admin.approvals'
 import { Route as AuthenticatedAdminTasksIndexRouteImport } from './routes/_authenticated/admin.tasks.index'
+import { Route as AuthenticatedAdminSignatureIndexRouteImport } from './routes/_authenticated/admin.signature.index'
 import { Route as AuthenticatedAdminFormsIndexRouteImport } from './routes/_authenticated/admin.forms.index'
 import { Route as AuthenticatedAdminFormBuilderIndexRouteImport } from './routes/_authenticated/admin.form-builder.index'
 import { Route as AuthenticatedAdminDocumentsIndexRouteImport } from './routes/_authenticated/admin.documents.index'
@@ -117,6 +119,9 @@ import { Route as AuthenticatedAdminSystemGoLiveRouteImport } from './routes/_au
 import { Route as AuthenticatedAdminSystemFeatureFlagsRouteImport } from './routes/_authenticated/admin.system.feature-flags'
 import { Route as AuthenticatedAdminSystemDisasterRecoveryRouteImport } from './routes/_authenticated/admin.system.disaster-recovery'
 import { Route as AuthenticatedAdminSystemBackupStatusRouteImport } from './routes/_authenticated/admin.system.backup-status'
+import { Route as AuthenticatedAdminSignatureQueueRouteImport } from './routes/_authenticated/admin.signature.queue'
+import { Route as AuthenticatedAdminSignatureProvidersRouteImport } from './routes/_authenticated/admin.signature.providers'
+import { Route as AuthenticatedAdminSignatureMonitoringRouteImport } from './routes/_authenticated/admin.signature.monitoring'
 import { Route as AuthenticatedAdminSecurityPermissionsRouteImport } from './routes/_authenticated/admin.security.permissions'
 import { Route as AuthenticatedAdminRbacAuditRouteImport } from './routes/_authenticated/admin.rbac.audit'
 import { Route as AuthenticatedAdminRbacUserIdRouteImport } from './routes/_authenticated/admin.rbac.$userId'
@@ -144,6 +149,7 @@ import { Route as AuthenticatedAdminAsetOpnameRouteImport } from './routes/_auth
 import { Route as AuthenticatedAdminAsetKibRouteImport } from './routes/_authenticated/admin.aset.kib'
 import { Route as AuthenticatedAdminAsetBastRouteImport } from './routes/_authenticated/admin.aset.bast'
 import { Route as ApiPublicHooksSignatureWebhookProviderRouteImport } from './routes/api/public/hooks/signature-webhook.$provider'
+import { Route as AuthenticatedAdminSignatureRequestsIdRouteImport } from './routes/_authenticated/admin.signature.requests.$id'
 import { Route as AuthenticatedAdminFormBuilderWorkflowsIdRouteImport } from './routes/_authenticated/admin.form-builder.workflows.$id'
 import { Route as AuthenticatedAdminDocumentsTemplatesIdRouteImport } from './routes/_authenticated/admin.documents.templates.$id'
 
@@ -387,6 +393,12 @@ const AuthenticatedAdminSistemRoute =
     path: '/admin/sistem',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedAdminSignatureRoute =
+  AuthenticatedAdminSignatureRouteImport.update({
+    id: '/admin/signature',
+    path: '/admin/signature',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedAdminRbacRoute = AuthenticatedAdminRbacRouteImport.update({
   id: '/admin/rbac',
   path: '/admin/rbac',
@@ -570,6 +582,12 @@ const AuthenticatedAdminTasksIndexRoute =
     path: '/',
     getParentRoute: () => AuthenticatedAdminTasksRoute,
   } as any)
+const AuthenticatedAdminSignatureIndexRoute =
+  AuthenticatedAdminSignatureIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedAdminSignatureRoute,
+  } as any)
 const AuthenticatedAdminFormsIndexRoute =
   AuthenticatedAdminFormsIndexRouteImport.update({
     id: '/admin/forms/',
@@ -749,6 +767,24 @@ const AuthenticatedAdminSystemBackupStatusRoute =
     path: '/admin/system/backup-status',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedAdminSignatureQueueRoute =
+  AuthenticatedAdminSignatureQueueRouteImport.update({
+    id: '/queue',
+    path: '/queue',
+    getParentRoute: () => AuthenticatedAdminSignatureRoute,
+  } as any)
+const AuthenticatedAdminSignatureProvidersRoute =
+  AuthenticatedAdminSignatureProvidersRouteImport.update({
+    id: '/providers',
+    path: '/providers',
+    getParentRoute: () => AuthenticatedAdminSignatureRoute,
+  } as any)
+const AuthenticatedAdminSignatureMonitoringRoute =
+  AuthenticatedAdminSignatureMonitoringRouteImport.update({
+    id: '/monitoring',
+    path: '/monitoring',
+    getParentRoute: () => AuthenticatedAdminSignatureRoute,
+  } as any)
 const AuthenticatedAdminSecurityPermissionsRoute =
   AuthenticatedAdminSecurityPermissionsRouteImport.update({
     id: '/admin/security/permissions',
@@ -911,6 +947,12 @@ const ApiPublicHooksSignatureWebhookProviderRoute =
     path: '/api/public/hooks/signature-webhook/$provider',
     getParentRoute: () => rootRouteImport,
   } as any)
+const AuthenticatedAdminSignatureRequestsIdRoute =
+  AuthenticatedAdminSignatureRequestsIdRouteImport.update({
+    id: '/requests/$id',
+    path: '/requests/$id',
+    getParentRoute: () => AuthenticatedAdminSignatureRoute,
+  } as any)
 const AuthenticatedAdminFormBuilderWorkflowsIdRoute =
   AuthenticatedAdminFormBuilderWorkflowsIdRouteImport.update({
     id: '/$id',
@@ -980,6 +1022,7 @@ export interface FileRoutesByFullPath {
   '/admin/pejabat': typeof AuthenticatedAdminPejabatRoute
   '/admin/rating': typeof AuthenticatedAdminRatingRoute
   '/admin/rbac': typeof AuthenticatedAdminRbacRouteWithChildren
+  '/admin/signature': typeof AuthenticatedAdminSignatureRouteWithChildren
   '/admin/sistem': typeof AuthenticatedAdminSistemRoute
   '/admin/storage': typeof AuthenticatedAdminStorageRoute
   '/admin/submission-review': typeof AuthenticatedAdminSubmissionReviewRoute
@@ -1027,6 +1070,9 @@ export interface FileRoutesByFullPath {
   '/admin/rbac/$userId': typeof AuthenticatedAdminRbacUserIdRoute
   '/admin/rbac/audit': typeof AuthenticatedAdminRbacAuditRoute
   '/admin/security/permissions': typeof AuthenticatedAdminSecurityPermissionsRoute
+  '/admin/signature/monitoring': typeof AuthenticatedAdminSignatureMonitoringRoute
+  '/admin/signature/providers': typeof AuthenticatedAdminSignatureProvidersRoute
+  '/admin/signature/queue': typeof AuthenticatedAdminSignatureQueueRoute
   '/admin/system/backup-status': typeof AuthenticatedAdminSystemBackupStatusRoute
   '/admin/system/disaster-recovery': typeof AuthenticatedAdminSystemDisasterRecoveryRoute
   '/admin/system/feature-flags': typeof AuthenticatedAdminSystemFeatureFlagsRoute
@@ -1057,9 +1103,11 @@ export interface FileRoutesByFullPath {
   '/admin/documents/': typeof AuthenticatedAdminDocumentsIndexRoute
   '/admin/form-builder/': typeof AuthenticatedAdminFormBuilderIndexRoute
   '/admin/forms/': typeof AuthenticatedAdminFormsIndexRoute
+  '/admin/signature/': typeof AuthenticatedAdminSignatureIndexRoute
   '/admin/tasks/': typeof AuthenticatedAdminTasksIndexRoute
   '/admin/documents/templates/$id': typeof AuthenticatedAdminDocumentsTemplatesIdRoute
   '/admin/form-builder/workflows/$id': typeof AuthenticatedAdminFormBuilderWorkflowsIdRoute
+  '/admin/signature/requests/$id': typeof AuthenticatedAdminSignatureRequestsIdRoute
   '/api/public/hooks/signature-webhook/$provider': typeof ApiPublicHooksSignatureWebhookProviderRoute
 }
 export interface FileRoutesByTo {
@@ -1161,6 +1209,9 @@ export interface FileRoutesByTo {
   '/admin/rbac/$userId': typeof AuthenticatedAdminRbacUserIdRoute
   '/admin/rbac/audit': typeof AuthenticatedAdminRbacAuditRoute
   '/admin/security/permissions': typeof AuthenticatedAdminSecurityPermissionsRoute
+  '/admin/signature/monitoring': typeof AuthenticatedAdminSignatureMonitoringRoute
+  '/admin/signature/providers': typeof AuthenticatedAdminSignatureProvidersRoute
+  '/admin/signature/queue': typeof AuthenticatedAdminSignatureQueueRoute
   '/admin/system/backup-status': typeof AuthenticatedAdminSystemBackupStatusRoute
   '/admin/system/disaster-recovery': typeof AuthenticatedAdminSystemDisasterRecoveryRoute
   '/admin/system/feature-flags': typeof AuthenticatedAdminSystemFeatureFlagsRoute
@@ -1191,9 +1242,11 @@ export interface FileRoutesByTo {
   '/admin/documents': typeof AuthenticatedAdminDocumentsIndexRoute
   '/admin/form-builder': typeof AuthenticatedAdminFormBuilderIndexRoute
   '/admin/forms': typeof AuthenticatedAdminFormsIndexRoute
+  '/admin/signature': typeof AuthenticatedAdminSignatureIndexRoute
   '/admin/tasks': typeof AuthenticatedAdminTasksIndexRoute
   '/admin/documents/templates/$id': typeof AuthenticatedAdminDocumentsTemplatesIdRoute
   '/admin/form-builder/workflows/$id': typeof AuthenticatedAdminFormBuilderWorkflowsIdRoute
+  '/admin/signature/requests/$id': typeof AuthenticatedAdminSignatureRequestsIdRoute
   '/api/public/hooks/signature-webhook/$provider': typeof ApiPublicHooksSignatureWebhookProviderRoute
 }
 export interface FileRoutesById {
@@ -1254,6 +1307,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/pejabat': typeof AuthenticatedAdminPejabatRoute
   '/_authenticated/admin/rating': typeof AuthenticatedAdminRatingRoute
   '/_authenticated/admin/rbac': typeof AuthenticatedAdminRbacRouteWithChildren
+  '/_authenticated/admin/signature': typeof AuthenticatedAdminSignatureRouteWithChildren
   '/_authenticated/admin/sistem': typeof AuthenticatedAdminSistemRoute
   '/_authenticated/admin/storage': typeof AuthenticatedAdminStorageRoute
   '/_authenticated/admin/submission-review': typeof AuthenticatedAdminSubmissionReviewRoute
@@ -1301,6 +1355,9 @@ export interface FileRoutesById {
   '/_authenticated/admin/rbac/$userId': typeof AuthenticatedAdminRbacUserIdRoute
   '/_authenticated/admin/rbac/audit': typeof AuthenticatedAdminRbacAuditRoute
   '/_authenticated/admin/security/permissions': typeof AuthenticatedAdminSecurityPermissionsRoute
+  '/_authenticated/admin/signature/monitoring': typeof AuthenticatedAdminSignatureMonitoringRoute
+  '/_authenticated/admin/signature/providers': typeof AuthenticatedAdminSignatureProvidersRoute
+  '/_authenticated/admin/signature/queue': typeof AuthenticatedAdminSignatureQueueRoute
   '/_authenticated/admin/system/backup-status': typeof AuthenticatedAdminSystemBackupStatusRoute
   '/_authenticated/admin/system/disaster-recovery': typeof AuthenticatedAdminSystemDisasterRecoveryRoute
   '/_authenticated/admin/system/feature-flags': typeof AuthenticatedAdminSystemFeatureFlagsRoute
@@ -1331,9 +1388,11 @@ export interface FileRoutesById {
   '/_authenticated/admin/documents/': typeof AuthenticatedAdminDocumentsIndexRoute
   '/_authenticated/admin/form-builder/': typeof AuthenticatedAdminFormBuilderIndexRoute
   '/_authenticated/admin/forms/': typeof AuthenticatedAdminFormsIndexRoute
+  '/_authenticated/admin/signature/': typeof AuthenticatedAdminSignatureIndexRoute
   '/_authenticated/admin/tasks/': typeof AuthenticatedAdminTasksIndexRoute
   '/_authenticated/admin/documents/templates/$id': typeof AuthenticatedAdminDocumentsTemplatesIdRoute
   '/_authenticated/admin/form-builder/workflows/$id': typeof AuthenticatedAdminFormBuilderWorkflowsIdRoute
+  '/_authenticated/admin/signature/requests/$id': typeof AuthenticatedAdminSignatureRequestsIdRoute
   '/api/public/hooks/signature-webhook/$provider': typeof ApiPublicHooksSignatureWebhookProviderRoute
 }
 export interface FileRouteTypes {
@@ -1394,6 +1453,7 @@ export interface FileRouteTypes {
     | '/admin/pejabat'
     | '/admin/rating'
     | '/admin/rbac'
+    | '/admin/signature'
     | '/admin/sistem'
     | '/admin/storage'
     | '/admin/submission-review'
@@ -1441,6 +1501,9 @@ export interface FileRouteTypes {
     | '/admin/rbac/$userId'
     | '/admin/rbac/audit'
     | '/admin/security/permissions'
+    | '/admin/signature/monitoring'
+    | '/admin/signature/providers'
+    | '/admin/signature/queue'
     | '/admin/system/backup-status'
     | '/admin/system/disaster-recovery'
     | '/admin/system/feature-flags'
@@ -1471,9 +1534,11 @@ export interface FileRouteTypes {
     | '/admin/documents/'
     | '/admin/form-builder/'
     | '/admin/forms/'
+    | '/admin/signature/'
     | '/admin/tasks/'
     | '/admin/documents/templates/$id'
     | '/admin/form-builder/workflows/$id'
+    | '/admin/signature/requests/$id'
     | '/api/public/hooks/signature-webhook/$provider'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -1575,6 +1640,9 @@ export interface FileRouteTypes {
     | '/admin/rbac/$userId'
     | '/admin/rbac/audit'
     | '/admin/security/permissions'
+    | '/admin/signature/monitoring'
+    | '/admin/signature/providers'
+    | '/admin/signature/queue'
     | '/admin/system/backup-status'
     | '/admin/system/disaster-recovery'
     | '/admin/system/feature-flags'
@@ -1605,9 +1673,11 @@ export interface FileRouteTypes {
     | '/admin/documents'
     | '/admin/form-builder'
     | '/admin/forms'
+    | '/admin/signature'
     | '/admin/tasks'
     | '/admin/documents/templates/$id'
     | '/admin/form-builder/workflows/$id'
+    | '/admin/signature/requests/$id'
     | '/api/public/hooks/signature-webhook/$provider'
   id:
     | '__root__'
@@ -1667,6 +1737,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/pejabat'
     | '/_authenticated/admin/rating'
     | '/_authenticated/admin/rbac'
+    | '/_authenticated/admin/signature'
     | '/_authenticated/admin/sistem'
     | '/_authenticated/admin/storage'
     | '/_authenticated/admin/submission-review'
@@ -1714,6 +1785,9 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/rbac/$userId'
     | '/_authenticated/admin/rbac/audit'
     | '/_authenticated/admin/security/permissions'
+    | '/_authenticated/admin/signature/monitoring'
+    | '/_authenticated/admin/signature/providers'
+    | '/_authenticated/admin/signature/queue'
     | '/_authenticated/admin/system/backup-status'
     | '/_authenticated/admin/system/disaster-recovery'
     | '/_authenticated/admin/system/feature-flags'
@@ -1744,9 +1818,11 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/documents/'
     | '/_authenticated/admin/form-builder/'
     | '/_authenticated/admin/forms/'
+    | '/_authenticated/admin/signature/'
     | '/_authenticated/admin/tasks/'
     | '/_authenticated/admin/documents/templates/$id'
     | '/_authenticated/admin/form-builder/workflows/$id'
+    | '/_authenticated/admin/signature/requests/$id'
     | '/api/public/hooks/signature-webhook/$provider'
   fileRoutesById: FileRoutesById
 }
@@ -2116,6 +2192,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminSistemRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/admin/signature': {
+      id: '/_authenticated/admin/signature'
+      path: '/admin/signature'
+      fullPath: '/admin/signature'
+      preLoaderRoute: typeof AuthenticatedAdminSignatureRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/admin/rbac': {
       id: '/_authenticated/admin/rbac'
       path: '/admin/rbac'
@@ -2340,6 +2423,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminTasksIndexRouteImport
       parentRoute: typeof AuthenticatedAdminTasksRoute
     }
+    '/_authenticated/admin/signature/': {
+      id: '/_authenticated/admin/signature/'
+      path: '/'
+      fullPath: '/admin/signature/'
+      preLoaderRoute: typeof AuthenticatedAdminSignatureIndexRouteImport
+      parentRoute: typeof AuthenticatedAdminSignatureRoute
+    }
     '/_authenticated/admin/forms/': {
       id: '/_authenticated/admin/forms/'
       path: '/admin/forms'
@@ -2550,6 +2640,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminSystemBackupStatusRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/admin/signature/queue': {
+      id: '/_authenticated/admin/signature/queue'
+      path: '/queue'
+      fullPath: '/admin/signature/queue'
+      preLoaderRoute: typeof AuthenticatedAdminSignatureQueueRouteImport
+      parentRoute: typeof AuthenticatedAdminSignatureRoute
+    }
+    '/_authenticated/admin/signature/providers': {
+      id: '/_authenticated/admin/signature/providers'
+      path: '/providers'
+      fullPath: '/admin/signature/providers'
+      preLoaderRoute: typeof AuthenticatedAdminSignatureProvidersRouteImport
+      parentRoute: typeof AuthenticatedAdminSignatureRoute
+    }
+    '/_authenticated/admin/signature/monitoring': {
+      id: '/_authenticated/admin/signature/monitoring'
+      path: '/monitoring'
+      fullPath: '/admin/signature/monitoring'
+      preLoaderRoute: typeof AuthenticatedAdminSignatureMonitoringRouteImport
+      parentRoute: typeof AuthenticatedAdminSignatureRoute
+    }
     '/_authenticated/admin/security/permissions': {
       id: '/_authenticated/admin/security/permissions'
       path: '/admin/security/permissions'
@@ -2738,6 +2849,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/api/public/hooks/signature-webhook/$provider'
       preLoaderRoute: typeof ApiPublicHooksSignatureWebhookProviderRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/admin/signature/requests/$id': {
+      id: '/_authenticated/admin/signature/requests/$id'
+      path: '/requests/$id'
+      fullPath: '/admin/signature/requests/$id'
+      preLoaderRoute: typeof AuthenticatedAdminSignatureRequestsIdRouteImport
+      parentRoute: typeof AuthenticatedAdminSignatureRoute
     }
     '/_authenticated/admin/form-builder/workflows/$id': {
       id: '/_authenticated/admin/form-builder/workflows/$id'
@@ -2953,6 +3071,33 @@ const AuthenticatedAdminRbacRouteWithChildren =
     AuthenticatedAdminRbacRouteChildren,
   )
 
+interface AuthenticatedAdminSignatureRouteChildren {
+  AuthenticatedAdminSignatureMonitoringRoute: typeof AuthenticatedAdminSignatureMonitoringRoute
+  AuthenticatedAdminSignatureProvidersRoute: typeof AuthenticatedAdminSignatureProvidersRoute
+  AuthenticatedAdminSignatureQueueRoute: typeof AuthenticatedAdminSignatureQueueRoute
+  AuthenticatedAdminSignatureIndexRoute: typeof AuthenticatedAdminSignatureIndexRoute
+  AuthenticatedAdminSignatureRequestsIdRoute: typeof AuthenticatedAdminSignatureRequestsIdRoute
+}
+
+const AuthenticatedAdminSignatureRouteChildren: AuthenticatedAdminSignatureRouteChildren =
+  {
+    AuthenticatedAdminSignatureMonitoringRoute:
+      AuthenticatedAdminSignatureMonitoringRoute,
+    AuthenticatedAdminSignatureProvidersRoute:
+      AuthenticatedAdminSignatureProvidersRoute,
+    AuthenticatedAdminSignatureQueueRoute:
+      AuthenticatedAdminSignatureQueueRoute,
+    AuthenticatedAdminSignatureIndexRoute:
+      AuthenticatedAdminSignatureIndexRoute,
+    AuthenticatedAdminSignatureRequestsIdRoute:
+      AuthenticatedAdminSignatureRequestsIdRoute,
+  }
+
+const AuthenticatedAdminSignatureRouteWithChildren =
+  AuthenticatedAdminSignatureRoute._addFileChildren(
+    AuthenticatedAdminSignatureRouteChildren,
+  )
+
 interface AuthenticatedAdminTasksRouteChildren {
   AuthenticatedAdminTasksIdRoute: typeof AuthenticatedAdminTasksIdRoute
   AuthenticatedAdminTasksIndexRoute: typeof AuthenticatedAdminTasksIndexRoute
@@ -3004,6 +3149,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedAdminPejabatRoute: typeof AuthenticatedAdminPejabatRoute
   AuthenticatedAdminRatingRoute: typeof AuthenticatedAdminRatingRoute
   AuthenticatedAdminRbacRoute: typeof AuthenticatedAdminRbacRouteWithChildren
+  AuthenticatedAdminSignatureRoute: typeof AuthenticatedAdminSignatureRouteWithChildren
   AuthenticatedAdminSistemRoute: typeof AuthenticatedAdminSistemRoute
   AuthenticatedAdminStorageRoute: typeof AuthenticatedAdminStorageRoute
   AuthenticatedAdminSubmissionReviewRoute: typeof AuthenticatedAdminSubmissionReviewRoute
@@ -3077,6 +3223,8 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAdminPejabatRoute: AuthenticatedAdminPejabatRoute,
   AuthenticatedAdminRatingRoute: AuthenticatedAdminRatingRoute,
   AuthenticatedAdminRbacRoute: AuthenticatedAdminRbacRouteWithChildren,
+  AuthenticatedAdminSignatureRoute:
+    AuthenticatedAdminSignatureRouteWithChildren,
   AuthenticatedAdminSistemRoute: AuthenticatedAdminSistemRoute,
   AuthenticatedAdminStorageRoute: AuthenticatedAdminStorageRoute,
   AuthenticatedAdminSubmissionReviewRoute:
