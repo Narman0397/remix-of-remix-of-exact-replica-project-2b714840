@@ -360,8 +360,8 @@ export const docGenerate = createServerFn({ method: "POST" })
       generated_by: context.userId,
       snapshot: {
         template_version: t.current_version ?? 1,
-        context: ctx as unknown as Record<string, unknown>,
-      },
+        context: ctx,
+      } as never,
     });
     if (insErr) throw new Error(insErr.message);
 
