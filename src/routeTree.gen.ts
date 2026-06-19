@@ -85,6 +85,7 @@ import { Route as AuthenticatedAdminApprovalsRouteImport } from './routes/_authe
 import { Route as AuthenticatedAdminFormsIndexRouteImport } from './routes/_authenticated/admin.forms.index'
 import { Route as AuthenticatedAdminFormBuilderIndexRouteImport } from './routes/_authenticated/admin.form-builder.index'
 import { Route as AuthenticatedAdminDigitalSignatureIndexRouteImport } from './routes/_authenticated/admin.digital-signature.index'
+import { Route as ApiPublicHooksWorkflowSlaScanRouteImport } from './routes/api/public/hooks/workflow-sla-scan'
 import { Route as ApiPublicHooksUploadIntegrityRouteImport } from './routes/api/public/hooks/upload-integrity'
 import { Route as ApiPublicHooksStuckJobsRouteImport } from './routes/api/public/hooks/stuck-jobs'
 import { Route as ApiPublicHooksStorageCleanupRouteImport } from './routes/api/public/hooks/storage-cleanup'
@@ -546,6 +547,12 @@ const AuthenticatedAdminDigitalSignatureIndexRoute =
     path: '/',
     getParentRoute: () => AuthenticatedAdminDigitalSignatureRoute,
   } as any)
+const ApiPublicHooksWorkflowSlaScanRoute =
+  ApiPublicHooksWorkflowSlaScanRouteImport.update({
+    id: '/api/public/hooks/workflow-sla-scan',
+    path: '/api/public/hooks/workflow-sla-scan',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ApiPublicHooksUploadIntegrityRoute =
   ApiPublicHooksUploadIntegrityRouteImport.update({
     id: '/api/public/hooks/upload-integrity',
@@ -947,6 +954,7 @@ export interface FileRoutesByFullPath {
   '/api/public/hooks/storage-cleanup': typeof ApiPublicHooksStorageCleanupRoute
   '/api/public/hooks/stuck-jobs': typeof ApiPublicHooksStuckJobsRoute
   '/api/public/hooks/upload-integrity': typeof ApiPublicHooksUploadIntegrityRoute
+  '/api/public/hooks/workflow-sla-scan': typeof ApiPublicHooksWorkflowSlaScanRoute
   '/admin/digital-signature/': typeof AuthenticatedAdminDigitalSignatureIndexRoute
   '/admin/form-builder/': typeof AuthenticatedAdminFormBuilderIndexRoute
   '/admin/forms/': typeof AuthenticatedAdminFormsIndexRoute
@@ -1069,6 +1077,7 @@ export interface FileRoutesByTo {
   '/api/public/hooks/storage-cleanup': typeof ApiPublicHooksStorageCleanupRoute
   '/api/public/hooks/stuck-jobs': typeof ApiPublicHooksStuckJobsRoute
   '/api/public/hooks/upload-integrity': typeof ApiPublicHooksUploadIntegrityRoute
+  '/api/public/hooks/workflow-sla-scan': typeof ApiPublicHooksWorkflowSlaScanRoute
   '/admin/digital-signature': typeof AuthenticatedAdminDigitalSignatureIndexRoute
   '/admin/form-builder': typeof AuthenticatedAdminFormBuilderIndexRoute
   '/admin/forms': typeof AuthenticatedAdminFormsIndexRoute
@@ -1195,6 +1204,7 @@ export interface FileRoutesById {
   '/api/public/hooks/storage-cleanup': typeof ApiPublicHooksStorageCleanupRoute
   '/api/public/hooks/stuck-jobs': typeof ApiPublicHooksStuckJobsRoute
   '/api/public/hooks/upload-integrity': typeof ApiPublicHooksUploadIntegrityRoute
+  '/api/public/hooks/workflow-sla-scan': typeof ApiPublicHooksWorkflowSlaScanRoute
   '/_authenticated/admin/digital-signature/': typeof AuthenticatedAdminDigitalSignatureIndexRoute
   '/_authenticated/admin/form-builder/': typeof AuthenticatedAdminFormBuilderIndexRoute
   '/_authenticated/admin/forms/': typeof AuthenticatedAdminFormsIndexRoute
@@ -1321,6 +1331,7 @@ export interface FileRouteTypes {
     | '/api/public/hooks/storage-cleanup'
     | '/api/public/hooks/stuck-jobs'
     | '/api/public/hooks/upload-integrity'
+    | '/api/public/hooks/workflow-sla-scan'
     | '/admin/digital-signature/'
     | '/admin/form-builder/'
     | '/admin/forms/'
@@ -1443,6 +1454,7 @@ export interface FileRouteTypes {
     | '/api/public/hooks/storage-cleanup'
     | '/api/public/hooks/stuck-jobs'
     | '/api/public/hooks/upload-integrity'
+    | '/api/public/hooks/workflow-sla-scan'
     | '/admin/digital-signature'
     | '/admin/form-builder'
     | '/admin/forms'
@@ -1568,6 +1580,7 @@ export interface FileRouteTypes {
     | '/api/public/hooks/storage-cleanup'
     | '/api/public/hooks/stuck-jobs'
     | '/api/public/hooks/upload-integrity'
+    | '/api/public/hooks/workflow-sla-scan'
     | '/_authenticated/admin/digital-signature/'
     | '/_authenticated/admin/form-builder/'
     | '/_authenticated/admin/forms/'
@@ -1611,6 +1624,7 @@ export interface RootRouteChildren {
   ApiPublicHooksStorageCleanupRoute: typeof ApiPublicHooksStorageCleanupRoute
   ApiPublicHooksStuckJobsRoute: typeof ApiPublicHooksStuckJobsRoute
   ApiPublicHooksUploadIntegrityRoute: typeof ApiPublicHooksUploadIntegrityRoute
+  ApiPublicHooksWorkflowSlaScanRoute: typeof ApiPublicHooksWorkflowSlaScanRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -2146,6 +2160,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/admin/digital-signature/'
       preLoaderRoute: typeof AuthenticatedAdminDigitalSignatureIndexRouteImport
       parentRoute: typeof AuthenticatedAdminDigitalSignatureRoute
+    }
+    '/api/public/hooks/workflow-sla-scan': {
+      id: '/api/public/hooks/workflow-sla-scan'
+      path: '/api/public/hooks/workflow-sla-scan'
+      fullPath: '/api/public/hooks/workflow-sla-scan'
+      preLoaderRoute: typeof ApiPublicHooksWorkflowSlaScanRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/api/public/hooks/upload-integrity': {
       id: '/api/public/hooks/upload-integrity'
@@ -2820,6 +2841,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiPublicHooksStorageCleanupRoute: ApiPublicHooksStorageCleanupRoute,
   ApiPublicHooksStuckJobsRoute: ApiPublicHooksStuckJobsRoute,
   ApiPublicHooksUploadIntegrityRoute: ApiPublicHooksUploadIntegrityRoute,
+  ApiPublicHooksWorkflowSlaScanRoute: ApiPublicHooksWorkflowSlaScanRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
