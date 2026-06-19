@@ -149,7 +149,10 @@ export const docUpdateTemplate = createServerFn({ method: "POST" })
         created_by: context.userId,
       });
     }
-    const { error } = await context.supabase.from("document_templates").update(patch).eq("id", data.id);
+    const { error } = await context.supabase
+      .from("document_templates")
+      .update(patch as never)
+      .eq("id", data.id);
     if (error) throw new Error(error.message);
     await writeDocAudit(context.supabase, {
       action: "document.template.updated",
