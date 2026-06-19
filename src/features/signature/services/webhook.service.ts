@@ -50,7 +50,7 @@ export async function handleProviderWebhook(
 
   // Update signer
   if (evt.externalSignerId) {
-    const updates: Record<string, unknown> = {};
+    const updates: Database["public"]["Tables"]["signature_request_signers"]["Update"] = {};
     if (evt.event === "signed") {
       updates.status = "signed";
       updates.signed_at = new Date().toISOString();
