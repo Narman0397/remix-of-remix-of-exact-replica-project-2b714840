@@ -69,6 +69,7 @@ import { Route as AuthenticatedAdminHariLiburRouteImport } from './routes/_authe
 import { Route as AuthenticatedAdminGovernanceRouteImport } from './routes/_authenticated/admin.governance'
 import { Route as AuthenticatedAdminFormBuilderRouteImport } from './routes/_authenticated/admin.form-builder'
 import { Route as AuthenticatedAdminEksekutifRouteImport } from './routes/_authenticated/admin.eksekutif'
+import { Route as AuthenticatedAdminDocumentsRouteImport } from './routes/_authenticated/admin.documents'
 import { Route as AuthenticatedAdminDigitalSignatureRouteImport } from './routes/_authenticated/admin.digital-signature'
 import { Route as AuthenticatedAdminDesaRouteImport } from './routes/_authenticated/admin.desa'
 import { Route as AuthenticatedAdminDatasetRouteImport } from './routes/_authenticated/admin.dataset'
@@ -87,6 +88,7 @@ import { Route as AuthenticatedAdminApprovalsRouteImport } from './routes/_authe
 import { Route as AuthenticatedAdminTasksIndexRouteImport } from './routes/_authenticated/admin.tasks.index'
 import { Route as AuthenticatedAdminFormsIndexRouteImport } from './routes/_authenticated/admin.forms.index'
 import { Route as AuthenticatedAdminFormBuilderIndexRouteImport } from './routes/_authenticated/admin.form-builder.index'
+import { Route as AuthenticatedAdminDocumentsIndexRouteImport } from './routes/_authenticated/admin.documents.index'
 import { Route as AuthenticatedAdminDigitalSignatureIndexRouteImport } from './routes/_authenticated/admin.digital-signature.index'
 import { Route as ApiPublicHooksWorkflowSlaScanRouteImport } from './routes/api/public/hooks/workflow-sla-scan'
 import { Route as ApiPublicHooksUploadIntegrityRouteImport } from './routes/api/public/hooks/upload-integrity'
@@ -124,6 +126,10 @@ import { Route as AuthenticatedAdminFormBuilderWorkflowsRouteImport } from './ro
 import { Route as AuthenticatedAdminFormBuilderWizardRouteImport } from './routes/_authenticated/admin.form-builder.wizard'
 import { Route as AuthenticatedAdminFormBuilderTemplatesRouteImport } from './routes/_authenticated/admin.form-builder.templates'
 import { Route as AuthenticatedAdminFormBuilderSettingsRouteImport } from './routes/_authenticated/admin.form-builder.settings'
+import { Route as AuthenticatedAdminDocumentsTemplatesRouteImport } from './routes/_authenticated/admin.documents.templates'
+import { Route as AuthenticatedAdminDocumentsNumberingRouteImport } from './routes/_authenticated/admin.documents.numbering'
+import { Route as AuthenticatedAdminDocumentsGeneratedRouteImport } from './routes/_authenticated/admin.documents.generated'
+import { Route as AuthenticatedAdminDocumentsArchiveRouteImport } from './routes/_authenticated/admin.documents.archive'
 import { Route as AuthenticatedAdminDigitalSignatureStatusRouteImport } from './routes/_authenticated/admin.digital-signature.status'
 import { Route as AuthenticatedAdminDigitalSignatureSignaturesRouteImport } from './routes/_authenticated/admin.digital-signature.signatures'
 import { Route as AuthenticatedAdminDigitalSignatureDocumentsRouteImport } from './routes/_authenticated/admin.digital-signature.documents'
@@ -137,6 +143,7 @@ import { Route as AuthenticatedAdminAsetOpnameRouteImport } from './routes/_auth
 import { Route as AuthenticatedAdminAsetKibRouteImport } from './routes/_authenticated/admin.aset.kib'
 import { Route as AuthenticatedAdminAsetBastRouteImport } from './routes/_authenticated/admin.aset.bast'
 import { Route as AuthenticatedAdminFormBuilderWorkflowsIdRouteImport } from './routes/_authenticated/admin.form-builder.workflows.$id'
+import { Route as AuthenticatedAdminDocumentsTemplatesIdRouteImport } from './routes/_authenticated/admin.documents.templates.$id'
 
 const TentangRoute = TentangRouteImport.update({
   id: '/tentang',
@@ -459,6 +466,12 @@ const AuthenticatedAdminEksekutifRoute =
     path: '/admin/eksekutif',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedAdminDocumentsRoute =
+  AuthenticatedAdminDocumentsRouteImport.update({
+    id: '/admin/documents',
+    path: '/admin/documents',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedAdminDigitalSignatureRoute =
   AuthenticatedAdminDigitalSignatureRouteImport.update({
     id: '/admin/digital-signature',
@@ -561,6 +574,12 @@ const AuthenticatedAdminFormBuilderIndexRoute =
     id: '/',
     path: '/',
     getParentRoute: () => AuthenticatedAdminFormBuilderRoute,
+  } as any)
+const AuthenticatedAdminDocumentsIndexRoute =
+  AuthenticatedAdminDocumentsIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedAdminDocumentsRoute,
   } as any)
 const AuthenticatedAdminDigitalSignatureIndexRoute =
   AuthenticatedAdminDigitalSignatureIndexRouteImport.update({
@@ -783,6 +802,30 @@ const AuthenticatedAdminFormBuilderSettingsRoute =
     path: '/settings',
     getParentRoute: () => AuthenticatedAdminFormBuilderRoute,
   } as any)
+const AuthenticatedAdminDocumentsTemplatesRoute =
+  AuthenticatedAdminDocumentsTemplatesRouteImport.update({
+    id: '/templates',
+    path: '/templates',
+    getParentRoute: () => AuthenticatedAdminDocumentsRoute,
+  } as any)
+const AuthenticatedAdminDocumentsNumberingRoute =
+  AuthenticatedAdminDocumentsNumberingRouteImport.update({
+    id: '/numbering',
+    path: '/numbering',
+    getParentRoute: () => AuthenticatedAdminDocumentsRoute,
+  } as any)
+const AuthenticatedAdminDocumentsGeneratedRoute =
+  AuthenticatedAdminDocumentsGeneratedRouteImport.update({
+    id: '/generated',
+    path: '/generated',
+    getParentRoute: () => AuthenticatedAdminDocumentsRoute,
+  } as any)
+const AuthenticatedAdminDocumentsArchiveRoute =
+  AuthenticatedAdminDocumentsArchiveRouteImport.update({
+    id: '/archive',
+    path: '/archive',
+    getParentRoute: () => AuthenticatedAdminDocumentsRoute,
+  } as any)
 const AuthenticatedAdminDigitalSignatureStatusRoute =
   AuthenticatedAdminDigitalSignatureStatusRouteImport.update({
     id: '/status',
@@ -861,6 +904,12 @@ const AuthenticatedAdminFormBuilderWorkflowsIdRoute =
     path: '/$id',
     getParentRoute: () => AuthenticatedAdminFormBuilderWorkflowsRoute,
   } as any)
+const AuthenticatedAdminDocumentsTemplatesIdRoute =
+  AuthenticatedAdminDocumentsTemplatesIdRouteImport.update({
+    id: '/$id',
+    path: '/$id',
+    getParentRoute: () => AuthenticatedAdminDocumentsTemplatesRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -901,6 +950,7 @@ export interface FileRoutesByFullPath {
   '/admin/dataset': typeof AuthenticatedAdminDatasetRouteWithChildren
   '/admin/desa': typeof AuthenticatedAdminDesaRoute
   '/admin/digital-signature': typeof AuthenticatedAdminDigitalSignatureRouteWithChildren
+  '/admin/documents': typeof AuthenticatedAdminDocumentsRouteWithChildren
   '/admin/eksekutif': typeof AuthenticatedAdminEksekutifRoute
   '/admin/form-builder': typeof AuthenticatedAdminFormBuilderRouteWithChildren
   '/admin/governance': typeof AuthenticatedAdminGovernanceRoute
@@ -949,6 +999,10 @@ export interface FileRoutesByFullPath {
   '/admin/digital-signature/documents': typeof AuthenticatedAdminDigitalSignatureDocumentsRoute
   '/admin/digital-signature/signatures': typeof AuthenticatedAdminDigitalSignatureSignaturesRoute
   '/admin/digital-signature/status': typeof AuthenticatedAdminDigitalSignatureStatusRoute
+  '/admin/documents/archive': typeof AuthenticatedAdminDocumentsArchiveRoute
+  '/admin/documents/generated': typeof AuthenticatedAdminDocumentsGeneratedRoute
+  '/admin/documents/numbering': typeof AuthenticatedAdminDocumentsNumberingRoute
+  '/admin/documents/templates': typeof AuthenticatedAdminDocumentsTemplatesRouteWithChildren
   '/admin/form-builder/settings': typeof AuthenticatedAdminFormBuilderSettingsRoute
   '/admin/form-builder/templates': typeof AuthenticatedAdminFormBuilderTemplatesRoute
   '/admin/form-builder/wizard': typeof AuthenticatedAdminFormBuilderWizardRoute
@@ -986,9 +1040,11 @@ export interface FileRoutesByFullPath {
   '/api/public/hooks/upload-integrity': typeof ApiPublicHooksUploadIntegrityRoute
   '/api/public/hooks/workflow-sla-scan': typeof ApiPublicHooksWorkflowSlaScanRoute
   '/admin/digital-signature/': typeof AuthenticatedAdminDigitalSignatureIndexRoute
+  '/admin/documents/': typeof AuthenticatedAdminDocumentsIndexRoute
   '/admin/form-builder/': typeof AuthenticatedAdminFormBuilderIndexRoute
   '/admin/forms/': typeof AuthenticatedAdminFormsIndexRoute
   '/admin/tasks/': typeof AuthenticatedAdminTasksIndexRoute
+  '/admin/documents/templates/$id': typeof AuthenticatedAdminDocumentsTemplatesIdRoute
   '/admin/form-builder/workflows/$id': typeof AuthenticatedAdminFormBuilderWorkflowsIdRoute
 }
 export interface FileRoutesByTo {
@@ -1075,6 +1131,10 @@ export interface FileRoutesByTo {
   '/admin/digital-signature/documents': typeof AuthenticatedAdminDigitalSignatureDocumentsRoute
   '/admin/digital-signature/signatures': typeof AuthenticatedAdminDigitalSignatureSignaturesRoute
   '/admin/digital-signature/status': typeof AuthenticatedAdminDigitalSignatureStatusRoute
+  '/admin/documents/archive': typeof AuthenticatedAdminDocumentsArchiveRoute
+  '/admin/documents/generated': typeof AuthenticatedAdminDocumentsGeneratedRoute
+  '/admin/documents/numbering': typeof AuthenticatedAdminDocumentsNumberingRoute
+  '/admin/documents/templates': typeof AuthenticatedAdminDocumentsTemplatesRouteWithChildren
   '/admin/form-builder/settings': typeof AuthenticatedAdminFormBuilderSettingsRoute
   '/admin/form-builder/templates': typeof AuthenticatedAdminFormBuilderTemplatesRoute
   '/admin/form-builder/wizard': typeof AuthenticatedAdminFormBuilderWizardRoute
@@ -1112,9 +1172,11 @@ export interface FileRoutesByTo {
   '/api/public/hooks/upload-integrity': typeof ApiPublicHooksUploadIntegrityRoute
   '/api/public/hooks/workflow-sla-scan': typeof ApiPublicHooksWorkflowSlaScanRoute
   '/admin/digital-signature': typeof AuthenticatedAdminDigitalSignatureIndexRoute
+  '/admin/documents': typeof AuthenticatedAdminDocumentsIndexRoute
   '/admin/form-builder': typeof AuthenticatedAdminFormBuilderIndexRoute
   '/admin/forms': typeof AuthenticatedAdminFormsIndexRoute
   '/admin/tasks': typeof AuthenticatedAdminTasksIndexRoute
+  '/admin/documents/templates/$id': typeof AuthenticatedAdminDocumentsTemplatesIdRoute
   '/admin/form-builder/workflows/$id': typeof AuthenticatedAdminFormBuilderWorkflowsIdRoute
 }
 export interface FileRoutesById {
@@ -1158,6 +1220,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/dataset': typeof AuthenticatedAdminDatasetRouteWithChildren
   '/_authenticated/admin/desa': typeof AuthenticatedAdminDesaRoute
   '/_authenticated/admin/digital-signature': typeof AuthenticatedAdminDigitalSignatureRouteWithChildren
+  '/_authenticated/admin/documents': typeof AuthenticatedAdminDocumentsRouteWithChildren
   '/_authenticated/admin/eksekutif': typeof AuthenticatedAdminEksekutifRoute
   '/_authenticated/admin/form-builder': typeof AuthenticatedAdminFormBuilderRouteWithChildren
   '/_authenticated/admin/governance': typeof AuthenticatedAdminGovernanceRoute
@@ -1206,6 +1269,10 @@ export interface FileRoutesById {
   '/_authenticated/admin/digital-signature/documents': typeof AuthenticatedAdminDigitalSignatureDocumentsRoute
   '/_authenticated/admin/digital-signature/signatures': typeof AuthenticatedAdminDigitalSignatureSignaturesRoute
   '/_authenticated/admin/digital-signature/status': typeof AuthenticatedAdminDigitalSignatureStatusRoute
+  '/_authenticated/admin/documents/archive': typeof AuthenticatedAdminDocumentsArchiveRoute
+  '/_authenticated/admin/documents/generated': typeof AuthenticatedAdminDocumentsGeneratedRoute
+  '/_authenticated/admin/documents/numbering': typeof AuthenticatedAdminDocumentsNumberingRoute
+  '/_authenticated/admin/documents/templates': typeof AuthenticatedAdminDocumentsTemplatesRouteWithChildren
   '/_authenticated/admin/form-builder/settings': typeof AuthenticatedAdminFormBuilderSettingsRoute
   '/_authenticated/admin/form-builder/templates': typeof AuthenticatedAdminFormBuilderTemplatesRoute
   '/_authenticated/admin/form-builder/wizard': typeof AuthenticatedAdminFormBuilderWizardRoute
@@ -1243,9 +1310,11 @@ export interface FileRoutesById {
   '/api/public/hooks/upload-integrity': typeof ApiPublicHooksUploadIntegrityRoute
   '/api/public/hooks/workflow-sla-scan': typeof ApiPublicHooksWorkflowSlaScanRoute
   '/_authenticated/admin/digital-signature/': typeof AuthenticatedAdminDigitalSignatureIndexRoute
+  '/_authenticated/admin/documents/': typeof AuthenticatedAdminDocumentsIndexRoute
   '/_authenticated/admin/form-builder/': typeof AuthenticatedAdminFormBuilderIndexRoute
   '/_authenticated/admin/forms/': typeof AuthenticatedAdminFormsIndexRoute
   '/_authenticated/admin/tasks/': typeof AuthenticatedAdminTasksIndexRoute
+  '/_authenticated/admin/documents/templates/$id': typeof AuthenticatedAdminDocumentsTemplatesIdRoute
   '/_authenticated/admin/form-builder/workflows/$id': typeof AuthenticatedAdminFormBuilderWorkflowsIdRoute
 }
 export interface FileRouteTypes {
@@ -1289,6 +1358,7 @@ export interface FileRouteTypes {
     | '/admin/dataset'
     | '/admin/desa'
     | '/admin/digital-signature'
+    | '/admin/documents'
     | '/admin/eksekutif'
     | '/admin/form-builder'
     | '/admin/governance'
@@ -1337,6 +1407,10 @@ export interface FileRouteTypes {
     | '/admin/digital-signature/documents'
     | '/admin/digital-signature/signatures'
     | '/admin/digital-signature/status'
+    | '/admin/documents/archive'
+    | '/admin/documents/generated'
+    | '/admin/documents/numbering'
+    | '/admin/documents/templates'
     | '/admin/form-builder/settings'
     | '/admin/form-builder/templates'
     | '/admin/form-builder/wizard'
@@ -1374,9 +1448,11 @@ export interface FileRouteTypes {
     | '/api/public/hooks/upload-integrity'
     | '/api/public/hooks/workflow-sla-scan'
     | '/admin/digital-signature/'
+    | '/admin/documents/'
     | '/admin/form-builder/'
     | '/admin/forms/'
     | '/admin/tasks/'
+    | '/admin/documents/templates/$id'
     | '/admin/form-builder/workflows/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -1463,6 +1539,10 @@ export interface FileRouteTypes {
     | '/admin/digital-signature/documents'
     | '/admin/digital-signature/signatures'
     | '/admin/digital-signature/status'
+    | '/admin/documents/archive'
+    | '/admin/documents/generated'
+    | '/admin/documents/numbering'
+    | '/admin/documents/templates'
     | '/admin/form-builder/settings'
     | '/admin/form-builder/templates'
     | '/admin/form-builder/wizard'
@@ -1500,9 +1580,11 @@ export interface FileRouteTypes {
     | '/api/public/hooks/upload-integrity'
     | '/api/public/hooks/workflow-sla-scan'
     | '/admin/digital-signature'
+    | '/admin/documents'
     | '/admin/form-builder'
     | '/admin/forms'
     | '/admin/tasks'
+    | '/admin/documents/templates/$id'
     | '/admin/form-builder/workflows/$id'
   id:
     | '__root__'
@@ -1545,6 +1627,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/dataset'
     | '/_authenticated/admin/desa'
     | '/_authenticated/admin/digital-signature'
+    | '/_authenticated/admin/documents'
     | '/_authenticated/admin/eksekutif'
     | '/_authenticated/admin/form-builder'
     | '/_authenticated/admin/governance'
@@ -1593,6 +1676,10 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/digital-signature/documents'
     | '/_authenticated/admin/digital-signature/signatures'
     | '/_authenticated/admin/digital-signature/status'
+    | '/_authenticated/admin/documents/archive'
+    | '/_authenticated/admin/documents/generated'
+    | '/_authenticated/admin/documents/numbering'
+    | '/_authenticated/admin/documents/templates'
     | '/_authenticated/admin/form-builder/settings'
     | '/_authenticated/admin/form-builder/templates'
     | '/_authenticated/admin/form-builder/wizard'
@@ -1630,9 +1717,11 @@ export interface FileRouteTypes {
     | '/api/public/hooks/upload-integrity'
     | '/api/public/hooks/workflow-sla-scan'
     | '/_authenticated/admin/digital-signature/'
+    | '/_authenticated/admin/documents/'
     | '/_authenticated/admin/form-builder/'
     | '/_authenticated/admin/forms/'
     | '/_authenticated/admin/tasks/'
+    | '/_authenticated/admin/documents/templates/$id'
     | '/_authenticated/admin/form-builder/workflows/$id'
   fileRoutesById: FileRoutesById
 }
@@ -2098,6 +2187,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminEksekutifRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/admin/documents': {
+      id: '/_authenticated/admin/documents'
+      path: '/admin/documents'
+      fullPath: '/admin/documents'
+      preLoaderRoute: typeof AuthenticatedAdminDocumentsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/admin/digital-signature': {
       id: '/_authenticated/admin/digital-signature'
       path: '/admin/digital-signature'
@@ -2223,6 +2319,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/admin/form-builder/'
       preLoaderRoute: typeof AuthenticatedAdminFormBuilderIndexRouteImport
       parentRoute: typeof AuthenticatedAdminFormBuilderRoute
+    }
+    '/_authenticated/admin/documents/': {
+      id: '/_authenticated/admin/documents/'
+      path: '/'
+      fullPath: '/admin/documents/'
+      preLoaderRoute: typeof AuthenticatedAdminDocumentsIndexRouteImport
+      parentRoute: typeof AuthenticatedAdminDocumentsRoute
     }
     '/_authenticated/admin/digital-signature/': {
       id: '/_authenticated/admin/digital-signature/'
@@ -2483,6 +2586,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminFormBuilderSettingsRouteImport
       parentRoute: typeof AuthenticatedAdminFormBuilderRoute
     }
+    '/_authenticated/admin/documents/templates': {
+      id: '/_authenticated/admin/documents/templates'
+      path: '/templates'
+      fullPath: '/admin/documents/templates'
+      preLoaderRoute: typeof AuthenticatedAdminDocumentsTemplatesRouteImport
+      parentRoute: typeof AuthenticatedAdminDocumentsRoute
+    }
+    '/_authenticated/admin/documents/numbering': {
+      id: '/_authenticated/admin/documents/numbering'
+      path: '/numbering'
+      fullPath: '/admin/documents/numbering'
+      preLoaderRoute: typeof AuthenticatedAdminDocumentsNumberingRouteImport
+      parentRoute: typeof AuthenticatedAdminDocumentsRoute
+    }
+    '/_authenticated/admin/documents/generated': {
+      id: '/_authenticated/admin/documents/generated'
+      path: '/generated'
+      fullPath: '/admin/documents/generated'
+      preLoaderRoute: typeof AuthenticatedAdminDocumentsGeneratedRouteImport
+      parentRoute: typeof AuthenticatedAdminDocumentsRoute
+    }
+    '/_authenticated/admin/documents/archive': {
+      id: '/_authenticated/admin/documents/archive'
+      path: '/archive'
+      fullPath: '/admin/documents/archive'
+      preLoaderRoute: typeof AuthenticatedAdminDocumentsArchiveRouteImport
+      parentRoute: typeof AuthenticatedAdminDocumentsRoute
+    }
     '/_authenticated/admin/digital-signature/status': {
       id: '/_authenticated/admin/digital-signature/status'
       path: '/status'
@@ -2574,6 +2705,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminFormBuilderWorkflowsIdRouteImport
       parentRoute: typeof AuthenticatedAdminFormBuilderWorkflowsRoute
     }
+    '/_authenticated/admin/documents/templates/$id': {
+      id: '/_authenticated/admin/documents/templates/$id'
+      path: '/$id'
+      fullPath: '/admin/documents/templates/$id'
+      preLoaderRoute: typeof AuthenticatedAdminDocumentsTemplatesIdRouteImport
+      parentRoute: typeof AuthenticatedAdminDocumentsTemplatesRoute
+    }
   }
 }
 
@@ -2654,6 +2792,48 @@ const AuthenticatedAdminDigitalSignatureRouteChildren: AuthenticatedAdminDigital
 const AuthenticatedAdminDigitalSignatureRouteWithChildren =
   AuthenticatedAdminDigitalSignatureRoute._addFileChildren(
     AuthenticatedAdminDigitalSignatureRouteChildren,
+  )
+
+interface AuthenticatedAdminDocumentsTemplatesRouteChildren {
+  AuthenticatedAdminDocumentsTemplatesIdRoute: typeof AuthenticatedAdminDocumentsTemplatesIdRoute
+}
+
+const AuthenticatedAdminDocumentsTemplatesRouteChildren: AuthenticatedAdminDocumentsTemplatesRouteChildren =
+  {
+    AuthenticatedAdminDocumentsTemplatesIdRoute:
+      AuthenticatedAdminDocumentsTemplatesIdRoute,
+  }
+
+const AuthenticatedAdminDocumentsTemplatesRouteWithChildren =
+  AuthenticatedAdminDocumentsTemplatesRoute._addFileChildren(
+    AuthenticatedAdminDocumentsTemplatesRouteChildren,
+  )
+
+interface AuthenticatedAdminDocumentsRouteChildren {
+  AuthenticatedAdminDocumentsArchiveRoute: typeof AuthenticatedAdminDocumentsArchiveRoute
+  AuthenticatedAdminDocumentsGeneratedRoute: typeof AuthenticatedAdminDocumentsGeneratedRoute
+  AuthenticatedAdminDocumentsNumberingRoute: typeof AuthenticatedAdminDocumentsNumberingRoute
+  AuthenticatedAdminDocumentsTemplatesRoute: typeof AuthenticatedAdminDocumentsTemplatesRouteWithChildren
+  AuthenticatedAdminDocumentsIndexRoute: typeof AuthenticatedAdminDocumentsIndexRoute
+}
+
+const AuthenticatedAdminDocumentsRouteChildren: AuthenticatedAdminDocumentsRouteChildren =
+  {
+    AuthenticatedAdminDocumentsArchiveRoute:
+      AuthenticatedAdminDocumentsArchiveRoute,
+    AuthenticatedAdminDocumentsGeneratedRoute:
+      AuthenticatedAdminDocumentsGeneratedRoute,
+    AuthenticatedAdminDocumentsNumberingRoute:
+      AuthenticatedAdminDocumentsNumberingRoute,
+    AuthenticatedAdminDocumentsTemplatesRoute:
+      AuthenticatedAdminDocumentsTemplatesRouteWithChildren,
+    AuthenticatedAdminDocumentsIndexRoute:
+      AuthenticatedAdminDocumentsIndexRoute,
+  }
+
+const AuthenticatedAdminDocumentsRouteWithChildren =
+  AuthenticatedAdminDocumentsRoute._addFileChildren(
+    AuthenticatedAdminDocumentsRouteChildren,
   )
 
 interface AuthenticatedAdminFormBuilderWorkflowsRouteChildren {
@@ -2767,6 +2947,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedAdminDatasetRoute: typeof AuthenticatedAdminDatasetRouteWithChildren
   AuthenticatedAdminDesaRoute: typeof AuthenticatedAdminDesaRoute
   AuthenticatedAdminDigitalSignatureRoute: typeof AuthenticatedAdminDigitalSignatureRouteWithChildren
+  AuthenticatedAdminDocumentsRoute: typeof AuthenticatedAdminDocumentsRouteWithChildren
   AuthenticatedAdminEksekutifRoute: typeof AuthenticatedAdminEksekutifRoute
   AuthenticatedAdminFormBuilderRoute: typeof AuthenticatedAdminFormBuilderRouteWithChildren
   AuthenticatedAdminGovernanceRoute: typeof AuthenticatedAdminGovernanceRoute
@@ -2837,6 +3018,8 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAdminDesaRoute: AuthenticatedAdminDesaRoute,
   AuthenticatedAdminDigitalSignatureRoute:
     AuthenticatedAdminDigitalSignatureRouteWithChildren,
+  AuthenticatedAdminDocumentsRoute:
+    AuthenticatedAdminDocumentsRouteWithChildren,
   AuthenticatedAdminEksekutifRoute: AuthenticatedAdminEksekutifRoute,
   AuthenticatedAdminFormBuilderRoute:
     AuthenticatedAdminFormBuilderRouteWithChildren,
@@ -2944,13 +3127,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

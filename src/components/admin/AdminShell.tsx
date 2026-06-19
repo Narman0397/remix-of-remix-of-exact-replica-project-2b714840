@@ -23,6 +23,8 @@ import {
   X,
   Boxes,
   Hash,
+  FileSignature,
+  FileText,
   ShieldCheck,
 } from "lucide-react";
 
@@ -147,6 +149,15 @@ const superNavGroups: NavGroup[] = [
       { to: "/pemda", label: "Dashboard Pemda", icon: LayoutDashboard },
       { to: "/executive", label: "Dashboard Eksekutif", icon: LayoutDashboard },
       { to: "/admin/eksekutif", label: "Pimpinan (Detail)", icon: LayoutDashboard },
+    ],
+  },
+  {
+    title: "Document Center",
+    items: [
+      { to: "/admin/documents/templates", label: "Templates", icon: FileText },
+      { to: "/admin/documents/generated", label: "Generated Documents", icon: FileSignature },
+      { to: "/admin/documents/numbering", label: "Numbering Rules", icon: Hash },
+      { to: "/admin/documents/archive", label: "Archive", icon: Boxes },
     ],
   },
   {

@@ -1535,15 +1535,189 @@ export type Database = {
           },
         ]
       }
-      document_templates: {
+      document_history: {
+        Row: {
+          action: string
+          actor_id: string | null
+          created_at: string
+          document_id: string
+          id: string
+          metadata: Json
+        }
+        Insert: {
+          action: string
+          actor_id?: string | null
+          created_at?: string
+          document_id: string
+          id?: string
+          metadata?: Json
+        }
+        Update: {
+          action?: string
+          actor_id?: string | null
+          created_at?: string
+          document_id?: string
+          id?: string
+          metadata?: Json
+        }
+        Relationships: [
+          {
+            foreignKeyName: "document_history_document_id_fkey"
+            columns: ["document_id"]
+            isOneToOne: false
+            referencedRelation: "generated_documents"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      document_numbering_rules: {
+        Row: {
+          category: string | null
+          code: string
+          created_at: string
+          created_by: string | null
+          format: string
+          id: string
+          name: string
+          opd_id: string | null
+          padding: number
+          reset_period: string
+          scope: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          category?: string | null
+          code: string
+          created_at?: string
+          created_by?: string | null
+          format: string
+          id?: string
+          name: string
+          opd_id?: string | null
+          padding?: number
+          reset_period?: string
+          scope?: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          category?: string | null
+          code?: string
+          created_at?: string
+          created_by?: string | null
+          format?: string
+          id?: string
+          name?: string
+          opd_id?: string | null
+          padding?: number
+          reset_period?: string
+          scope?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "document_numbering_rules_opd_id_fkey"
+            columns: ["opd_id"]
+            isOneToOne: false
+            referencedRelation: "opd"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      document_numbering_sequences: {
+        Row: {
+          id: string
+          last_number: number
+          rule_id: string
+          scope_key: string
+          updated_at: string
+          year: number
+        }
+        Insert: {
+          id?: string
+          last_number?: number
+          rule_id: string
+          scope_key?: string
+          updated_at?: string
+          year: number
+        }
+        Update: {
+          id?: string
+          last_number?: number
+          rule_id?: string
+          scope_key?: string
+          updated_at?: string
+          year?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "document_numbering_sequences_rule_id_fkey"
+            columns: ["rule_id"]
+            isOneToOne: false
+            referencedRelation: "document_numbering_rules"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      document_template_versions: {
         Row: {
           created_at: string
           created_by: string | null
+          id: string
+          kind: string
+          template_html: string | null
+          template_id: string
+          template_storage_path: string | null
+          variables: Json
+          version_number: number
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          kind: string
+          template_html?: string | null
+          template_id: string
+          template_storage_path?: string | null
+          variables?: Json
+          version_number: number
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          kind?: string
+          template_html?: string | null
+          template_id?: string
+          template_storage_path?: string | null
+          variables?: Json
+          version_number?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "document_template_versions_template_id_fkey"
+            columns: ["template_id"]
+            isOneToOne: false
+            referencedRelation: "document_templates"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      document_templates: {
+        Row: {
+          category: string | null
+          created_at: string
+          created_by: string | null
+          current_version: number
           deleted_at: string | null
           description: string | null
           form_id: string | null
           id: string
+          kind: string
           name: string
+          numbering_rule_id: string | null
           owner_opd_id: string | null
           status: string
           template_html: string | null
@@ -1552,13 +1726,17 @@ export type Database = {
           variables: Json
         }
         Insert: {
+          category?: string | null
           created_at?: string
           created_by?: string | null
+          current_version?: number
           deleted_at?: string | null
           description?: string | null
           form_id?: string | null
           id?: string
+          kind?: string
           name: string
+          numbering_rule_id?: string | null
           owner_opd_id?: string | null
           status?: string
           template_html?: string | null
@@ -1567,13 +1745,17 @@ export type Database = {
           variables?: Json
         }
         Update: {
+          category?: string | null
           created_at?: string
           created_by?: string | null
+          current_version?: number
           deleted_at?: string | null
           description?: string | null
           form_id?: string | null
           id?: string
+          kind?: string
           name?: string
+          numbering_rule_id?: string | null
           owner_opd_id?: string | null
           status?: string
           template_html?: string | null
@@ -1587,6 +1769,13 @@ export type Database = {
             columns: ["form_id"]
             isOneToOne: false
             referencedRelation: "forms"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "document_templates_numbering_rule_fk"
+            columns: ["numbering_rule_id"]
+            isOneToOne: false
+            referencedRelation: "document_numbering_rules"
             referencedColumns: ["id"]
           },
           {
@@ -2426,37 +2615,58 @@ export type Database = {
       }
       generated_documents: {
         Row: {
+          archived_at: string | null
+          doc_number: string | null
           generated_at: string
           generated_by: string | null
           id: string
           mime: string
+          name: string | null
+          numbering_rule_id: string | null
           signed_document_id: string | null
           size_bytes: number | null
+          snapshot: Json
+          status: string
           storage_path: string
           submission_id: string
           template_id: string | null
+          template_version: number | null
         }
         Insert: {
+          archived_at?: string | null
+          doc_number?: string | null
           generated_at?: string
           generated_by?: string | null
           id?: string
           mime?: string
+          name?: string | null
+          numbering_rule_id?: string | null
           signed_document_id?: string | null
           size_bytes?: number | null
+          snapshot?: Json
+          status?: string
           storage_path: string
           submission_id: string
           template_id?: string | null
+          template_version?: number | null
         }
         Update: {
+          archived_at?: string | null
+          doc_number?: string | null
           generated_at?: string
           generated_by?: string | null
           id?: string
           mime?: string
+          name?: string | null
+          numbering_rule_id?: string | null
           signed_document_id?: string | null
           size_bytes?: number | null
+          snapshot?: Json
+          status?: string
           storage_path?: string
           submission_id?: string
           template_id?: string | null
+          template_version?: number | null
         }
         Relationships: [
           {
@@ -5194,6 +5404,10 @@ export type Database = {
           _target_user_id: string
         }
         Returns: Json
+      }
+      fn_doc_next_number: {
+        Args: { _category?: string; _opd_id?: string; _rule_id: string }
+        Returns: string
       }
       fn_fb_generate_submission_code: {
         Args: { _format: string; _scope: string }
