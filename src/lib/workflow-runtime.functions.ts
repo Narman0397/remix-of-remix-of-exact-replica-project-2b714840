@@ -111,14 +111,14 @@ export const wfRtGetTaskDetail = createServerFn({ method: "POST" })
     }
     const timeline = await getSubmissionTimeline(supabaseAdmin, task.submission_id);
     // Load node config dari snapshot untuk tahu aksi yang tersedia.
-    let nodeConfig: Record<string, unknown> | null = null;
+    let nodeConfig: import("@/integrations/supabase/types").Json | null = null;
     if (task.workflow_version_id) {
       const { data: wfv } = await supabaseAdmin
         .from("workflow_versions")
         .select("graph")
         .eq("id", task.workflow_version_id)
         .maybeSingle();
-      const graph = (wfv?.graph ?? null) as { nodes?: Array<{ id: string; config?: Record<string, unknown> }> } | null;
+      const graph = (wfv?.graph ?? null) as { nodes?: Array<{ id: string; config?: import("@/integrations/supabase/types").Json }> } | null;
       nodeConfig = graph?.nodes?.find((n) => n.id === task.node_key)?.config ?? null;
     }
     return {
