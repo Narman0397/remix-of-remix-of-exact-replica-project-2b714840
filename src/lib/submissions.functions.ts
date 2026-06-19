@@ -215,6 +215,16 @@ export const submitSubmission = createServerFn({ method: "POST" })
           }
         }
       }
+      // Phase 2B — kick off workflow runtime instance bila form ter-attach workflow.
+      try {
+        const { startWorkflowForSubmission } = await import("./workflow-runtime.functions");
+        await startWorkflowForSubmission(s.id, userId);
+      } catch (e) {
+        log.warn("submission.submit.workflowStartFailed", {
+          submissionId: s.id,
+          error: (e as Error).message,
+        });
+      }
       log.info("submission.submit.ok", { userId, correlationId, submissionId: s.id });
       return { id: s.id, status: "submitted" as const };
     });

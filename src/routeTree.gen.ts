@@ -45,9 +45,11 @@ import { Route as AuthenticatedAsnIzinRouteImport } from './routes/_authenticate
 import { Route as AuthenticatedAsnDokumenRouteImport } from './routes/_authenticated/asn.dokumen'
 import { Route as AuthenticatedAsnAsetRouteImport } from './routes/_authenticated/asn.aset'
 import { Route as AuthenticatedAsnAbsensiRouteImport } from './routes/_authenticated/asn.absensi'
+import { Route as AuthenticatedAdminWorkflowInstancesRouteImport } from './routes/_authenticated/admin.workflow-instances'
 import { Route as AuthenticatedAdminVerifikasiLogRouteImport } from './routes/_authenticated/admin.verifikasi-log'
 import { Route as AuthenticatedAdminVerifikasiRouteImport } from './routes/_authenticated/admin.verifikasi'
 import { Route as AuthenticatedAdminUsersRouteImport } from './routes/_authenticated/admin.users'
+import { Route as AuthenticatedAdminTasksRouteImport } from './routes/_authenticated/admin.tasks'
 import { Route as AuthenticatedAdminSystemHealthRouteImport } from './routes/_authenticated/admin.system-health'
 import { Route as AuthenticatedAdminSubmissionReviewRouteImport } from './routes/_authenticated/admin.submission-review'
 import { Route as AuthenticatedAdminStorageRouteImport } from './routes/_authenticated/admin.storage'
@@ -82,9 +84,11 @@ import { Route as AuthenticatedAdminAsetKampanyeRouteImport } from './routes/_au
 import { Route as AuthenticatedAdminAsetExtraRouteImport } from './routes/_authenticated/admin.aset-extra'
 import { Route as AuthenticatedAdminAsetRouteImport } from './routes/_authenticated/admin.aset'
 import { Route as AuthenticatedAdminApprovalsRouteImport } from './routes/_authenticated/admin.approvals'
+import { Route as AuthenticatedAdminTasksIndexRouteImport } from './routes/_authenticated/admin.tasks.index'
 import { Route as AuthenticatedAdminFormsIndexRouteImport } from './routes/_authenticated/admin.forms.index'
 import { Route as AuthenticatedAdminFormBuilderIndexRouteImport } from './routes/_authenticated/admin.form-builder.index'
 import { Route as AuthenticatedAdminDigitalSignatureIndexRouteImport } from './routes/_authenticated/admin.digital-signature.index'
+import { Route as ApiPublicHooksWorkflowSlaScanRouteImport } from './routes/api/public/hooks/workflow-sla-scan'
 import { Route as ApiPublicHooksUploadIntegrityRouteImport } from './routes/api/public/hooks/upload-integrity'
 import { Route as ApiPublicHooksStuckJobsRouteImport } from './routes/api/public/hooks/stuck-jobs'
 import { Route as ApiPublicHooksStorageCleanupRouteImport } from './routes/api/public/hooks/storage-cleanup'
@@ -100,6 +104,7 @@ import { Route as ApiPublicHooksAssignmentReminderRouteImport } from './routes/a
 import { Route as ApiPublicHooksAsetWarrantyReminderRouteImport } from './routes/api/public/hooks/aset-warranty-reminder'
 import { Route as ApiPublicHooksAsetSusutBulananRouteImport } from './routes/api/public/hooks/aset-susut-bulanan'
 import { Route as AuthenticatedAsnScanTokenRouteImport } from './routes/_authenticated/asn.scan.$token'
+import { Route as AuthenticatedAdminTasksIdRouteImport } from './routes/_authenticated/admin.tasks.$id'
 import { Route as AuthenticatedAdminSystemUatRouteImport } from './routes/_authenticated/admin.system.uat'
 import { Route as AuthenticatedAdminSystemStorageProviderRouteImport } from './routes/_authenticated/admin.system.storage-provider'
 import { Route as AuthenticatedAdminSystemSettingsRouteImport } from './routes/_authenticated/admin.system.settings'
@@ -316,6 +321,12 @@ const AuthenticatedAsnAbsensiRoute = AuthenticatedAsnAbsensiRouteImport.update({
   path: '/asn/absensi',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedAdminWorkflowInstancesRoute =
+  AuthenticatedAdminWorkflowInstancesRouteImport.update({
+    id: '/admin/workflow-instances',
+    path: '/admin/workflow-instances',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedAdminVerifikasiLogRoute =
   AuthenticatedAdminVerifikasiLogRouteImport.update({
     id: '/admin/verifikasi-log',
@@ -331,6 +342,11 @@ const AuthenticatedAdminVerifikasiRoute =
 const AuthenticatedAdminUsersRoute = AuthenticatedAdminUsersRouteImport.update({
   id: '/admin/users',
   path: '/admin/users',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedAdminTasksRoute = AuthenticatedAdminTasksRouteImport.update({
+  id: '/admin/tasks',
+  path: '/admin/tasks',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedAdminSystemHealthRoute =
@@ -528,6 +544,12 @@ const AuthenticatedAdminApprovalsRoute =
     path: '/admin/approvals',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedAdminTasksIndexRoute =
+  AuthenticatedAdminTasksIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedAdminTasksRoute,
+  } as any)
 const AuthenticatedAdminFormsIndexRoute =
   AuthenticatedAdminFormsIndexRouteImport.update({
     id: '/admin/forms/',
@@ -545,6 +567,12 @@ const AuthenticatedAdminDigitalSignatureIndexRoute =
     id: '/',
     path: '/',
     getParentRoute: () => AuthenticatedAdminDigitalSignatureRoute,
+  } as any)
+const ApiPublicHooksWorkflowSlaScanRoute =
+  ApiPublicHooksWorkflowSlaScanRouteImport.update({
+    id: '/api/public/hooks/workflow-sla-scan',
+    path: '/api/public/hooks/workflow-sla-scan',
+    getParentRoute: () => rootRouteImport,
   } as any)
 const ApiPublicHooksUploadIntegrityRoute =
   ApiPublicHooksUploadIntegrityRouteImport.update({
@@ -634,6 +662,12 @@ const AuthenticatedAsnScanTokenRoute =
     id: '/asn/scan/$token',
     path: '/asn/scan/$token',
     getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAdminTasksIdRoute =
+  AuthenticatedAdminTasksIdRouteImport.update({
+    id: '/$id',
+    path: '/$id',
+    getParentRoute: () => AuthenticatedAdminTasksRoute,
   } as any)
 const AuthenticatedAdminSystemUatRoute =
   AuthenticatedAdminSystemUatRouteImport.update({
@@ -886,9 +920,11 @@ export interface FileRoutesByFullPath {
   '/admin/storage': typeof AuthenticatedAdminStorageRoute
   '/admin/submission-review': typeof AuthenticatedAdminSubmissionReviewRoute
   '/admin/system-health': typeof AuthenticatedAdminSystemHealthRoute
+  '/admin/tasks': typeof AuthenticatedAdminTasksRouteWithChildren
   '/admin/users': typeof AuthenticatedAdminUsersRoute
   '/admin/verifikasi': typeof AuthenticatedAdminVerifikasiRoute
   '/admin/verifikasi-log': typeof AuthenticatedAdminVerifikasiLogRoute
+  '/admin/workflow-instances': typeof AuthenticatedAdminWorkflowInstancesRoute
   '/asn/absensi': typeof AuthenticatedAsnAbsensiRoute
   '/asn/aset': typeof AuthenticatedAsnAsetRoute
   '/asn/dokumen': typeof AuthenticatedAsnDokumenRoute
@@ -932,6 +968,7 @@ export interface FileRoutesByFullPath {
   '/admin/system/settings': typeof AuthenticatedAdminSystemSettingsRoute
   '/admin/system/storage-provider': typeof AuthenticatedAdminSystemStorageProviderRoute
   '/admin/system/uat': typeof AuthenticatedAdminSystemUatRoute
+  '/admin/tasks/$id': typeof AuthenticatedAdminTasksIdRoute
   '/asn/scan/$token': typeof AuthenticatedAsnScanTokenRoute
   '/api/public/hooks/aset-susut-bulanan': typeof ApiPublicHooksAsetSusutBulananRoute
   '/api/public/hooks/aset-warranty-reminder': typeof ApiPublicHooksAsetWarrantyReminderRoute
@@ -947,9 +984,11 @@ export interface FileRoutesByFullPath {
   '/api/public/hooks/storage-cleanup': typeof ApiPublicHooksStorageCleanupRoute
   '/api/public/hooks/stuck-jobs': typeof ApiPublicHooksStuckJobsRoute
   '/api/public/hooks/upload-integrity': typeof ApiPublicHooksUploadIntegrityRoute
+  '/api/public/hooks/workflow-sla-scan': typeof ApiPublicHooksWorkflowSlaScanRoute
   '/admin/digital-signature/': typeof AuthenticatedAdminDigitalSignatureIndexRoute
   '/admin/form-builder/': typeof AuthenticatedAdminFormBuilderIndexRoute
   '/admin/forms/': typeof AuthenticatedAdminFormsIndexRoute
+  '/admin/tasks/': typeof AuthenticatedAdminTasksIndexRoute
   '/admin/form-builder/workflows/$id': typeof AuthenticatedAdminFormBuilderWorkflowsIdRoute
 }
 export interface FileRoutesByTo {
@@ -1011,6 +1050,7 @@ export interface FileRoutesByTo {
   '/admin/users': typeof AuthenticatedAdminUsersRoute
   '/admin/verifikasi': typeof AuthenticatedAdminVerifikasiRoute
   '/admin/verifikasi-log': typeof AuthenticatedAdminVerifikasiLogRoute
+  '/admin/workflow-instances': typeof AuthenticatedAdminWorkflowInstancesRoute
   '/asn/absensi': typeof AuthenticatedAsnAbsensiRoute
   '/asn/aset': typeof AuthenticatedAsnAsetRoute
   '/asn/dokumen': typeof AuthenticatedAsnDokumenRoute
@@ -1054,6 +1094,7 @@ export interface FileRoutesByTo {
   '/admin/system/settings': typeof AuthenticatedAdminSystemSettingsRoute
   '/admin/system/storage-provider': typeof AuthenticatedAdminSystemStorageProviderRoute
   '/admin/system/uat': typeof AuthenticatedAdminSystemUatRoute
+  '/admin/tasks/$id': typeof AuthenticatedAdminTasksIdRoute
   '/asn/scan/$token': typeof AuthenticatedAsnScanTokenRoute
   '/api/public/hooks/aset-susut-bulanan': typeof ApiPublicHooksAsetSusutBulananRoute
   '/api/public/hooks/aset-warranty-reminder': typeof ApiPublicHooksAsetWarrantyReminderRoute
@@ -1069,9 +1110,11 @@ export interface FileRoutesByTo {
   '/api/public/hooks/storage-cleanup': typeof ApiPublicHooksStorageCleanupRoute
   '/api/public/hooks/stuck-jobs': typeof ApiPublicHooksStuckJobsRoute
   '/api/public/hooks/upload-integrity': typeof ApiPublicHooksUploadIntegrityRoute
+  '/api/public/hooks/workflow-sla-scan': typeof ApiPublicHooksWorkflowSlaScanRoute
   '/admin/digital-signature': typeof AuthenticatedAdminDigitalSignatureIndexRoute
   '/admin/form-builder': typeof AuthenticatedAdminFormBuilderIndexRoute
   '/admin/forms': typeof AuthenticatedAdminFormsIndexRoute
+  '/admin/tasks': typeof AuthenticatedAdminTasksIndexRoute
   '/admin/form-builder/workflows/$id': typeof AuthenticatedAdminFormBuilderWorkflowsIdRoute
 }
 export interface FileRoutesById {
@@ -1134,9 +1177,11 @@ export interface FileRoutesById {
   '/_authenticated/admin/storage': typeof AuthenticatedAdminStorageRoute
   '/_authenticated/admin/submission-review': typeof AuthenticatedAdminSubmissionReviewRoute
   '/_authenticated/admin/system-health': typeof AuthenticatedAdminSystemHealthRoute
+  '/_authenticated/admin/tasks': typeof AuthenticatedAdminTasksRouteWithChildren
   '/_authenticated/admin/users': typeof AuthenticatedAdminUsersRoute
   '/_authenticated/admin/verifikasi': typeof AuthenticatedAdminVerifikasiRoute
   '/_authenticated/admin/verifikasi-log': typeof AuthenticatedAdminVerifikasiLogRoute
+  '/_authenticated/admin/workflow-instances': typeof AuthenticatedAdminWorkflowInstancesRoute
   '/_authenticated/asn/absensi': typeof AuthenticatedAsnAbsensiRoute
   '/_authenticated/asn/aset': typeof AuthenticatedAsnAsetRoute
   '/_authenticated/asn/dokumen': typeof AuthenticatedAsnDokumenRoute
@@ -1180,6 +1225,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/system/settings': typeof AuthenticatedAdminSystemSettingsRoute
   '/_authenticated/admin/system/storage-provider': typeof AuthenticatedAdminSystemStorageProviderRoute
   '/_authenticated/admin/system/uat': typeof AuthenticatedAdminSystemUatRoute
+  '/_authenticated/admin/tasks/$id': typeof AuthenticatedAdminTasksIdRoute
   '/_authenticated/asn/scan/$token': typeof AuthenticatedAsnScanTokenRoute
   '/api/public/hooks/aset-susut-bulanan': typeof ApiPublicHooksAsetSusutBulananRoute
   '/api/public/hooks/aset-warranty-reminder': typeof ApiPublicHooksAsetWarrantyReminderRoute
@@ -1195,9 +1241,11 @@ export interface FileRoutesById {
   '/api/public/hooks/storage-cleanup': typeof ApiPublicHooksStorageCleanupRoute
   '/api/public/hooks/stuck-jobs': typeof ApiPublicHooksStuckJobsRoute
   '/api/public/hooks/upload-integrity': typeof ApiPublicHooksUploadIntegrityRoute
+  '/api/public/hooks/workflow-sla-scan': typeof ApiPublicHooksWorkflowSlaScanRoute
   '/_authenticated/admin/digital-signature/': typeof AuthenticatedAdminDigitalSignatureIndexRoute
   '/_authenticated/admin/form-builder/': typeof AuthenticatedAdminFormBuilderIndexRoute
   '/_authenticated/admin/forms/': typeof AuthenticatedAdminFormsIndexRoute
+  '/_authenticated/admin/tasks/': typeof AuthenticatedAdminTasksIndexRoute
   '/_authenticated/admin/form-builder/workflows/$id': typeof AuthenticatedAdminFormBuilderWorkflowsIdRoute
 }
 export interface FileRouteTypes {
@@ -1260,9 +1308,11 @@ export interface FileRouteTypes {
     | '/admin/storage'
     | '/admin/submission-review'
     | '/admin/system-health'
+    | '/admin/tasks'
     | '/admin/users'
     | '/admin/verifikasi'
     | '/admin/verifikasi-log'
+    | '/admin/workflow-instances'
     | '/asn/absensi'
     | '/asn/aset'
     | '/asn/dokumen'
@@ -1306,6 +1356,7 @@ export interface FileRouteTypes {
     | '/admin/system/settings'
     | '/admin/system/storage-provider'
     | '/admin/system/uat'
+    | '/admin/tasks/$id'
     | '/asn/scan/$token'
     | '/api/public/hooks/aset-susut-bulanan'
     | '/api/public/hooks/aset-warranty-reminder'
@@ -1321,9 +1372,11 @@ export interface FileRouteTypes {
     | '/api/public/hooks/storage-cleanup'
     | '/api/public/hooks/stuck-jobs'
     | '/api/public/hooks/upload-integrity'
+    | '/api/public/hooks/workflow-sla-scan'
     | '/admin/digital-signature/'
     | '/admin/form-builder/'
     | '/admin/forms/'
+    | '/admin/tasks/'
     | '/admin/form-builder/workflows/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -1385,6 +1438,7 @@ export interface FileRouteTypes {
     | '/admin/users'
     | '/admin/verifikasi'
     | '/admin/verifikasi-log'
+    | '/admin/workflow-instances'
     | '/asn/absensi'
     | '/asn/aset'
     | '/asn/dokumen'
@@ -1428,6 +1482,7 @@ export interface FileRouteTypes {
     | '/admin/system/settings'
     | '/admin/system/storage-provider'
     | '/admin/system/uat'
+    | '/admin/tasks/$id'
     | '/asn/scan/$token'
     | '/api/public/hooks/aset-susut-bulanan'
     | '/api/public/hooks/aset-warranty-reminder'
@@ -1443,9 +1498,11 @@ export interface FileRouteTypes {
     | '/api/public/hooks/storage-cleanup'
     | '/api/public/hooks/stuck-jobs'
     | '/api/public/hooks/upload-integrity'
+    | '/api/public/hooks/workflow-sla-scan'
     | '/admin/digital-signature'
     | '/admin/form-builder'
     | '/admin/forms'
+    | '/admin/tasks'
     | '/admin/form-builder/workflows/$id'
   id:
     | '__root__'
@@ -1507,9 +1564,11 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/storage'
     | '/_authenticated/admin/submission-review'
     | '/_authenticated/admin/system-health'
+    | '/_authenticated/admin/tasks'
     | '/_authenticated/admin/users'
     | '/_authenticated/admin/verifikasi'
     | '/_authenticated/admin/verifikasi-log'
+    | '/_authenticated/admin/workflow-instances'
     | '/_authenticated/asn/absensi'
     | '/_authenticated/asn/aset'
     | '/_authenticated/asn/dokumen'
@@ -1553,6 +1612,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/system/settings'
     | '/_authenticated/admin/system/storage-provider'
     | '/_authenticated/admin/system/uat'
+    | '/_authenticated/admin/tasks/$id'
     | '/_authenticated/asn/scan/$token'
     | '/api/public/hooks/aset-susut-bulanan'
     | '/api/public/hooks/aset-warranty-reminder'
@@ -1568,9 +1628,11 @@ export interface FileRouteTypes {
     | '/api/public/hooks/storage-cleanup'
     | '/api/public/hooks/stuck-jobs'
     | '/api/public/hooks/upload-integrity'
+    | '/api/public/hooks/workflow-sla-scan'
     | '/_authenticated/admin/digital-signature/'
     | '/_authenticated/admin/form-builder/'
     | '/_authenticated/admin/forms/'
+    | '/_authenticated/admin/tasks/'
     | '/_authenticated/admin/form-builder/workflows/$id'
   fileRoutesById: FileRoutesById
 }
@@ -1611,6 +1673,7 @@ export interface RootRouteChildren {
   ApiPublicHooksStorageCleanupRoute: typeof ApiPublicHooksStorageCleanupRoute
   ApiPublicHooksStuckJobsRoute: typeof ApiPublicHooksStuckJobsRoute
   ApiPublicHooksUploadIntegrityRoute: typeof ApiPublicHooksUploadIntegrityRoute
+  ApiPublicHooksWorkflowSlaScanRoute: typeof ApiPublicHooksWorkflowSlaScanRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -1867,6 +1930,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAsnAbsensiRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/admin/workflow-instances': {
+      id: '/_authenticated/admin/workflow-instances'
+      path: '/admin/workflow-instances'
+      fullPath: '/admin/workflow-instances'
+      preLoaderRoute: typeof AuthenticatedAdminWorkflowInstancesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/admin/verifikasi-log': {
       id: '/_authenticated/admin/verifikasi-log'
       path: '/admin/verifikasi-log'
@@ -1886,6 +1956,13 @@ declare module '@tanstack/react-router' {
       path: '/admin/users'
       fullPath: '/admin/users'
       preLoaderRoute: typeof AuthenticatedAdminUsersRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/tasks': {
+      id: '/_authenticated/admin/tasks'
+      path: '/admin/tasks'
+      fullPath: '/admin/tasks'
+      preLoaderRoute: typeof AuthenticatedAdminTasksRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/admin/system-health': {
@@ -2126,6 +2203,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminApprovalsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/admin/tasks/': {
+      id: '/_authenticated/admin/tasks/'
+      path: '/'
+      fullPath: '/admin/tasks/'
+      preLoaderRoute: typeof AuthenticatedAdminTasksIndexRouteImport
+      parentRoute: typeof AuthenticatedAdminTasksRoute
+    }
     '/_authenticated/admin/forms/': {
       id: '/_authenticated/admin/forms/'
       path: '/admin/forms'
@@ -2146,6 +2230,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/admin/digital-signature/'
       preLoaderRoute: typeof AuthenticatedAdminDigitalSignatureIndexRouteImport
       parentRoute: typeof AuthenticatedAdminDigitalSignatureRoute
+    }
+    '/api/public/hooks/workflow-sla-scan': {
+      id: '/api/public/hooks/workflow-sla-scan'
+      path: '/api/public/hooks/workflow-sla-scan'
+      fullPath: '/api/public/hooks/workflow-sla-scan'
+      preLoaderRoute: typeof ApiPublicHooksWorkflowSlaScanRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/api/public/hooks/upload-integrity': {
       id: '/api/public/hooks/upload-integrity'
@@ -2251,6 +2342,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/asn/scan/$token'
       preLoaderRoute: typeof AuthenticatedAsnScanTokenRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/tasks/$id': {
+      id: '/_authenticated/admin/tasks/$id'
+      path: '/$id'
+      fullPath: '/admin/tasks/$id'
+      preLoaderRoute: typeof AuthenticatedAdminTasksIdRouteImport
+      parentRoute: typeof AuthenticatedAdminTasksRoute
     }
     '/_authenticated/admin/system/uat': {
       id: '/_authenticated/admin/system/uat'
@@ -2634,6 +2732,22 @@ const AuthenticatedAdminRbacRouteWithChildren =
     AuthenticatedAdminRbacRouteChildren,
   )
 
+interface AuthenticatedAdminTasksRouteChildren {
+  AuthenticatedAdminTasksIdRoute: typeof AuthenticatedAdminTasksIdRoute
+  AuthenticatedAdminTasksIndexRoute: typeof AuthenticatedAdminTasksIndexRoute
+}
+
+const AuthenticatedAdminTasksRouteChildren: AuthenticatedAdminTasksRouteChildren =
+  {
+    AuthenticatedAdminTasksIdRoute: AuthenticatedAdminTasksIdRoute,
+    AuthenticatedAdminTasksIndexRoute: AuthenticatedAdminTasksIndexRoute,
+  }
+
+const AuthenticatedAdminTasksRouteWithChildren =
+  AuthenticatedAdminTasksRoute._addFileChildren(
+    AuthenticatedAdminTasksRouteChildren,
+  )
+
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAkunRoute: typeof AuthenticatedAkunRoute
   AuthenticatedExecutiveRoute: typeof AuthenticatedExecutiveRoute
@@ -2672,9 +2786,11 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedAdminStorageRoute: typeof AuthenticatedAdminStorageRoute
   AuthenticatedAdminSubmissionReviewRoute: typeof AuthenticatedAdminSubmissionReviewRoute
   AuthenticatedAdminSystemHealthRoute: typeof AuthenticatedAdminSystemHealthRoute
+  AuthenticatedAdminTasksRoute: typeof AuthenticatedAdminTasksRouteWithChildren
   AuthenticatedAdminUsersRoute: typeof AuthenticatedAdminUsersRoute
   AuthenticatedAdminVerifikasiRoute: typeof AuthenticatedAdminVerifikasiRoute
   AuthenticatedAdminVerifikasiLogRoute: typeof AuthenticatedAdminVerifikasiLogRoute
+  AuthenticatedAdminWorkflowInstancesRoute: typeof AuthenticatedAdminWorkflowInstancesRoute
   AuthenticatedAsnAbsensiRoute: typeof AuthenticatedAsnAbsensiRoute
   AuthenticatedAsnAsetRoute: typeof AuthenticatedAsnAsetRoute
   AuthenticatedAsnDokumenRoute: typeof AuthenticatedAsnDokumenRoute
@@ -2742,9 +2858,12 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAdminSubmissionReviewRoute:
     AuthenticatedAdminSubmissionReviewRoute,
   AuthenticatedAdminSystemHealthRoute: AuthenticatedAdminSystemHealthRoute,
+  AuthenticatedAdminTasksRoute: AuthenticatedAdminTasksRouteWithChildren,
   AuthenticatedAdminUsersRoute: AuthenticatedAdminUsersRoute,
   AuthenticatedAdminVerifikasiRoute: AuthenticatedAdminVerifikasiRoute,
   AuthenticatedAdminVerifikasiLogRoute: AuthenticatedAdminVerifikasiLogRoute,
+  AuthenticatedAdminWorkflowInstancesRoute:
+    AuthenticatedAdminWorkflowInstancesRoute,
   AuthenticatedAsnAbsensiRoute: AuthenticatedAsnAbsensiRoute,
   AuthenticatedAsnAsetRoute: AuthenticatedAsnAsetRoute,
   AuthenticatedAsnDokumenRoute: AuthenticatedAsnDokumenRoute,
@@ -2820,17 +2939,8 @@ const rootRouteChildren: RootRouteChildren = {
   ApiPublicHooksStorageCleanupRoute: ApiPublicHooksStorageCleanupRoute,
   ApiPublicHooksStuckJobsRoute: ApiPublicHooksStuckJobsRoute,
   ApiPublicHooksUploadIntegrityRoute: ApiPublicHooksUploadIntegrityRoute,
+  ApiPublicHooksWorkflowSlaScanRoute: ApiPublicHooksWorkflowSlaScanRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
