@@ -23,6 +23,7 @@ import { Route as PermohonanIndexRouteImport } from './routes/permohonan.index'
 import { Route as LayananIndexRouteImport } from './routes/layanan.index'
 import { Route as DataTerbukaIndexRouteImport } from './routes/data-terbuka.index'
 import { Route as VerifyTokenRouteImport } from './routes/verify.$token'
+import { Route as VerifyDocTokenRouteImport } from './routes/verify-doc.$token'
 import { Route as VTokenRouteImport } from './routes/v.$token'
 import { Route as PermohonanBaruRouteImport } from './routes/permohonan.baru'
 import { Route as PermohonanIdRouteImport } from './routes/permohonan.$id'
@@ -142,6 +143,7 @@ import { Route as AuthenticatedAdminAsetPenyusutanRouteImport } from './routes/_
 import { Route as AuthenticatedAdminAsetOpnameRouteImport } from './routes/_authenticated/admin.aset.opname'
 import { Route as AuthenticatedAdminAsetKibRouteImport } from './routes/_authenticated/admin.aset.kib'
 import { Route as AuthenticatedAdminAsetBastRouteImport } from './routes/_authenticated/admin.aset.bast'
+import { Route as ApiPublicHooksSignatureWebhookProviderRouteImport } from './routes/api/public/hooks/signature-webhook.$provider'
 import { Route as AuthenticatedAdminFormBuilderWorkflowsIdRouteImport } from './routes/_authenticated/admin.form-builder.workflows.$id'
 import { Route as AuthenticatedAdminDocumentsTemplatesIdRouteImport } from './routes/_authenticated/admin.documents.templates.$id'
 
@@ -212,6 +214,11 @@ const DataTerbukaIndexRoute = DataTerbukaIndexRouteImport.update({
 const VerifyTokenRoute = VerifyTokenRouteImport.update({
   id: '/verify/$token',
   path: '/verify/$token',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const VerifyDocTokenRoute = VerifyDocTokenRouteImport.update({
+  id: '/verify-doc/$token',
+  path: '/verify-doc/$token',
   getParentRoute: () => rootRouteImport,
 } as any)
 const VTokenRoute = VTokenRouteImport.update({
@@ -898,6 +905,12 @@ const AuthenticatedAdminAsetBastRoute =
     path: '/bast',
     getParentRoute: () => AuthenticatedAdminAsetRoute,
   } as any)
+const ApiPublicHooksSignatureWebhookProviderRoute =
+  ApiPublicHooksSignatureWebhookProviderRouteImport.update({
+    id: '/api/public/hooks/signature-webhook/$provider',
+    path: '/api/public/hooks/signature-webhook/$provider',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const AuthenticatedAdminFormBuilderWorkflowsIdRoute =
   AuthenticatedAdminFormBuilderWorkflowsIdRouteImport.update({
     id: '/$id',
@@ -931,6 +944,7 @@ export interface FileRoutesByFullPath {
   '/permohonan/$id': typeof PermohonanIdRoute
   '/permohonan/baru': typeof PermohonanBaruRoute
   '/v/$token': typeof VTokenRoute
+  '/verify-doc/$token': typeof VerifyDocTokenRoute
   '/verify/$token': typeof VerifyTokenRoute
   '/data-terbuka/': typeof DataTerbukaIndexRoute
   '/layanan/': typeof LayananIndexRoute
@@ -1046,6 +1060,7 @@ export interface FileRoutesByFullPath {
   '/admin/tasks/': typeof AuthenticatedAdminTasksIndexRoute
   '/admin/documents/templates/$id': typeof AuthenticatedAdminDocumentsTemplatesIdRoute
   '/admin/form-builder/workflows/$id': typeof AuthenticatedAdminFormBuilderWorkflowsIdRoute
+  '/api/public/hooks/signature-webhook/$provider': typeof ApiPublicHooksSignatureWebhookProviderRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -1067,6 +1082,7 @@ export interface FileRoutesByTo {
   '/permohonan/$id': typeof PermohonanIdRoute
   '/permohonan/baru': typeof PermohonanBaruRoute
   '/v/$token': typeof VTokenRoute
+  '/verify-doc/$token': typeof VerifyDocTokenRoute
   '/verify/$token': typeof VerifyTokenRoute
   '/data-terbuka': typeof DataTerbukaIndexRoute
   '/layanan': typeof LayananIndexRoute
@@ -1178,6 +1194,7 @@ export interface FileRoutesByTo {
   '/admin/tasks': typeof AuthenticatedAdminTasksIndexRoute
   '/admin/documents/templates/$id': typeof AuthenticatedAdminDocumentsTemplatesIdRoute
   '/admin/form-builder/workflows/$id': typeof AuthenticatedAdminFormBuilderWorkflowsIdRoute
+  '/api/public/hooks/signature-webhook/$provider': typeof ApiPublicHooksSignatureWebhookProviderRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -1201,6 +1218,7 @@ export interface FileRoutesById {
   '/permohonan/$id': typeof PermohonanIdRoute
   '/permohonan/baru': typeof PermohonanBaruRoute
   '/v/$token': typeof VTokenRoute
+  '/verify-doc/$token': typeof VerifyDocTokenRoute
   '/verify/$token': typeof VerifyTokenRoute
   '/data-terbuka/': typeof DataTerbukaIndexRoute
   '/layanan/': typeof LayananIndexRoute
@@ -1316,6 +1334,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/tasks/': typeof AuthenticatedAdminTasksIndexRoute
   '/_authenticated/admin/documents/templates/$id': typeof AuthenticatedAdminDocumentsTemplatesIdRoute
   '/_authenticated/admin/form-builder/workflows/$id': typeof AuthenticatedAdminFormBuilderWorkflowsIdRoute
+  '/api/public/hooks/signature-webhook/$provider': typeof ApiPublicHooksSignatureWebhookProviderRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -1339,6 +1358,7 @@ export interface FileRouteTypes {
     | '/permohonan/$id'
     | '/permohonan/baru'
     | '/v/$token'
+    | '/verify-doc/$token'
     | '/verify/$token'
     | '/data-terbuka/'
     | '/layanan/'
@@ -1454,6 +1474,7 @@ export interface FileRouteTypes {
     | '/admin/tasks/'
     | '/admin/documents/templates/$id'
     | '/admin/form-builder/workflows/$id'
+    | '/api/public/hooks/signature-webhook/$provider'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -1475,6 +1496,7 @@ export interface FileRouteTypes {
     | '/permohonan/$id'
     | '/permohonan/baru'
     | '/v/$token'
+    | '/verify-doc/$token'
     | '/verify/$token'
     | '/data-terbuka'
     | '/layanan'
@@ -1586,6 +1608,7 @@ export interface FileRouteTypes {
     | '/admin/tasks'
     | '/admin/documents/templates/$id'
     | '/admin/form-builder/workflows/$id'
+    | '/api/public/hooks/signature-webhook/$provider'
   id:
     | '__root__'
     | '/'
@@ -1608,6 +1631,7 @@ export interface FileRouteTypes {
     | '/permohonan/$id'
     | '/permohonan/baru'
     | '/v/$token'
+    | '/verify-doc/$token'
     | '/verify/$token'
     | '/data-terbuka/'
     | '/layanan/'
@@ -1723,6 +1747,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/tasks/'
     | '/_authenticated/admin/documents/templates/$id'
     | '/_authenticated/admin/form-builder/workflows/$id'
+    | '/api/public/hooks/signature-webhook/$provider'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -1743,6 +1768,7 @@ export interface RootRouteChildren {
   PermohonanIdRoute: typeof PermohonanIdRoute
   PermohonanBaruRoute: typeof PermohonanBaruRoute
   VTokenRoute: typeof VTokenRoute
+  VerifyDocTokenRoute: typeof VerifyDocTokenRoute
   VerifyTokenRoute: typeof VerifyTokenRoute
   DataTerbukaIndexRoute: typeof DataTerbukaIndexRoute
   LayananIndexRoute: typeof LayananIndexRoute
@@ -1763,6 +1789,7 @@ export interface RootRouteChildren {
   ApiPublicHooksStuckJobsRoute: typeof ApiPublicHooksStuckJobsRoute
   ApiPublicHooksUploadIntegrityRoute: typeof ApiPublicHooksUploadIntegrityRoute
   ApiPublicHooksWorkflowSlaScanRoute: typeof ApiPublicHooksWorkflowSlaScanRoute
+  ApiPublicHooksSignatureWebhookProviderRoute: typeof ApiPublicHooksSignatureWebhookProviderRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -1863,6 +1890,13 @@ declare module '@tanstack/react-router' {
       path: '/verify/$token'
       fullPath: '/verify/$token'
       preLoaderRoute: typeof VerifyTokenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/verify-doc/$token': {
+      id: '/verify-doc/$token'
+      path: '/verify-doc/$token'
+      fullPath: '/verify-doc/$token'
+      preLoaderRoute: typeof VerifyDocTokenRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/v/$token': {
@@ -2698,6 +2732,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminAsetBastRouteImport
       parentRoute: typeof AuthenticatedAdminAsetRoute
     }
+    '/api/public/hooks/signature-webhook/$provider': {
+      id: '/api/public/hooks/signature-webhook/$provider'
+      path: '/api/public/hooks/signature-webhook/$provider'
+      fullPath: '/api/public/hooks/signature-webhook/$provider'
+      preLoaderRoute: typeof ApiPublicHooksSignatureWebhookProviderRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_authenticated/admin/form-builder/workflows/$id': {
       id: '/_authenticated/admin/form-builder/workflows/$id'
       path: '/$id'
@@ -3101,6 +3142,7 @@ const rootRouteChildren: RootRouteChildren = {
   PermohonanIdRoute: PermohonanIdRoute,
   PermohonanBaruRoute: PermohonanBaruRoute,
   VTokenRoute: VTokenRoute,
+  VerifyDocTokenRoute: VerifyDocTokenRoute,
   VerifyTokenRoute: VerifyTokenRoute,
   DataTerbukaIndexRoute: DataTerbukaIndexRoute,
   LayananIndexRoute: LayananIndexRoute,
@@ -3123,6 +3165,8 @@ const rootRouteChildren: RootRouteChildren = {
   ApiPublicHooksStuckJobsRoute: ApiPublicHooksStuckJobsRoute,
   ApiPublicHooksUploadIntegrityRoute: ApiPublicHooksUploadIntegrityRoute,
   ApiPublicHooksWorkflowSlaScanRoute: ApiPublicHooksWorkflowSlaScanRoute,
+  ApiPublicHooksSignatureWebhookProviderRoute:
+    ApiPublicHooksSignatureWebhookProviderRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
