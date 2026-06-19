@@ -115,6 +115,7 @@ import { Route as AuthenticatedAdminRbacUserIdRouteImport } from './routes/_auth
 import { Route as AuthenticatedAdminLayananEscalationRouteImport } from './routes/_authenticated/admin.layanan.escalation'
 import { Route as AuthenticatedAdminLayananDisposisiInboxRouteImport } from './routes/_authenticated/admin.layanan.disposisi-inbox'
 import { Route as AuthenticatedAdminFormsIdRouteImport } from './routes/_authenticated/admin.forms.$id'
+import { Route as AuthenticatedAdminFormBuilderWorkflowsRouteImport } from './routes/_authenticated/admin.form-builder.workflows'
 import { Route as AuthenticatedAdminFormBuilderWizardRouteImport } from './routes/_authenticated/admin.form-builder.wizard'
 import { Route as AuthenticatedAdminFormBuilderTemplatesRouteImport } from './routes/_authenticated/admin.form-builder.templates'
 import { Route as AuthenticatedAdminFormBuilderSettingsRouteImport } from './routes/_authenticated/admin.form-builder.settings'
@@ -130,6 +131,7 @@ import { Route as AuthenticatedAdminAsetPenyusutanRouteImport } from './routes/_
 import { Route as AuthenticatedAdminAsetOpnameRouteImport } from './routes/_authenticated/admin.aset.opname'
 import { Route as AuthenticatedAdminAsetKibRouteImport } from './routes/_authenticated/admin.aset.kib'
 import { Route as AuthenticatedAdminAsetBastRouteImport } from './routes/_authenticated/admin.aset.bast'
+import { Route as AuthenticatedAdminFormBuilderWorkflowsIdRouteImport } from './routes/_authenticated/admin.form-builder.workflows.$id'
 
 const TentangRoute = TentangRouteImport.update({
   id: '/tentang',
@@ -723,6 +725,12 @@ const AuthenticatedAdminFormsIdRoute =
     path: '/admin/forms/$id',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedAdminFormBuilderWorkflowsRoute =
+  AuthenticatedAdminFormBuilderWorkflowsRouteImport.update({
+    id: '/workflows',
+    path: '/workflows',
+    getParentRoute: () => AuthenticatedAdminFormBuilderRoute,
+  } as any)
 const AuthenticatedAdminFormBuilderWizardRoute =
   AuthenticatedAdminFormBuilderWizardRouteImport.update({
     id: '/wizard',
@@ -813,6 +821,12 @@ const AuthenticatedAdminAsetBastRoute =
     path: '/bast',
     getParentRoute: () => AuthenticatedAdminAsetRoute,
   } as any)
+const AuthenticatedAdminFormBuilderWorkflowsIdRoute =
+  AuthenticatedAdminFormBuilderWorkflowsIdRouteImport.update({
+    id: '/$id',
+    path: '/$id',
+    getParentRoute: () => AuthenticatedAdminFormBuilderWorkflowsRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -902,6 +916,7 @@ export interface FileRoutesByFullPath {
   '/admin/form-builder/settings': typeof AuthenticatedAdminFormBuilderSettingsRoute
   '/admin/form-builder/templates': typeof AuthenticatedAdminFormBuilderTemplatesRoute
   '/admin/form-builder/wizard': typeof AuthenticatedAdminFormBuilderWizardRoute
+  '/admin/form-builder/workflows': typeof AuthenticatedAdminFormBuilderWorkflowsRouteWithChildren
   '/admin/forms/$id': typeof AuthenticatedAdminFormsIdRoute
   '/admin/layanan/disposisi-inbox': typeof AuthenticatedAdminLayananDisposisiInboxRoute
   '/admin/layanan/escalation': typeof AuthenticatedAdminLayananEscalationRoute
@@ -935,6 +950,7 @@ export interface FileRoutesByFullPath {
   '/admin/digital-signature/': typeof AuthenticatedAdminDigitalSignatureIndexRoute
   '/admin/form-builder/': typeof AuthenticatedAdminFormBuilderIndexRoute
   '/admin/forms/': typeof AuthenticatedAdminFormsIndexRoute
+  '/admin/form-builder/workflows/$id': typeof AuthenticatedAdminFormBuilderWorkflowsIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -1022,6 +1038,7 @@ export interface FileRoutesByTo {
   '/admin/form-builder/settings': typeof AuthenticatedAdminFormBuilderSettingsRoute
   '/admin/form-builder/templates': typeof AuthenticatedAdminFormBuilderTemplatesRoute
   '/admin/form-builder/wizard': typeof AuthenticatedAdminFormBuilderWizardRoute
+  '/admin/form-builder/workflows': typeof AuthenticatedAdminFormBuilderWorkflowsRouteWithChildren
   '/admin/forms/$id': typeof AuthenticatedAdminFormsIdRoute
   '/admin/layanan/disposisi-inbox': typeof AuthenticatedAdminLayananDisposisiInboxRoute
   '/admin/layanan/escalation': typeof AuthenticatedAdminLayananEscalationRoute
@@ -1055,6 +1072,7 @@ export interface FileRoutesByTo {
   '/admin/digital-signature': typeof AuthenticatedAdminDigitalSignatureIndexRoute
   '/admin/form-builder': typeof AuthenticatedAdminFormBuilderIndexRoute
   '/admin/forms': typeof AuthenticatedAdminFormsIndexRoute
+  '/admin/form-builder/workflows/$id': typeof AuthenticatedAdminFormBuilderWorkflowsIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -1146,6 +1164,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/form-builder/settings': typeof AuthenticatedAdminFormBuilderSettingsRoute
   '/_authenticated/admin/form-builder/templates': typeof AuthenticatedAdminFormBuilderTemplatesRoute
   '/_authenticated/admin/form-builder/wizard': typeof AuthenticatedAdminFormBuilderWizardRoute
+  '/_authenticated/admin/form-builder/workflows': typeof AuthenticatedAdminFormBuilderWorkflowsRouteWithChildren
   '/_authenticated/admin/forms/$id': typeof AuthenticatedAdminFormsIdRoute
   '/_authenticated/admin/layanan/disposisi-inbox': typeof AuthenticatedAdminLayananDisposisiInboxRoute
   '/_authenticated/admin/layanan/escalation': typeof AuthenticatedAdminLayananEscalationRoute
@@ -1179,6 +1198,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/digital-signature/': typeof AuthenticatedAdminDigitalSignatureIndexRoute
   '/_authenticated/admin/form-builder/': typeof AuthenticatedAdminFormBuilderIndexRoute
   '/_authenticated/admin/forms/': typeof AuthenticatedAdminFormsIndexRoute
+  '/_authenticated/admin/form-builder/workflows/$id': typeof AuthenticatedAdminFormBuilderWorkflowsIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -1270,6 +1290,7 @@ export interface FileRouteTypes {
     | '/admin/form-builder/settings'
     | '/admin/form-builder/templates'
     | '/admin/form-builder/wizard'
+    | '/admin/form-builder/workflows'
     | '/admin/forms/$id'
     | '/admin/layanan/disposisi-inbox'
     | '/admin/layanan/escalation'
@@ -1303,6 +1324,7 @@ export interface FileRouteTypes {
     | '/admin/digital-signature/'
     | '/admin/form-builder/'
     | '/admin/forms/'
+    | '/admin/form-builder/workflows/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -1390,6 +1412,7 @@ export interface FileRouteTypes {
     | '/admin/form-builder/settings'
     | '/admin/form-builder/templates'
     | '/admin/form-builder/wizard'
+    | '/admin/form-builder/workflows'
     | '/admin/forms/$id'
     | '/admin/layanan/disposisi-inbox'
     | '/admin/layanan/escalation'
@@ -1423,6 +1446,7 @@ export interface FileRouteTypes {
     | '/admin/digital-signature'
     | '/admin/form-builder'
     | '/admin/forms'
+    | '/admin/form-builder/workflows/$id'
   id:
     | '__root__'
     | '/'
@@ -1513,6 +1537,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/form-builder/settings'
     | '/_authenticated/admin/form-builder/templates'
     | '/_authenticated/admin/form-builder/wizard'
+    | '/_authenticated/admin/form-builder/workflows'
     | '/_authenticated/admin/forms/$id'
     | '/_authenticated/admin/layanan/disposisi-inbox'
     | '/_authenticated/admin/layanan/escalation'
@@ -1546,6 +1571,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/digital-signature/'
     | '/_authenticated/admin/form-builder/'
     | '/_authenticated/admin/forms/'
+    | '/_authenticated/admin/form-builder/workflows/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -2331,6 +2357,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminFormsIdRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/admin/form-builder/workflows': {
+      id: '/_authenticated/admin/form-builder/workflows'
+      path: '/workflows'
+      fullPath: '/admin/form-builder/workflows'
+      preLoaderRoute: typeof AuthenticatedAdminFormBuilderWorkflowsRouteImport
+      parentRoute: typeof AuthenticatedAdminFormBuilderRoute
+    }
     '/_authenticated/admin/form-builder/wizard': {
       id: '/_authenticated/admin/form-builder/wizard'
       path: '/wizard'
@@ -2436,6 +2469,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminAsetBastRouteImport
       parentRoute: typeof AuthenticatedAdminAsetRoute
     }
+    '/_authenticated/admin/form-builder/workflows/$id': {
+      id: '/_authenticated/admin/form-builder/workflows/$id'
+      path: '/$id'
+      fullPath: '/admin/form-builder/workflows/$id'
+      preLoaderRoute: typeof AuthenticatedAdminFormBuilderWorkflowsIdRouteImport
+      parentRoute: typeof AuthenticatedAdminFormBuilderWorkflowsRoute
+    }
   }
 }
 
@@ -2518,10 +2558,26 @@ const AuthenticatedAdminDigitalSignatureRouteWithChildren =
     AuthenticatedAdminDigitalSignatureRouteChildren,
   )
 
+interface AuthenticatedAdminFormBuilderWorkflowsRouteChildren {
+  AuthenticatedAdminFormBuilderWorkflowsIdRoute: typeof AuthenticatedAdminFormBuilderWorkflowsIdRoute
+}
+
+const AuthenticatedAdminFormBuilderWorkflowsRouteChildren: AuthenticatedAdminFormBuilderWorkflowsRouteChildren =
+  {
+    AuthenticatedAdminFormBuilderWorkflowsIdRoute:
+      AuthenticatedAdminFormBuilderWorkflowsIdRoute,
+  }
+
+const AuthenticatedAdminFormBuilderWorkflowsRouteWithChildren =
+  AuthenticatedAdminFormBuilderWorkflowsRoute._addFileChildren(
+    AuthenticatedAdminFormBuilderWorkflowsRouteChildren,
+  )
+
 interface AuthenticatedAdminFormBuilderRouteChildren {
   AuthenticatedAdminFormBuilderSettingsRoute: typeof AuthenticatedAdminFormBuilderSettingsRoute
   AuthenticatedAdminFormBuilderTemplatesRoute: typeof AuthenticatedAdminFormBuilderTemplatesRoute
   AuthenticatedAdminFormBuilderWizardRoute: typeof AuthenticatedAdminFormBuilderWizardRoute
+  AuthenticatedAdminFormBuilderWorkflowsRoute: typeof AuthenticatedAdminFormBuilderWorkflowsRouteWithChildren
   AuthenticatedAdminFormBuilderIndexRoute: typeof AuthenticatedAdminFormBuilderIndexRoute
 }
 
@@ -2533,6 +2589,8 @@ const AuthenticatedAdminFormBuilderRouteChildren: AuthenticatedAdminFormBuilderR
       AuthenticatedAdminFormBuilderTemplatesRoute,
     AuthenticatedAdminFormBuilderWizardRoute:
       AuthenticatedAdminFormBuilderWizardRoute,
+    AuthenticatedAdminFormBuilderWorkflowsRoute:
+      AuthenticatedAdminFormBuilderWorkflowsRouteWithChildren,
     AuthenticatedAdminFormBuilderIndexRoute:
       AuthenticatedAdminFormBuilderIndexRoute,
   }
