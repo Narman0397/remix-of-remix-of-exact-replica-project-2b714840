@@ -24,6 +24,7 @@ import {
   Boxes,
   Hash,
   FileSignature,
+  FileText,
   ShieldCheck,
 } from "lucide-react";
 
