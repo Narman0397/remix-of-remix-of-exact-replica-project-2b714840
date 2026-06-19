@@ -80,7 +80,7 @@ const EdgeSchema = z.object({
   to: z.string().min(1).max(80),
   label: z.string().max(120).optional(),
   kind: z.enum(["approve", "reject", "revision", "default"]),
-  condition: z.record(z.string(), z.unknown()).nullable().optional(),
+  condition: z.unknown().nullable().optional(),
 });
 
 const GraphSchema = z.object({ nodes: z.array(NodeSchema), edges: z.array(EdgeSchema) });
