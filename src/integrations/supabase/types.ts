@@ -2291,6 +2291,47 @@ export type Database = {
           },
         ]
       }
+      form_wizard_drafts: {
+        Row: {
+          created_at: string
+          form_id: string | null
+          id: string
+          payload: Json
+          step: string
+          title: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          form_id?: string | null
+          id?: string
+          payload?: Json
+          step?: string
+          title?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          form_id?: string | null
+          id?: string
+          payload?: Json
+          step?: string
+          title?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "form_wizard_drafts_form_id_fkey"
+            columns: ["form_id"]
+            isOneToOne: false
+            referencedRelation: "forms"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       forms: {
         Row: {
           allow_multiple_submit: boolean
