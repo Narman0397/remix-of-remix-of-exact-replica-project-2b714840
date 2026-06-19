@@ -43,7 +43,8 @@ export const fwSaveDraft = createServerFn({ method: "POST" })
         formId: z.string().uuid().optional().nullable(),
         step: z.string().max(40).default("general"),
         title: z.string().max(200).nullable().default(null),
-        payload: z.record(z.unknown()).default({}),
+        // Payload bisa apa saja yang JSON-serializable — disimpan apa adanya.
+        payload: z.unknown().default({}),
       })
       .parse(input),
   )
@@ -55,7 +56,7 @@ export const fwSaveDraft = createServerFn({ method: "POST" })
       formId: data.formId ?? null,
       step: data.step,
       title: data.title,
-      payload: data.payload,
+      payload: (data.payload ?? {}) as unknown as import("@/integrations/supabase/types").Json,
     });
   });
 
