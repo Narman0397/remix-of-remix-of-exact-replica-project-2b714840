@@ -2,7 +2,7 @@
 import { createFileRoute, Link, Outlet } from "@tanstack/react-router";
 import { AdminGuard } from "@/components/admin/AdminGuard";
 import { AdminShell } from "@/components/admin/AdminShell";
-import { FileText, LayoutTemplate, Settings as SettingsIcon } from "lucide-react";
+import { FileText, LayoutTemplate, Settings as SettingsIcon, Wand2 } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/admin/form-builder")({
   head: () => ({
@@ -28,6 +28,7 @@ function Layout() {
       </div>
       <div className="mb-4 flex flex-wrap gap-1 rounded-lg border border-border bg-card p-1">
         <TabLink to="/admin/form-builder" label="Forms" icon={FileText} exact />
+        <TabLink to="/admin/form-builder/wizard" label="Wizard" icon={Wand2} />
         <TabLink to="/admin/form-builder/templates" label="Templates" icon={LayoutTemplate} />
         <TabLink to="/admin/form-builder/settings" label="Settings" icon={SettingsIcon} />
       </div>
