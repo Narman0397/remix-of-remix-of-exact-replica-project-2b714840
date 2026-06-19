@@ -2,7 +2,7 @@
 import QRCode from "qrcode";
 
 export async function sha256Hex(bytes: Uint8Array): Promise<string> {
-  const h = await crypto.subtle.digest("SHA-256", bytes);
+  const h = await crypto.subtle.digest("SHA-256", bytes.slice().buffer as ArrayBuffer);
   return Array.from(new Uint8Array(h))
     .map((b) => b.toString(16).padStart(2, "0"))
     .join("");
