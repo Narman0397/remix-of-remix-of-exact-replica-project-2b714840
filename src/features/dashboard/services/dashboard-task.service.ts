@@ -51,13 +51,9 @@ export async function getTaskStats(
   if (!scope.isElevated && scope.opdId) overQ = overQ.eq("form_submissions.opd_id", scope.opdId);
   const { count: overdue } = await overQ;
 
-  let delQ = supabase
+  const { count: delegated } = await supabase
     .from("submission_delegations")
     .select("id", { count: "exact", head: true });
-  if (!scope.isElevated && scope.opdId) {
-    // delegations table may not have opd; skip filter
-  }
-  const { count: delegated } = await delQ;
 
   let doneQ = supabase
     .from("submission_tasks")
@@ -84,11 +80,10 @@ export interface WorkloadRow {
 }
 
 export async function getWorkloadPerUser(supabase: SB, scope: Scope): Promise<WorkloadRow[]> {
-  let q = supabase
+  const { data } = await supabase
     .from("submission_assignments")
     .select("assignee_id,status,profiles:assignee_id(nama_lengkap,opd_id)")
     .limit(2000);
-  const { data } = await q;
   const rows = (data ?? []) as unknown as Array<{
     assignee_id: string;
     status: string;
