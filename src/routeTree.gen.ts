@@ -61,6 +61,7 @@ import { Route as AuthenticatedAdminRatingRouteImport } from './routes/_authenti
 import { Route as AuthenticatedAdminPejabatRouteImport } from './routes/_authenticated/admin.pejabat'
 import { Route as AuthenticatedAdminOpdRouteImport } from './routes/_authenticated/admin.opd'
 import { Route as AuthenticatedAdminNomorSuratRouteImport } from './routes/_authenticated/admin.nomor-surat'
+import { Route as AuthenticatedAdminMonitoringRouteImport } from './routes/_authenticated/admin.monitoring'
 import { Route as AuthenticatedAdminMasterJabatanRouteImport } from './routes/_authenticated/admin.master-jabatan'
 import { Route as AuthenticatedAdminLokasiRouteImport } from './routes/_authenticated/admin.lokasi'
 import { Route as AuthenticatedAdminLayananRouteImport } from './routes/_authenticated/admin.layanan'
@@ -89,6 +90,7 @@ import { Route as AuthenticatedAdminAsetRouteImport } from './routes/_authentica
 import { Route as AuthenticatedAdminApprovalsRouteImport } from './routes/_authenticated/admin.approvals'
 import { Route as AuthenticatedAdminTasksIndexRouteImport } from './routes/_authenticated/admin.tasks.index'
 import { Route as AuthenticatedAdminSignatureIndexRouteImport } from './routes/_authenticated/admin.signature.index'
+import { Route as AuthenticatedAdminMonitoringIndexRouteImport } from './routes/_authenticated/admin.monitoring.index'
 import { Route as AuthenticatedAdminFormsIndexRouteImport } from './routes/_authenticated/admin.forms.index'
 import { Route as AuthenticatedAdminFormBuilderIndexRouteImport } from './routes/_authenticated/admin.form-builder.index'
 import { Route as AuthenticatedAdminDocumentsIndexRouteImport } from './routes/_authenticated/admin.documents.index'
@@ -125,6 +127,11 @@ import { Route as AuthenticatedAdminSignatureMonitoringRouteImport } from './rou
 import { Route as AuthenticatedAdminSecurityPermissionsRouteImport } from './routes/_authenticated/admin.security.permissions'
 import { Route as AuthenticatedAdminRbacAuditRouteImport } from './routes/_authenticated/admin.rbac.audit'
 import { Route as AuthenticatedAdminRbacUserIdRouteImport } from './routes/_authenticated/admin.rbac.$userId'
+import { Route as AuthenticatedAdminMonitoringWorkflowRouteImport } from './routes/_authenticated/admin.monitoring.workflow'
+import { Route as AuthenticatedAdminMonitoringTasksRouteImport } from './routes/_authenticated/admin.monitoring.tasks'
+import { Route as AuthenticatedAdminMonitoringSignatureRouteImport } from './routes/_authenticated/admin.monitoring.signature'
+import { Route as AuthenticatedAdminMonitoringHealthRouteImport } from './routes/_authenticated/admin.monitoring.health'
+import { Route as AuthenticatedAdminMonitoringDocumentsRouteImport } from './routes/_authenticated/admin.monitoring.documents'
 import { Route as AuthenticatedAdminLayananEscalationRouteImport } from './routes/_authenticated/admin.layanan.escalation'
 import { Route as AuthenticatedAdminLayananDisposisiInboxRouteImport } from './routes/_authenticated/admin.layanan.disposisi-inbox'
 import { Route as AuthenticatedAdminFormsIdRouteImport } from './routes/_authenticated/admin.forms.$id'
@@ -427,6 +434,12 @@ const AuthenticatedAdminNomorSuratRoute =
     path: '/admin/nomor-surat',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedAdminMonitoringRoute =
+  AuthenticatedAdminMonitoringRouteImport.update({
+    id: '/admin/monitoring',
+    path: '/admin/monitoring',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedAdminMasterJabatanRoute =
   AuthenticatedAdminMasterJabatanRouteImport.update({
     id: '/admin/master-jabatan',
@@ -587,6 +600,12 @@ const AuthenticatedAdminSignatureIndexRoute =
     id: '/',
     path: '/',
     getParentRoute: () => AuthenticatedAdminSignatureRoute,
+  } as any)
+const AuthenticatedAdminMonitoringIndexRoute =
+  AuthenticatedAdminMonitoringIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedAdminMonitoringRoute,
   } as any)
 const AuthenticatedAdminFormsIndexRoute =
   AuthenticatedAdminFormsIndexRouteImport.update({
@@ -803,6 +822,36 @@ const AuthenticatedAdminRbacUserIdRoute =
     path: '/$userId',
     getParentRoute: () => AuthenticatedAdminRbacRoute,
   } as any)
+const AuthenticatedAdminMonitoringWorkflowRoute =
+  AuthenticatedAdminMonitoringWorkflowRouteImport.update({
+    id: '/workflow',
+    path: '/workflow',
+    getParentRoute: () => AuthenticatedAdminMonitoringRoute,
+  } as any)
+const AuthenticatedAdminMonitoringTasksRoute =
+  AuthenticatedAdminMonitoringTasksRouteImport.update({
+    id: '/tasks',
+    path: '/tasks',
+    getParentRoute: () => AuthenticatedAdminMonitoringRoute,
+  } as any)
+const AuthenticatedAdminMonitoringSignatureRoute =
+  AuthenticatedAdminMonitoringSignatureRouteImport.update({
+    id: '/signature',
+    path: '/signature',
+    getParentRoute: () => AuthenticatedAdminMonitoringRoute,
+  } as any)
+const AuthenticatedAdminMonitoringHealthRoute =
+  AuthenticatedAdminMonitoringHealthRouteImport.update({
+    id: '/health',
+    path: '/health',
+    getParentRoute: () => AuthenticatedAdminMonitoringRoute,
+  } as any)
+const AuthenticatedAdminMonitoringDocumentsRoute =
+  AuthenticatedAdminMonitoringDocumentsRouteImport.update({
+    id: '/documents',
+    path: '/documents',
+    getParentRoute: () => AuthenticatedAdminMonitoringRoute,
+  } as any)
 const AuthenticatedAdminLayananEscalationRoute =
   AuthenticatedAdminLayananEscalationRouteImport.update({
     id: '/escalation',
@@ -1017,6 +1066,7 @@ export interface FileRoutesByFullPath {
   '/admin/layanan': typeof AuthenticatedAdminLayananRouteWithChildren
   '/admin/lokasi': typeof AuthenticatedAdminLokasiRoute
   '/admin/master-jabatan': typeof AuthenticatedAdminMasterJabatanRoute
+  '/admin/monitoring': typeof AuthenticatedAdminMonitoringRouteWithChildren
   '/admin/nomor-surat': typeof AuthenticatedAdminNomorSuratRoute
   '/admin/opd': typeof AuthenticatedAdminOpdRoute
   '/admin/pejabat': typeof AuthenticatedAdminPejabatRoute
@@ -1067,6 +1117,11 @@ export interface FileRoutesByFullPath {
   '/admin/forms/$id': typeof AuthenticatedAdminFormsIdRoute
   '/admin/layanan/disposisi-inbox': typeof AuthenticatedAdminLayananDisposisiInboxRoute
   '/admin/layanan/escalation': typeof AuthenticatedAdminLayananEscalationRoute
+  '/admin/monitoring/documents': typeof AuthenticatedAdminMonitoringDocumentsRoute
+  '/admin/monitoring/health': typeof AuthenticatedAdminMonitoringHealthRoute
+  '/admin/monitoring/signature': typeof AuthenticatedAdminMonitoringSignatureRoute
+  '/admin/monitoring/tasks': typeof AuthenticatedAdminMonitoringTasksRoute
+  '/admin/monitoring/workflow': typeof AuthenticatedAdminMonitoringWorkflowRoute
   '/admin/rbac/$userId': typeof AuthenticatedAdminRbacUserIdRoute
   '/admin/rbac/audit': typeof AuthenticatedAdminRbacAuditRoute
   '/admin/security/permissions': typeof AuthenticatedAdminSecurityPermissionsRoute
@@ -1103,6 +1158,7 @@ export interface FileRoutesByFullPath {
   '/admin/documents/': typeof AuthenticatedAdminDocumentsIndexRoute
   '/admin/form-builder/': typeof AuthenticatedAdminFormBuilderIndexRoute
   '/admin/forms/': typeof AuthenticatedAdminFormsIndexRoute
+  '/admin/monitoring/': typeof AuthenticatedAdminMonitoringIndexRoute
   '/admin/signature/': typeof AuthenticatedAdminSignatureIndexRoute
   '/admin/tasks/': typeof AuthenticatedAdminTasksIndexRoute
   '/admin/documents/templates/$id': typeof AuthenticatedAdminDocumentsTemplatesIdRoute
@@ -1206,6 +1262,11 @@ export interface FileRoutesByTo {
   '/admin/forms/$id': typeof AuthenticatedAdminFormsIdRoute
   '/admin/layanan/disposisi-inbox': typeof AuthenticatedAdminLayananDisposisiInboxRoute
   '/admin/layanan/escalation': typeof AuthenticatedAdminLayananEscalationRoute
+  '/admin/monitoring/documents': typeof AuthenticatedAdminMonitoringDocumentsRoute
+  '/admin/monitoring/health': typeof AuthenticatedAdminMonitoringHealthRoute
+  '/admin/monitoring/signature': typeof AuthenticatedAdminMonitoringSignatureRoute
+  '/admin/monitoring/tasks': typeof AuthenticatedAdminMonitoringTasksRoute
+  '/admin/monitoring/workflow': typeof AuthenticatedAdminMonitoringWorkflowRoute
   '/admin/rbac/$userId': typeof AuthenticatedAdminRbacUserIdRoute
   '/admin/rbac/audit': typeof AuthenticatedAdminRbacAuditRoute
   '/admin/security/permissions': typeof AuthenticatedAdminSecurityPermissionsRoute
@@ -1242,6 +1303,7 @@ export interface FileRoutesByTo {
   '/admin/documents': typeof AuthenticatedAdminDocumentsIndexRoute
   '/admin/form-builder': typeof AuthenticatedAdminFormBuilderIndexRoute
   '/admin/forms': typeof AuthenticatedAdminFormsIndexRoute
+  '/admin/monitoring': typeof AuthenticatedAdminMonitoringIndexRoute
   '/admin/signature': typeof AuthenticatedAdminSignatureIndexRoute
   '/admin/tasks': typeof AuthenticatedAdminTasksIndexRoute
   '/admin/documents/templates/$id': typeof AuthenticatedAdminDocumentsTemplatesIdRoute
@@ -1302,6 +1364,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/layanan': typeof AuthenticatedAdminLayananRouteWithChildren
   '/_authenticated/admin/lokasi': typeof AuthenticatedAdminLokasiRoute
   '/_authenticated/admin/master-jabatan': typeof AuthenticatedAdminMasterJabatanRoute
+  '/_authenticated/admin/monitoring': typeof AuthenticatedAdminMonitoringRouteWithChildren
   '/_authenticated/admin/nomor-surat': typeof AuthenticatedAdminNomorSuratRoute
   '/_authenticated/admin/opd': typeof AuthenticatedAdminOpdRoute
   '/_authenticated/admin/pejabat': typeof AuthenticatedAdminPejabatRoute
@@ -1352,6 +1415,11 @@ export interface FileRoutesById {
   '/_authenticated/admin/forms/$id': typeof AuthenticatedAdminFormsIdRoute
   '/_authenticated/admin/layanan/disposisi-inbox': typeof AuthenticatedAdminLayananDisposisiInboxRoute
   '/_authenticated/admin/layanan/escalation': typeof AuthenticatedAdminLayananEscalationRoute
+  '/_authenticated/admin/monitoring/documents': typeof AuthenticatedAdminMonitoringDocumentsRoute
+  '/_authenticated/admin/monitoring/health': typeof AuthenticatedAdminMonitoringHealthRoute
+  '/_authenticated/admin/monitoring/signature': typeof AuthenticatedAdminMonitoringSignatureRoute
+  '/_authenticated/admin/monitoring/tasks': typeof AuthenticatedAdminMonitoringTasksRoute
+  '/_authenticated/admin/monitoring/workflow': typeof AuthenticatedAdminMonitoringWorkflowRoute
   '/_authenticated/admin/rbac/$userId': typeof AuthenticatedAdminRbacUserIdRoute
   '/_authenticated/admin/rbac/audit': typeof AuthenticatedAdminRbacAuditRoute
   '/_authenticated/admin/security/permissions': typeof AuthenticatedAdminSecurityPermissionsRoute
@@ -1388,6 +1456,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/documents/': typeof AuthenticatedAdminDocumentsIndexRoute
   '/_authenticated/admin/form-builder/': typeof AuthenticatedAdminFormBuilderIndexRoute
   '/_authenticated/admin/forms/': typeof AuthenticatedAdminFormsIndexRoute
+  '/_authenticated/admin/monitoring/': typeof AuthenticatedAdminMonitoringIndexRoute
   '/_authenticated/admin/signature/': typeof AuthenticatedAdminSignatureIndexRoute
   '/_authenticated/admin/tasks/': typeof AuthenticatedAdminTasksIndexRoute
   '/_authenticated/admin/documents/templates/$id': typeof AuthenticatedAdminDocumentsTemplatesIdRoute
@@ -1448,6 +1517,7 @@ export interface FileRouteTypes {
     | '/admin/layanan'
     | '/admin/lokasi'
     | '/admin/master-jabatan'
+    | '/admin/monitoring'
     | '/admin/nomor-surat'
     | '/admin/opd'
     | '/admin/pejabat'
@@ -1498,6 +1568,11 @@ export interface FileRouteTypes {
     | '/admin/forms/$id'
     | '/admin/layanan/disposisi-inbox'
     | '/admin/layanan/escalation'
+    | '/admin/monitoring/documents'
+    | '/admin/monitoring/health'
+    | '/admin/monitoring/signature'
+    | '/admin/monitoring/tasks'
+    | '/admin/monitoring/workflow'
     | '/admin/rbac/$userId'
     | '/admin/rbac/audit'
     | '/admin/security/permissions'
@@ -1534,6 +1609,7 @@ export interface FileRouteTypes {
     | '/admin/documents/'
     | '/admin/form-builder/'
     | '/admin/forms/'
+    | '/admin/monitoring/'
     | '/admin/signature/'
     | '/admin/tasks/'
     | '/admin/documents/templates/$id'
@@ -1637,6 +1713,11 @@ export interface FileRouteTypes {
     | '/admin/forms/$id'
     | '/admin/layanan/disposisi-inbox'
     | '/admin/layanan/escalation'
+    | '/admin/monitoring/documents'
+    | '/admin/monitoring/health'
+    | '/admin/monitoring/signature'
+    | '/admin/monitoring/tasks'
+    | '/admin/monitoring/workflow'
     | '/admin/rbac/$userId'
     | '/admin/rbac/audit'
     | '/admin/security/permissions'
@@ -1673,6 +1754,7 @@ export interface FileRouteTypes {
     | '/admin/documents'
     | '/admin/form-builder'
     | '/admin/forms'
+    | '/admin/monitoring'
     | '/admin/signature'
     | '/admin/tasks'
     | '/admin/documents/templates/$id'
@@ -1732,6 +1814,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/layanan'
     | '/_authenticated/admin/lokasi'
     | '/_authenticated/admin/master-jabatan'
+    | '/_authenticated/admin/monitoring'
     | '/_authenticated/admin/nomor-surat'
     | '/_authenticated/admin/opd'
     | '/_authenticated/admin/pejabat'
@@ -1782,6 +1865,11 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/forms/$id'
     | '/_authenticated/admin/layanan/disposisi-inbox'
     | '/_authenticated/admin/layanan/escalation'
+    | '/_authenticated/admin/monitoring/documents'
+    | '/_authenticated/admin/monitoring/health'
+    | '/_authenticated/admin/monitoring/signature'
+    | '/_authenticated/admin/monitoring/tasks'
+    | '/_authenticated/admin/monitoring/workflow'
     | '/_authenticated/admin/rbac/$userId'
     | '/_authenticated/admin/rbac/audit'
     | '/_authenticated/admin/security/permissions'
@@ -1818,6 +1906,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/documents/'
     | '/_authenticated/admin/form-builder/'
     | '/_authenticated/admin/forms/'
+    | '/_authenticated/admin/monitoring/'
     | '/_authenticated/admin/signature/'
     | '/_authenticated/admin/tasks/'
     | '/_authenticated/admin/documents/templates/$id'
@@ -2234,6 +2323,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminNomorSuratRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/admin/monitoring': {
+      id: '/_authenticated/admin/monitoring'
+      path: '/admin/monitoring'
+      fullPath: '/admin/monitoring'
+      preLoaderRoute: typeof AuthenticatedAdminMonitoringRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/admin/master-jabatan': {
       id: '/_authenticated/admin/master-jabatan'
       path: '/admin/master-jabatan'
@@ -2429,6 +2525,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/admin/signature/'
       preLoaderRoute: typeof AuthenticatedAdminSignatureIndexRouteImport
       parentRoute: typeof AuthenticatedAdminSignatureRoute
+    }
+    '/_authenticated/admin/monitoring/': {
+      id: '/_authenticated/admin/monitoring/'
+      path: '/'
+      fullPath: '/admin/monitoring/'
+      preLoaderRoute: typeof AuthenticatedAdminMonitoringIndexRouteImport
+      parentRoute: typeof AuthenticatedAdminMonitoringRoute
     }
     '/_authenticated/admin/forms/': {
       id: '/_authenticated/admin/forms/'
@@ -2681,6 +2784,41 @@ declare module '@tanstack/react-router' {
       fullPath: '/admin/rbac/$userId'
       preLoaderRoute: typeof AuthenticatedAdminRbacUserIdRouteImport
       parentRoute: typeof AuthenticatedAdminRbacRoute
+    }
+    '/_authenticated/admin/monitoring/workflow': {
+      id: '/_authenticated/admin/monitoring/workflow'
+      path: '/workflow'
+      fullPath: '/admin/monitoring/workflow'
+      preLoaderRoute: typeof AuthenticatedAdminMonitoringWorkflowRouteImport
+      parentRoute: typeof AuthenticatedAdminMonitoringRoute
+    }
+    '/_authenticated/admin/monitoring/tasks': {
+      id: '/_authenticated/admin/monitoring/tasks'
+      path: '/tasks'
+      fullPath: '/admin/monitoring/tasks'
+      preLoaderRoute: typeof AuthenticatedAdminMonitoringTasksRouteImport
+      parentRoute: typeof AuthenticatedAdminMonitoringRoute
+    }
+    '/_authenticated/admin/monitoring/signature': {
+      id: '/_authenticated/admin/monitoring/signature'
+      path: '/signature'
+      fullPath: '/admin/monitoring/signature'
+      preLoaderRoute: typeof AuthenticatedAdminMonitoringSignatureRouteImport
+      parentRoute: typeof AuthenticatedAdminMonitoringRoute
+    }
+    '/_authenticated/admin/monitoring/health': {
+      id: '/_authenticated/admin/monitoring/health'
+      path: '/health'
+      fullPath: '/admin/monitoring/health'
+      preLoaderRoute: typeof AuthenticatedAdminMonitoringHealthRouteImport
+      parentRoute: typeof AuthenticatedAdminMonitoringRoute
+    }
+    '/_authenticated/admin/monitoring/documents': {
+      id: '/_authenticated/admin/monitoring/documents'
+      path: '/documents'
+      fullPath: '/admin/monitoring/documents'
+      preLoaderRoute: typeof AuthenticatedAdminMonitoringDocumentsRouteImport
+      parentRoute: typeof AuthenticatedAdminMonitoringRoute
     }
     '/_authenticated/admin/layanan/escalation': {
       id: '/_authenticated/admin/layanan/escalation'
@@ -3055,6 +3193,36 @@ const AuthenticatedAdminLayananRouteWithChildren =
     AuthenticatedAdminLayananRouteChildren,
   )
 
+interface AuthenticatedAdminMonitoringRouteChildren {
+  AuthenticatedAdminMonitoringDocumentsRoute: typeof AuthenticatedAdminMonitoringDocumentsRoute
+  AuthenticatedAdminMonitoringHealthRoute: typeof AuthenticatedAdminMonitoringHealthRoute
+  AuthenticatedAdminMonitoringSignatureRoute: typeof AuthenticatedAdminMonitoringSignatureRoute
+  AuthenticatedAdminMonitoringTasksRoute: typeof AuthenticatedAdminMonitoringTasksRoute
+  AuthenticatedAdminMonitoringWorkflowRoute: typeof AuthenticatedAdminMonitoringWorkflowRoute
+  AuthenticatedAdminMonitoringIndexRoute: typeof AuthenticatedAdminMonitoringIndexRoute
+}
+
+const AuthenticatedAdminMonitoringRouteChildren: AuthenticatedAdminMonitoringRouteChildren =
+  {
+    AuthenticatedAdminMonitoringDocumentsRoute:
+      AuthenticatedAdminMonitoringDocumentsRoute,
+    AuthenticatedAdminMonitoringHealthRoute:
+      AuthenticatedAdminMonitoringHealthRoute,
+    AuthenticatedAdminMonitoringSignatureRoute:
+      AuthenticatedAdminMonitoringSignatureRoute,
+    AuthenticatedAdminMonitoringTasksRoute:
+      AuthenticatedAdminMonitoringTasksRoute,
+    AuthenticatedAdminMonitoringWorkflowRoute:
+      AuthenticatedAdminMonitoringWorkflowRoute,
+    AuthenticatedAdminMonitoringIndexRoute:
+      AuthenticatedAdminMonitoringIndexRoute,
+  }
+
+const AuthenticatedAdminMonitoringRouteWithChildren =
+  AuthenticatedAdminMonitoringRoute._addFileChildren(
+    AuthenticatedAdminMonitoringRouteChildren,
+  )
+
 interface AuthenticatedAdminRbacRouteChildren {
   AuthenticatedAdminRbacUserIdRoute: typeof AuthenticatedAdminRbacUserIdRoute
   AuthenticatedAdminRbacAuditRoute: typeof AuthenticatedAdminRbacAuditRoute
@@ -3144,6 +3312,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedAdminLayananRoute: typeof AuthenticatedAdminLayananRouteWithChildren
   AuthenticatedAdminLokasiRoute: typeof AuthenticatedAdminLokasiRoute
   AuthenticatedAdminMasterJabatanRoute: typeof AuthenticatedAdminMasterJabatanRoute
+  AuthenticatedAdminMonitoringRoute: typeof AuthenticatedAdminMonitoringRouteWithChildren
   AuthenticatedAdminNomorSuratRoute: typeof AuthenticatedAdminNomorSuratRoute
   AuthenticatedAdminOpdRoute: typeof AuthenticatedAdminOpdRoute
   AuthenticatedAdminPejabatRoute: typeof AuthenticatedAdminPejabatRoute
@@ -3218,6 +3387,8 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAdminLayananRoute: AuthenticatedAdminLayananRouteWithChildren,
   AuthenticatedAdminLokasiRoute: AuthenticatedAdminLokasiRoute,
   AuthenticatedAdminMasterJabatanRoute: AuthenticatedAdminMasterJabatanRoute,
+  AuthenticatedAdminMonitoringRoute:
+    AuthenticatedAdminMonitoringRouteWithChildren,
   AuthenticatedAdminNomorSuratRoute: AuthenticatedAdminNomorSuratRoute,
   AuthenticatedAdminOpdRoute: AuthenticatedAdminOpdRoute,
   AuthenticatedAdminPejabatRoute: AuthenticatedAdminPejabatRoute,

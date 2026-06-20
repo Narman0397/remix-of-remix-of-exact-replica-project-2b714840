@@ -170,6 +170,17 @@ const superNavGroups: NavGroup[] = [
     ],
   },
   {
+    title: "Monitoring Center",
+    items: [
+      { to: "/admin/monitoring", label: "Overview", icon: LayoutDashboard },
+      { to: "/admin/monitoring/workflow", label: "Workflow Monitoring", icon: FileClock },
+      { to: "/admin/monitoring/tasks", label: "Task Monitoring", icon: ListChecks },
+      { to: "/admin/monitoring/documents", label: "Document Monitoring", icon: FileText },
+      { to: "/admin/monitoring/signature", label: "Signature Monitoring", icon: ShieldCheck },
+      { to: "/admin/monitoring/health", label: "System Health", icon: LayoutDashboard },
+    ],
+  },
+  {
     title: "Data & Laporan",
     items: [{ to: "/admin/dataset", label: "Pelaporan Data", icon: DbIcon }],
   },
