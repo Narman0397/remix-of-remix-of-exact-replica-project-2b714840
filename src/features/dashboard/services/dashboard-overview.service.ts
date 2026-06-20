@@ -23,18 +23,10 @@ function startOfTodayIso(): string {
   return d.toISOString();
 }
 
-async function countSubmissions(
-  supabase: SB,
-  scope: Scope,
-  apply: (
-    q: ReturnType<SB["from"]> extends infer T ? unknown : unknown,
-  ) => unknown,
-): Promise<number> {
+function subBase(supabase: SB, scope: Scope) {
   let q = supabase.from("form_submissions").select("id", { count: "exact", head: true });
   if (!scope.isElevated && scope.opdId) q = q.eq("opd_id", scope.opdId);
-  q = apply(q) as typeof q;
-  const { count } = await q;
-  return count ?? 0;
+  return q;
 }
 
 export async function getOverview(supabase: SB, scope: Scope): Promise<OverviewKpi> {
@@ -42,19 +34,12 @@ export async function getOverview(supabase: SB, scope: Scope): Promise<OverviewK
   const nowIso = new Date().toISOString();
 
   const [total, todayCnt, pending, completed] = await Promise.all([
-    countSubmissions(supabase, scope, (q) => q),
-    countSubmissions(supabase, scope, (q) =>
-      (q as ReturnType<SB["from"]>).gte("created_at", today),
-    ),
-    countSubmissions(supabase, scope, (q) =>
-      (q as ReturnType<SB["from"]>).in("status", ["pending", "in_review", "in_progress"]),
-    ),
-    countSubmissions(supabase, scope, (q) =>
-      (q as ReturnType<SB["from"]>).eq("status", "approved"),
-    ),
+    subBase(supabase, scope),
+    subBase(supabase, scope).gte("created_at", today),
+    subBase(supabase, scope).in("status", ["pending", "in_review", "in_progress"]),
+    subBase(supabase, scope).eq("status", "approved"),
   ]);
 
-  // overdue & escalated based on tasks
   let overdueQ = supabase
     .from("submission_tasks")
     .select("id,form_submissions!inner(opd_id)", { count: "exact", head: true })
@@ -74,7 +59,6 @@ export async function getOverview(supabase: SB, scope: Scope): Promise<OverviewK
   }
   const { count: escalatedTasks } = await escQ;
 
-  // signatures
   let sigQ = supabase
     .from("signature_requests")
     .select("id", { count: "exact", head: true })
@@ -82,7 +66,6 @@ export async function getOverview(supabase: SB, scope: Scope): Promise<OverviewK
   if (!scope.isElevated && scope.opdId) sigQ = sigQ.eq("opd_id", scope.opdId);
   const { count: pendingSignature } = await sigQ;
 
-  // documents
   let docQ = supabase
     .from("generated_documents")
     .select("id,form_submissions!inner(opd_id)", { count: "exact", head: true });
@@ -101,10 +84,10 @@ export async function getOverview(supabase: SB, scope: Scope): Promise<OverviewK
   const { count: signedDocuments } = await signedQ;
 
   return {
-    totalSubmission: total,
-    submissionToday: todayCnt,
-    pendingWorkflow: pending,
-    completedWorkflow: completed,
+    totalSubmission: total.count ?? 0,
+    submissionToday: todayCnt.count ?? 0,
+    pendingWorkflow: pending.count ?? 0,
+    completedWorkflow: completed.count ?? 0,
     overdueWorkflow: overdueWorkflow ?? 0,
     escalatedTasks: escalatedTasks ?? 0,
     pendingSignature: pendingSignature ?? 0,

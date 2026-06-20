@@ -57,9 +57,9 @@ export async function getHealth(supabase: SB): Promise<HealthSnapshot> {
 
   const { data: provs } = await supabase
     .from("signature_providers")
-    .select("code,name,is_active");
-  const providers = ((provs ?? []) as Array<{ code: string; name: string; is_active: boolean }>).map(
-    (p) => ({ code: p.code, name: p.name, active: !!p.is_active }),
+    .select("code,name,status");
+  const providers = ((provs ?? []) as Array<{ code: string; name: string; status: string }>).map(
+    (p) => ({ code: p.code, name: p.name, active: p.status === "active" }),
   );
 
   return {

@@ -30,6 +30,7 @@ async function logView(
     await supabase.from("workflow_audit_logs").insert({
       action,
       user_id: userId,
+      resource_type: "dashboard",
       metadata: { ...metadata, source: "dashboard" },
     });
   } catch {
@@ -107,12 +108,18 @@ export const dashExport = createServerFn({ method: "POST" })
     const s = await scopeFor(context.supabase, context.userId);
     const scope = { opdId: s.opdId, isElevated: s.isElevated };
     await logView(context.supabase, context.userId, "dashboard.export", { module: data.module });
-    let payload: Record<string, unknown> | unknown[] = {};
-    if (data.module === "overview") payload = await getOverview(context.supabase, scope);
-    else if (data.module === "workflow")
-      payload = await listActiveWorkflowInstances(context.supabase, scope, 1000);
-    else if (data.module === "tasks") payload = await getWorkloadPerUser(context.supabase, scope);
-    else if (data.module === "documents") payload = await getDocumentStats(context.supabase, scope);
-    else if (data.module === "signature") payload = await getSignatureStats(context.supabase, scope);
-    return { module: data.module, generated_at: new Date().toISOString(), payload };
+    const generated_at = new Date().toISOString();
+    if (data.module === "overview") {
+      return { module: "overview" as const, generated_at, payload: await getOverview(context.supabase, scope) };
+    }
+    if (data.module === "workflow") {
+      return { module: "workflow" as const, generated_at, payload: await listActiveWorkflowInstances(context.supabase, scope, 1000) };
+    }
+    if (data.module === "tasks") {
+      return { module: "tasks" as const, generated_at, payload: await getWorkloadPerUser(context.supabase, scope) };
+    }
+    if (data.module === "documents") {
+      return { module: "documents" as const, generated_at, payload: await getDocumentStats(context.supabase, scope) };
+    }
+    return { module: "signature" as const, generated_at, payload: await getSignatureStats(context.supabase, scope) };
   });
