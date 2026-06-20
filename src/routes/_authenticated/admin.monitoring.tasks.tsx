@@ -37,7 +37,7 @@ function Page() {
             size="sm"
             onClick={async () => {
               const r = await exp({ data: { module: "tasks" } });
-              downloadCsv(`workload-${Date.now()}.csv`, r.payload as Array<Record<string, unknown>>);
+              downloadCsv(`workload-${Date.now()}.csv`, r.payload as unknown as Array<Record<string, unknown>>);
             }}
           >
             Export CSV
