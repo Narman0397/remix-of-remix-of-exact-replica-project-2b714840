@@ -276,7 +276,43 @@ function Page() {
             <div className="mb-2 text-xs font-semibold uppercase text-muted-foreground">
               Placeholder Picker
             </div>
-            <div className="max-h-[500px] space-y-3 overflow-y-auto">
+            <div className="mb-2">
+              <label className="text-[10px] uppercase text-muted-foreground">
+                Form Sumber (auto-mapping field)
+              </label>
+              <select
+                value={selectedFormId}
+                onChange={(e) => loadFormPlaceholders(e.target.value)}
+                className="mt-1 w-full rounded-md border bg-background px-2 py-1.5 text-xs"
+              >
+                <option value="">— Pilih form published —</option>
+                {forms.map((f) => (
+                  <option key={f.id} value={f.id}>
+                    {f.judul}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="max-h-[460px] space-y-3 overflow-y-auto">
+              {formGroup && formGroup.items.length > 0 && (
+                <div className="rounded-md border border-primary/40 bg-primary/5 p-2">
+                  <div className="mb-1 text-[11px] font-bold uppercase text-primary">
+                    {formGroup.label}
+                  </div>
+                  <div className="flex flex-wrap gap-1">
+                    {formGroup.items.map((it) => (
+                      <button
+                        key={it.token}
+                        onClick={() => insertToken(it.token)}
+                        title={it.label}
+                        className="rounded border border-primary/40 bg-background px-2 py-0.5 text-[11px] font-mono hover:bg-primary hover:text-primary-foreground"
+                      >
+                        {it.token}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
               {catalog.map((g) => (
                 <div key={g.category}>
                   <div className="mb-1 text-[11px] font-bold uppercase text-foreground">
