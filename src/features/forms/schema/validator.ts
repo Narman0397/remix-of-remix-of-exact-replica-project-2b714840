@@ -87,15 +87,16 @@ function fieldValidator(f: FormField): ZodTypeAny {
     case "checkbox":
     case "multi_select": {
       const allowed = f.options.map((o) => o.value);
-      let base = z
+      const base: ZodTypeAny = z
         .array(z.string())
-        .refine((vs) => vs.every((v) => allowed.includes(v)), "pilihan tidak valid");
-      if (f.validation.unique) {
-        base = base.refine((vs) => new Set(vs).size === vs.length, "tidak boleh ada duplikat");
-      }
+        .refine((vs) => vs.every((v) => allowed.includes(v)), "pilihan tidak valid")
+        .refine(
+          (vs) => !f.validation.unique || new Set(vs).size === vs.length,
+          "tidak boleh ada duplikat",
+        );
       return f.required
         ? z.array(z.string()).min(1, `${f.label} wajib diisi`).and(base)
-        : base.default([]);
+        : base.optional();
     }
     case "signature": {
       const s = z.string().optional().or(z.literal(""));
@@ -107,11 +108,16 @@ function fieldValidator(f: FormField): ZodTypeAny {
     }
     case "multi_file_upload": {
       const max = f.validation.maxFiles ?? 20;
-      let base = z.array(z.string()).max(max);
-      if (f.validation.unique) {
-        base = base.refine((vs) => new Set(vs).size === vs.length, "tidak boleh ada duplikat");
-      }
-      return f.required ? base.min(1, `${f.label} wajib diunggah`) : base.default([]);
+      const base: ZodTypeAny = z
+        .array(z.string())
+        .max(max)
+        .refine(
+          (vs) => !f.validation.unique || new Set(vs).size === vs.length,
+          "tidak boleh ada duplikat",
+        );
+      return f.required
+        ? z.array(z.string()).min(1, `${f.label} wajib diunggah`).and(base)
+        : base.optional();
     }
     default:
       return z.any();
