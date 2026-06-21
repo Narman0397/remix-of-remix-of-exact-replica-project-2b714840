@@ -1,124 +1,49 @@
+# Gap Analysis — Form Builder
 
-# Phase 3B — Digital Signature (TTE) Runtime & QR Verification
+Berdasarkan audit `src/features/forms/*`, `src/lib/forms.functions.ts`, schema, builder, designer, renderer, services, dan wizard — modul Form Builder sudah cukup matang (CRUD draft, publish + snapshot, versioning, template, audit, validation, wizard, prefill, targets, conditional `visible_if`, 18 tipe field). Namun masih ada beberapa kekurangan yang relevan agar setara dengan modul Workflow/Document Runtime yang sudah selesai.
 
-Goal: tanda-tangani dokumen final hasil workflow melalui provider TTE (BSrE / e-Sign / Mock), kelola antrian + status, monitoring, QR public verification, webhook, retry, hash integrity, dan audit immutable. Tanpa KPI/BI dashboard.
+## Kekurangan yang teridentifikasi
 
-## 1. Audit schema existing
+### A. Schema & Tipe Field
+1. Belum ada tipe **`time`**, **`datetime`**, **`rating`/`scale`**, **`address`**, **`nip`/`nik`** (validator khas ASN/PNS), padahal domain aplikasi pemerintahan.
+2. **`repeater` / `group` (sub-form)** belum didukung — banyak proses kepegawaian butuh baris dinamis (riwayat jabatan, anggota keluarga, dsb).
+3. **Computed/formula field** (mis. `gaji_pokok + tunjangan`) belum ada.
+4. Validation belum mendukung **`unique` per submission**, **cross-field rule** (mis. `tanggal_akhir > tanggal_mulai`), dan **regex bernama** (NIP 18 digit, NIK 16 digit, NPWP).
 
-Yang sudah ada dan dipakai-ulang:
-- `documents`, `signed_documents` (id, document_id, document_hash, verification_token, status, signed_file_path, expires_at, revoked_*)
-- `signing_certificates`, `digital_signatures` (spesimen)
-- `document_audit` (untuk hash mismatch / verify event)
-- `generated_documents` (status, snapshot, signed_document_id, archived_at)
-- `workflow_audit_logs` (audit immutable)
+### B. Builder UX
+5. **Drag-and-drop reorder** field di `FormFieldsTab` (saat ini tampaknya hanya tombol urut).
+6. **Duplicate field** dan **bulk action** (hapus banyak).
+7. **Section/Page break** sudah ada sebagai tipe, tapi belum jadi **multi-step form** runtime di renderer (wizard sudah ada tapi terpisah).
+8. **Import/Export schema JSON** untuk pertukaran antar instansi.
+9. **Diff viewer antar versi** form (versioning sudah disimpan, belum ada UI bandingkan).
 
-Belum ada → migration baru:
-- `signature_providers` (kode, nama, kind, status, config jsonb, webhook_secret)
-- `signature_requests` (id, generated_document_id, provider_id, mode `sequential|parallel`, status, external_request_id, file_hash, current_step, created_by, sent_at, completed_at, cancelled_at, error)
-- `signature_request_signers` (request_id, order_index, signer_type `user|role|position`, user_id, role, position, opd_id, status, external_signer_id, signed_at, rejected_at, reject_reason)
-- `signature_events` (request_id, signer_id?, event `requested|sent|viewed|signed|rejected|expired|cancelled|downloaded|webhook_received|retry|failed`, payload jsonb, actor, created_at) — INSERT only via trigger guard.
+### C. Runtime & Integrasi
+10. **Autosave draft submission** sisi warga/ASN saat mengisi form panjang.
+11. **Field-level permission** (siapa boleh lihat / isi field tertentu — mis. hanya BKPSDM yang bisa isi "catatan internal").
+12. **Encrypted field** untuk data sensitif (NIK, gaji) — at-rest encryption marker di schema.
+13. **Attachment scanning** (size sudah ada, belum ada MIME sniff & virus-scan hook).
+14. **Form analytics**: completion rate, drop-off per field, rata-rata waktu pengisian — belum ada (Dashboard Phase 4 hanya count submission).
 
-RLS: SELECT untuk pemilik submission / OPD admin / super_admin; INSERT/UPDATE hanya via server functions (service_role). Public verification page tidak query langsung — pakai server function read-only.
+### D. Lifecycle & Governance
+15. **Scheduled publish/unpublish** (mis. form buka 1–15 setiap bulan) — `deadline` ada, tapi belum ada `open_at`.
+16. **Form approval gate** sebelum publish (4 mata) — saat ini siapa pun admin OPD bisa langsung publish.
+17. **Locale/i18n label** field (ID/EN) — belum disiapkan.
+18. **A11y audit** renderer (label-for, aria-describedby help_text, aria-invalid) — perlu sweep.
 
-## 2. Provider abstraction
+### E. Integrasi lintas modul
+19. **Mapping snapshot → Document placeholder catalog** otomatis: field form belum auto-muncul di placeholder picker dokumen (saat ini perlu manual mengetik `{{submission.kode}}`).
+20. **Workflow form binding**: belum ada UI yang menunjukkan form mana yang dipakai workflow tertentu beserta validasi kompatibilitas snapshot saat workflow versi baru dibuat.
 
-`src/features/signature/providers/types.ts`
-```
-interface SignatureProvider {
-  code: 'mock' | 'bsre' | 'esign';
-  sendDocument(input): Promise<{ externalRequestId; status }>;
-  checkStatus(externalRequestId): Promise<ProviderStatus>;
-  downloadSignedDocument(externalRequestId): Promise<{ bytes; mime }>;
-  cancelRequest(externalRequestId, reason): Promise<void>;
-  verifyWebhook(headers, rawBody, secret): WebhookEvent | null;
-}
-```
-Implementasi:
-- `MockProvider` (langsung mark signed setelah delay simulasi, untuk dev/test).
-- `BSrEProvider` (skeleton: REST call ke endpoint BSrE, header `Authorization` dari secret `BSRE_API_KEY`/`BSRE_BASE_URL`).
-- `ESignProvider` (skeleton serupa).
-Registry: `getProvider(code)` di `provider-registry.ts`.
+## Rekomendasi prioritas (jika ingin dilanjutkan ke Phase 1C)
 
-## 3. Runtime services
+**Must-have (P0)** — 1, 4, 5, 6, 10, 19
+**Should-have (P1)** — 2, 9, 11, 14, 15, 20
+**Nice-to-have (P2)** — 3, 7 (multi-step), 8, 12, 13, 16, 17, 18
 
-`src/features/signature/services/`
-- `signature-runtime.service.ts` — `createRequest(generated_document_id, providerCode, mode, signers[])`, hitung SHA-256 dari signed-file/source, simpan `file_hash`, kirim ke provider, log event `requested`+`sent`.
-- `signature-queue.service.ts` — listing + filter (status, provider, signer, tanggal, OPD).
-- `signature-monitoring.service.ts` — aggregate counts (pending/rejected/expired/completed/failed) tanpa chart KPI.
-- `qr-verification.service.ts` — generate URL `/verify-doc/{token}`, hitung & bandingkan hash.
-- `signer-resolver.service.ts` — resolve `user|role|position` → user_id (mirip assignment engine).
-- `webhook.service.ts` — verifikasi signature webhook (HMAC SHA-256 timing-safe) per provider, advance sequential step, mark signed/rejected/expired, simpan signed file ke bucket `signed-documents`, update `generated_documents.status='signed'` + `signed_document_id` + `archived_at` jika sesuai.
-- `retry.service.ts` — resend ke provider tanpa membuat request baru (update external_request_id + reset status pending).
+## Catatan
 
-## 4. Workflow integration
+Plan ini bersifat **analisis**, bukan implementasi. Setelah Anda memilih item prioritas (atau menyetujui scope P0), saya akan menyusun plan implementasi spesifik per item dengan: perubahan schema, migrasi DB, file UI baru, server functions, dan dampak ke modul Workflow/Document Runtime.
 
-Edit `src/features/workflows/runtime/workflow-runtime.service.ts`:
-- Saat node bertipe `digital_signature` ATAU saat finalizeSubmission jika workflow snapshot config `requires_signature=true` → panggil `createRequest`. Tidak blocking: status submission jadi `awaiting_signature`; lanjut ke `completed` saat webhook signed.
-- Tidak mengubah API publik service lain.
+## Pertanyaan
 
-## 5. Server functions
-
-`src/lib/signature.functions.ts` (createServerFn + `requireSupabaseAuth`):
-- `sigSendDocument({ generatedDocumentId, providerCode, mode, signers })`
-- `sigGetStatus({ requestId })`
-- `sigRetry({ requestId })` (admin only)
-- `sigCancel({ requestId, reason })`
-- `sigListQueue({ filters })`
-- `sigListMonitoring()`
-- `sigGetVerification({ token })` — **publik**: tanpa middleware auth, hanya field aman (doc number, name, date, signer name+position, signed_at, status, hash, hash_match).
-- `sigListProviders()` (admin)
-
-## 6. Routes
-
-Public:
-- `src/routes/verify-doc.$token.tsx` — halaman verifikasi (server-side load via `sigGetVerification`), tampilkan field aman + status badge. Tidak menampilkan storage path / snapshot lengkap.
-
-Admin (`_authenticated/admin.signature.*`):
-- `admin.signature.tsx` (layout dengan tab)
-- `admin.signature.index.tsx` → dashboard mini (monitoring counts + provider list)
-- `admin.signature.queue.tsx` → tabel + filter + action (view, retry, cancel)
-- `admin.signature.monitoring.tsx` → counts + table per status
-- `admin.signature.providers.tsx` → enable/disable provider, update config (super_admin)
-- `admin.signature.requests.$id.tsx` → detail request: signers timeline, events, link signed file (signed URL)
-
-Sidebar group "Tanda Tangan Digital (TTE)" di `AdminShell`.
-
-## 7. Webhook endpoint
-
-`src/routes/api/public/hooks/signature-webhook.$provider.ts` — POST raw body. Lookup provider config, verify HMAC, parse event, dispatch ke `webhook.service.handleEvent()`. Selalu return 200 setelah event tersimpan (idempotent by `external_request_id + event_id`).
-
-## 8. Hash & QR
-
-- Saat `createRequest`: download bytes dari bucket `documents` (storage_path generated_documents), compute SHA-256 (Web Crypto), simpan ke `signature_requests.file_hash` dan `signed_documents.document_hash`.
-- QR di-render di halaman verify-doc (pakai lib pure `qrcode` → SVG inline).
-- Saat verify: re-fetch signed file → recompute hash → compare. Set `hashMatch` di response. Log `document_audit` action `VERIFIED` atau `HASH_MISMATCH`.
-
-## 9. Audit & immutability
-
-- Trigger di `signature_events`: BLOCK UPDATE/DELETE (raise exception), allow INSERT.
-- Setiap aksi (request, send, webhook, retry, cancel, download) → INSERT `signature_events` + `document_audit`.
-
-## 10. Security
-
-- Provider webhook_secret disimpan di kolom (terenkripsi via pgsodium tidak tersedia → cukup secret table dengan RLS ketat super_admin-only) + ENV fallback `BSRE_WEBHOOK_SECRET`, `ESIGN_WEBHOOK_SECRET`.
-- Public verification: rate-limit via existing `rate_limit_increment`.
-- Storage: bucket `signed-documents` private; akses lewat signed URL 10 menit.
-- Tidak ada `any`. Semua tipe di-derive dari `Database`.
-
-## 11. Tidak diimplementasi
-
-KPI / BI / executive dashboard / analytics chart — skip ke phase berikutnya.
-
-## 12. Deliverables
-
-- 1 migration SQL (3 tabel + RLS + GRANT + trigger immutability + index)
-- Provider layer (`types.ts`, `mock.ts`, `bsre.ts`, `esign.ts`, `registry.ts`)
-- 6 service files
-- 1 server functions file (8 functions)
-- Webhook route
-- 1 public verify-doc route
-- 5 admin route files + sidebar entry
-- Workflow runtime hook (1 file edit)
-- `qrcode` npm dependency
-
-Setelah disetujui akan dijalankan migrasi dulu, lalu kode.
+- Apakah saya lanjutkan menyusun plan implementasi **Phase 1C** untuk seluruh P0, atau Anda ingin memilih subset tertentu?
