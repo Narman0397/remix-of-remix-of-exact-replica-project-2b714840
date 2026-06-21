@@ -8,7 +8,8 @@ import {
   docArchiveTemplate,
   docCloneTemplate,
   docPreview,
-  docPlaceholderCatalog,
+  docListPublishedForms,
+  docFormFieldsCatalog,
   docListNumberingRules,
 } from "@/lib/documents.functions";
 import { PLACEHOLDER_CATALOG } from "@/features/documents/placeholder/catalog";
@@ -28,6 +29,8 @@ type Tpl = {
 
 type Version = { id: string; version_number: number; kind: string; created_at: string };
 type Rule = { id: string; code: string; name: string; format: string };
+type FormOpt = { id: string; judul: string };
+type FormGroup = { category: "submission"; label: string; items: { token: string; label: string }[] };
 
 export const Route = createFileRoute("/_authenticated/admin/documents/templates/$id")({
   component: Page,
@@ -41,6 +44,9 @@ function Page() {
   const [preview, setPreview] = useState("");
   const [tab, setTab] = useState<"editor" | "preview" | "versions">("editor");
   const [busy, setBusy] = useState(false);
+  const [forms, setForms] = useState<FormOpt[]>([]);
+  const [selectedFormId, setSelectedFormId] = useState<string>("");
+  const [formGroup, setFormGroup] = useState<FormGroup | null>(null);
   const taRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
@@ -53,8 +59,31 @@ function Page() {
       setVersions(r.versions);
       const rl = (await docListNumberingRules({ data: {} })) as unknown as { rows: Rule[] };
       setRules(rl.rows);
+      try {
+        const lf = (await docListPublishedForms({ data: {} })) as unknown as { rows: FormOpt[] };
+        setForms(lf.rows);
+      } catch {
+        /* ignore */
+      }
     })();
   }, [id]);
+
+  async function loadFormPlaceholders(formId: string) {
+    setSelectedFormId(formId);
+    if (!formId) {
+      setFormGroup(null);
+      return;
+    }
+    try {
+      const r = (await docFormFieldsCatalog({ data: { formId } })) as unknown as {
+        group: FormGroup;
+      };
+      setFormGroup(r.group);
+    } catch {
+      setFormGroup(null);
+    }
+  }
+
 
   async function doPreview() {
     if (!tpl) return;
@@ -246,7 +275,43 @@ function Page() {
             <div className="mb-2 text-xs font-semibold uppercase text-muted-foreground">
               Placeholder Picker
             </div>
-            <div className="max-h-[500px] space-y-3 overflow-y-auto">
+            <div className="mb-2">
+              <label className="text-[10px] uppercase text-muted-foreground">
+                Form Sumber (auto-mapping field)
+              </label>
+              <select
+                value={selectedFormId}
+                onChange={(e) => loadFormPlaceholders(e.target.value)}
+                className="mt-1 w-full rounded-md border bg-background px-2 py-1.5 text-xs"
+              >
+                <option value="">— Pilih form published —</option>
+                {forms.map((f) => (
+                  <option key={f.id} value={f.id}>
+                    {f.judul}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="max-h-[460px] space-y-3 overflow-y-auto">
+              {formGroup && formGroup.items.length > 0 && (
+                <div className="rounded-md border border-primary/40 bg-primary/5 p-2">
+                  <div className="mb-1 text-[11px] font-bold uppercase text-primary">
+                    {formGroup.label}
+                  </div>
+                  <div className="flex flex-wrap gap-1">
+                    {formGroup.items.map((it) => (
+                      <button
+                        key={it.token}
+                        onClick={() => insertToken(it.token)}
+                        title={it.label}
+                        className="rounded border border-primary/40 bg-background px-2 py-0.5 text-[11px] font-mono hover:bg-primary hover:text-primary-foreground"
+                      >
+                        {it.token}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
               {catalog.map((g) => (
                 <div key={g.category}>
                   <div className="mb-1 text-[11px] font-bold uppercase text-foreground">

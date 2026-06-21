@@ -27,3 +27,21 @@ export function emptyField(idx: number): FormField {
     urutan: idx,
   };
 }
+
+/** Klon field dengan kode unik (suffix _copy / _copyN). */
+export function duplicateField(src: FormField, existing: FormField[], urutan: number): FormField {
+  const taken = new Set(existing.map((f) => f.kode));
+  let base = `${src.kode}_copy`;
+  let kode = base;
+  let n = 2;
+  while (taken.has(kode)) {
+    kode = `${base}${n}`;
+    n++;
+  }
+  return {
+    ...src,
+    kode,
+    label: `${src.label} (salinan)`,
+    urutan,
+  };
+}

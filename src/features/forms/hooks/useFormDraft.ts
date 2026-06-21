@@ -4,8 +4,34 @@ import type { SubmissionRow } from "@/features/forms/renderer/types";
 
 /**
  * Mengelola state draft pengisian + autosave tiap 5 detik.
- * Bertanggung jawab: setField, manualSave, throttled autosave, indikator status.
+ * Phase 1C: tambahan backup localStorage agar tidak hilang jika offline /
+ * tab ditutup sebelum autosave berikutnya.
  */
+
+const LS_PREFIX = "form-draft:";
+
+function lsKey(assignmentId: string, submissionId: string | null) {
+  return `${LS_PREFIX}${assignmentId}:${submissionId ?? "new"}`;
+}
+
+function loadLocalBackup(assignmentId: string): Record<string, unknown> | null {
+  if (typeof window === "undefined") return null;
+  try {
+    const k = lsKey(assignmentId, null);
+    const raw = window.localStorage.getItem(k);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw) as { data: Record<string, unknown>; at: number };
+    // expire 7 hari
+    if (Date.now() - parsed.at > 7 * 24 * 3600 * 1000) {
+      window.localStorage.removeItem(k);
+      return null;
+    }
+    return parsed.data;
+  } catch {
+    return null;
+  }
+}
+
 export function useFormDraft({
   assignmentId,
   initialSubmission,
@@ -17,13 +43,20 @@ export function useFormDraft({
   initialData: Record<string, unknown>;
   busy: boolean;
 }) {
-  const [data, setData] = useState<Record<string, unknown>>(initialData);
+  // Jika belum ada submission server-side, coba restore dari localStorage.
+  const seed: Record<string, unknown> = (() => {
+    if (initialSubmission) return initialData;
+    const backup = loadLocalBackup(assignmentId);
+    return backup ?? initialData;
+  })();
+  const [data, setData] = useState<Record<string, unknown>>(seed);
   const [submission, setSubmission] = useState<SubmissionRow | null>(initialSubmission);
   const [isSaving, setIsSaving] = useState(false);
   const [lastSavedAt, setLastSavedAt] = useState<Date | null>(null);
   const [saveError, setSaveError] = useState<string | null>(null);
-  const lastSavedRef = useRef<string>(JSON.stringify(initialData));
+  const lastSavedRef = useRef<string>(JSON.stringify(seed));
   const dirtyRef = useRef(false);
+  const [hasLocalBackup] = useState(() => !initialSubmission && loadLocalBackup(assignmentId) !== null);
 
   // Sync ketika initial data berubah (mis. setelah reload).
   useEffect(() => {
@@ -33,9 +66,30 @@ export function useFormDraft({
     dirtyRef.current = false;
   }, [initialData, initialSubmission]);
 
+  // Mirror perubahan ke localStorage agar tidak hilang.
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    try {
+      const k = lsKey(assignmentId, submission?.id ?? null);
+      window.localStorage.setItem(k, JSON.stringify({ data, at: Date.now() }));
+    } catch {
+      /* quota habis: abaikan */
+    }
+  }, [data, assignmentId, submission?.id]);
+
   function setField(kode: string, value: unknown) {
     dirtyRef.current = true;
     setData((d) => ({ ...d, [kode]: value }));
+  }
+
+  function clearLocalBackup() {
+    if (typeof window === "undefined") return;
+    try {
+      window.localStorage.removeItem(lsKey(assignmentId, null));
+      if (submission?.id) window.localStorage.removeItem(lsKey(assignmentId, submission.id));
+    } catch {
+      /* ignore */
+    }
   }
 
   async function manualSave(): Promise<{ id: string }> {
@@ -100,5 +154,7 @@ export function useFormDraft({
     lastSavedAt,
     saveError,
     isDirty,
+    hasLocalBackup,
+    clearLocalBackup,
   };
 }

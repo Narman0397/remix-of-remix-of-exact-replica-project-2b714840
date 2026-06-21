@@ -601,3 +601,54 @@ export const docPreviewNumbering = createServerFn({ method: "POST" })
 export const docPlaceholderCatalog = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async () => ({ groups: PLACEHOLDER_CATALOG }));
+
+// Phase 1C — Daftar form yang published untuk picker auto-mapping placeholder.
+export const docListPublishedForms = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((i: unknown) =>
+    z.object({ q: z.string().max(120).optional(), limit: z.number().int().min(1).max(100).default(50) }).parse(i ?? {}),
+  )
+  .handler(async ({ data, context }) => {
+    let q = context.supabase
+      .from("forms")
+      .select("id,judul,opd_pemilik_id,published_at")
+      .eq("status", "published")
+      .order("published_at", { ascending: false })
+      .limit(data.limit);
+    if (data.q) q = q.ilike("judul", `%${data.q}%`);
+    const { data: rows, error } = await q;
+    if (error) throw new Error(error.message);
+    return { rows: rows ?? [] };
+  });
+
+// Phase 1C — Ambil field snapshot form sebagai grup placeholder
+// ({{submission.<kode>}}) untuk picker di template editor dokumen.
+export const docFormFieldsCatalog = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((i: unknown) => z.object({ formId: z.string().uuid() }).parse(i))
+  .handler(async ({ data, context }) => {
+    const { data: form, error } = await context.supabase
+      .from("forms")
+      .select("id,judul,schema_snapshot,status")
+      .eq("id", data.formId)
+      .maybeSingle();
+    if (error) throw new Error(error.message);
+    if (!form) throw new Error("Form tidak ditemukan");
+    const snap = form.schema_snapshot as
+      | { fields?: Array<{ kode: string; label: string; tipe: string }> }
+      | null;
+    const items = (snap?.fields ?? [])
+      .filter((f) => !["heading", "section", "divider"].includes(f.tipe))
+      .map((f) => ({
+        token: `submission.${f.kode}`,
+        label: `${f.label} (${f.tipe})`,
+      }));
+    return {
+      group: {
+        category: "submission" as const,
+        label: `Field: ${form.judul}`,
+        items,
+      },
+    };
+  });
+
