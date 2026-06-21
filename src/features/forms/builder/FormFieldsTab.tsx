@@ -218,10 +218,6 @@ export function FormFieldsTab({
           </button>
         </div>
       )}
-      {/* sentinel to keep Copy import referenced in case bundler tree-shakes */}
-      <span className="hidden">
-        <Copy className="h-3 w-3" />
-      </span>
     </div>
   );
 }
