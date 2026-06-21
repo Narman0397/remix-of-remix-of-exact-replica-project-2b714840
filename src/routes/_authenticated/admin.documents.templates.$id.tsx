@@ -60,8 +60,31 @@ function Page() {
       setVersions(r.versions);
       const rl = (await docListNumberingRules({ data: {} })) as unknown as { rows: Rule[] };
       setRules(rl.rows);
+      try {
+        const lf = (await docListPublishedForms({ data: {} })) as unknown as { rows: FormOpt[] };
+        setForms(lf.rows);
+      } catch {
+        /* ignore */
+      }
     })();
   }, [id]);
+
+  async function loadFormPlaceholders(formId: string) {
+    setSelectedFormId(formId);
+    if (!formId) {
+      setFormGroup(null);
+      return;
+    }
+    try {
+      const r = (await docFormFieldsCatalog({ data: { formId } })) as unknown as {
+        group: FormGroup;
+      };
+      setFormGroup(r.group);
+    } catch {
+      setFormGroup(null);
+    }
+  }
+
 
   async function doPreview() {
     if (!tpl) return;
