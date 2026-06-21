@@ -45,6 +45,9 @@ function Page() {
   const [preview, setPreview] = useState("");
   const [tab, setTab] = useState<"editor" | "preview" | "versions">("editor");
   const [busy, setBusy] = useState(false);
+  const [forms, setForms] = useState<FormOpt[]>([]);
+  const [selectedFormId, setSelectedFormId] = useState<string>("");
+  const [formGroup, setFormGroup] = useState<FormGroup | null>(null);
   const taRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
