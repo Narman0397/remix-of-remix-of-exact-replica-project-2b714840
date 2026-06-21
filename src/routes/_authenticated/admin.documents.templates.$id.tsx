@@ -30,6 +30,8 @@ type Tpl = {
 
 type Version = { id: string; version_number: number; kind: string; created_at: string };
 type Rule = { id: string; code: string; name: string; format: string };
+type FormOpt = { id: string; judul: string };
+type FormGroup = { category: "submission"; label: string; items: { token: string; label: string }[] };
 
 export const Route = createFileRoute("/_authenticated/admin/documents/templates/$id")({
   component: Page,
