@@ -25,15 +25,30 @@ export function FieldRenderer({
     error ? "border-destructive" : "border-border"
   }`;
   const label = (
-    <label className="text-sm font-medium">
+    <label htmlFor={`field-${field.kode}`} className="text-sm font-medium">
       {field.label}
       {field.required && <span className="text-destructive"> *</span>}
     </label>
   );
   const help = field.help_text && (
-    <p className="mt-1 text-xs text-muted-foreground">{field.help_text}</p>
+    <p id={`help-${field.kode}`} className="mt-1 text-xs text-muted-foreground">
+      {field.help_text}
+    </p>
   );
-  const errEl = error ? <p className="mt-1 text-xs text-destructive">{error}</p> : null;
+  const errEl = error ? (
+    <p id={`err-${field.kode}`} className="mt-1 text-xs text-destructive" role="alert">
+      {error}
+    </p>
+  ) : null;
+  const ariaProps = {
+    id: `field-${field.kode}`,
+    "aria-describedby":
+      [field.help_text ? `help-${field.kode}` : null, error ? `err-${field.kode}` : null]
+        .filter(Boolean)
+        .join(" ") || undefined,
+    "aria-invalid": error ? true : undefined,
+    "aria-required": field.required || undefined,
+  } as const;
 
   const wrap = (inner: React.ReactNode) => (
     <div>
@@ -44,12 +59,42 @@ export function FieldRenderer({
   );
 
   switch (field.tipe) {
+    case "heading":
+      return (
+        <div>
+          <h3 className="font-display text-lg font-semibold">{field.label}</h3>
+          {field.help_text && (
+            <p className="text-xs text-muted-foreground">{field.help_text}</p>
+          )}
+        </div>
+      );
+    case "section":
+      return (
+        <div className="border-t border-border pt-3">
+          <h4 className="text-sm font-semibold uppercase text-muted-foreground">{field.label}</h4>
+        </div>
+      );
+    case "divider":
+      return <hr className="border-border" />;
     case "short_text":
+    case "email":
+    case "phone":
+    case "nip":
+    case "nik":
+    case "address":
       return wrap(
         <>
           {label}
           <input
-            type="text"
+            {...ariaProps}
+            type={field.tipe === "email" ? "email" : field.tipe === "phone" ? "tel" : "text"}
+            inputMode={
+              field.tipe === "nip" || field.tipe === "nik"
+                ? "numeric"
+                : field.tipe === "phone"
+                  ? "tel"
+                  : undefined
+            }
             value={(value as string) ?? ""}
             onChange={(e) => onChange(e.target.value)}
             disabled={readOnly}
@@ -63,6 +108,7 @@ export function FieldRenderer({
         <>
           {label}
           <textarea
+            {...ariaProps}
             value={(value as string) ?? ""}
             onChange={(e) => onChange(e.target.value)}
             disabled={readOnly}
@@ -73,23 +119,54 @@ export function FieldRenderer({
         </>,
       );
     case "number":
+    case "currency":
       return wrap(
         <>
           {label}
           <input
+            {...ariaProps}
             type="number"
+            inputMode={field.tipe === "currency" ? "decimal" : "numeric"}
             value={(value as number | string) ?? ""}
             onChange={(e) => onChange(e.target.value === "" ? null : Number(e.target.value))}
             disabled={readOnly}
+            placeholder={field.tipe === "currency" ? "Rp" : (field.placeholder ?? "")}
             className={inputCls}
           />
         </>,
       );
+    case "rating": {
+      const max = field.validation.ratingMax ?? 5;
+      const cur = Number(value ?? 0);
+      return wrap(
+        <>
+          {label}
+          <div className="mt-1 flex gap-1" role="radiogroup" aria-label={field.label}>
+            {Array.from({ length: max }, (_, i) => i + 1).map((n) => (
+              <button
+                type="button"
+                key={n}
+                onClick={() => !readOnly && onChange(n)}
+                disabled={readOnly}
+                aria-checked={cur === n}
+                role="radio"
+                className={`h-8 w-8 rounded-md border text-sm ${
+                  cur >= n ? "bg-primary text-primary-foreground" : "border-border"
+                } disabled:opacity-60`}
+              >
+                {n}
+              </button>
+            ))}
+          </div>
+        </>,
+      );
+    }
     case "date":
       return wrap(
         <>
           {label}
           <input
+            {...ariaProps}
             type="date"
             value={(value as string) ?? ""}
             onChange={(e) => onChange(e.target.value)}
@@ -98,11 +175,66 @@ export function FieldRenderer({
           />
         </>,
       );
+    case "datetime":
+      return wrap(
+        <>
+          {label}
+          <input
+            {...ariaProps}
+            type="datetime-local"
+            value={(value as string) ?? ""}
+            onChange={(e) => onChange(e.target.value)}
+            disabled={readOnly}
+            className={inputCls}
+          />
+        </>,
+      );
+    case "time":
+      return wrap(
+        <>
+          {label}
+          <input
+            {...ariaProps}
+            type="time"
+            value={(value as string) ?? ""}
+            onChange={(e) => onChange(e.target.value)}
+            disabled={readOnly}
+            className={inputCls}
+          />
+        </>,
+      );
+    case "date_range": {
+      const r = (value as { start?: string; end?: string } | null) ?? {};
+      return wrap(
+        <>
+          {label}
+          <div className="mt-1 grid grid-cols-2 gap-2">
+            <input
+              type="date"
+              value={r.start ?? ""}
+              onChange={(e) => onChange({ ...r, start: e.target.value })}
+              disabled={readOnly}
+              className={inputCls}
+              aria-label={`${field.label} mulai`}
+            />
+            <input
+              type="date"
+              value={r.end ?? ""}
+              onChange={(e) => onChange({ ...r, end: e.target.value })}
+              disabled={readOnly}
+              className={inputCls}
+              aria-label={`${field.label} selesai`}
+            />
+          </div>
+        </>,
+      );
+    }
     case "dropdown":
       return wrap(
         <>
           {label}
           <select
+            {...ariaProps}
             value={(value as string) ?? ""}
             onChange={(e) => onChange(e.target.value)}
             disabled={readOnly}
@@ -117,11 +249,35 @@ export function FieldRenderer({
           </select>
         </>,
       );
+    case "multi_select": {
+      const arr = (Array.isArray(value) ? value : []) as string[];
+      return wrap(
+        <>
+          {label}
+          <select
+            {...ariaProps}
+            multiple
+            value={arr}
+            onChange={(e) =>
+              onChange(Array.from(e.target.selectedOptions).map((o) => o.value))
+            }
+            disabled={readOnly}
+            className={`${inputCls} h-32`}
+          >
+            {field.options.map((o) => (
+              <option key={o.value} value={o.value}>
+                {o.label}
+              </option>
+            ))}
+          </select>
+        </>,
+      );
+    }
     case "radio":
       return wrap(
         <>
           {label}
-          <div className="mt-1 space-y-1">
+          <div className="mt-1 space-y-1" role="radiogroup" aria-label={field.label}>
             {field.options.map((o) => (
               <label key={o.value} className="flex items-center gap-2 text-sm">
                 <input
@@ -164,6 +320,21 @@ export function FieldRenderer({
         </>,
       );
     }
+    case "signature":
+      return wrap(
+        <>
+          {label}
+          <textarea
+            {...ariaProps}
+            value={(value as string) ?? ""}
+            onChange={(e) => onChange(e.target.value)}
+            disabled={readOnly}
+            placeholder="Tanda tangan / nama lengkap"
+            rows={2}
+            className={inputCls}
+          />
+        </>,
+      );
     case "file_upload":
     case "multi_file_upload":
       return wrap(

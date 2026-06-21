@@ -3,8 +3,8 @@
 //
 // Phase 1B catatan: enum FIELD_TYPES diperluas (additive). Tipe lama tetap
 // berperilaku sama; tipe baru hanya dipakai oleh Form Builder UI baru.
-// Renderer & validator wajib menangani semua entri di FIELD_TYPES (lihat
-// FieldRenderer.tsx & validator.ts).
+// Phase 1C tambahan: tipe time, datetime, rating, address, nip, nik dan
+// validasi lanjutan (named regex preset, cross-field compare, unique).
 import { z } from "zod";
 
 export const FIELD_TYPES = [
@@ -28,6 +28,13 @@ export const FIELD_TYPES = [
   "heading",
   "section",
   "divider",
+  // Phase 1C additions (domain pemerintahan)
+  "time",
+  "datetime",
+  "rating",
+  "address",
+  "nip",
+  "nik",
 ] as const;
 export type FieldType = (typeof FIELD_TYPES)[number];
 
@@ -47,6 +54,29 @@ export const fieldOptionSchema = z.object({
 });
 export type FieldOption = z.infer<typeof fieldOptionSchema>;
 
+// Named regex preset — kunci pendek dipakai di builder; pola di-resolve oleh
+// REGEX_PRESETS sehingga snapshot tetap pendek dan konsisten.
+export const REGEX_PRESETS = {
+  nip: { label: "NIP (18 digit)", pattern: "^[0-9]{18}$" },
+  nik: { label: "NIK (16 digit)", pattern: "^[0-9]{16}$" },
+  npwp: { label: "NPWP (15/16 digit)", pattern: "^[0-9]{15,16}$" },
+  phone_id: { label: "Telepon ID", pattern: "^(\\+62|0)[0-9]{8,13}$" },
+  email: { label: "Email", pattern: "^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$" },
+  numeric: { label: "Hanya angka", pattern: "^[0-9]+$" },
+  alphanumeric: { label: "Huruf & angka", pattern: "^[A-Za-z0-9]+$" },
+} as const;
+export type RegexPresetKey = keyof typeof REGEX_PRESETS;
+export const REGEX_PRESET_KEYS = Object.keys(REGEX_PRESETS) as RegexPresetKey[];
+
+export const crossFieldRuleSchema = z
+  .object({
+    field: z.string().min(1).max(60),
+    op: z.enum(["gt", "gte", "lt", "lte", "eq", "neq"]),
+    message: z.string().max(200).optional(),
+  })
+  .nullable();
+export type CrossFieldRule = z.infer<typeof crossFieldRuleSchema>;
+
 export const fieldValidationSchema = z
   .object({
     min: z.number().optional(),
@@ -57,6 +87,11 @@ export const fieldValidationSchema = z
     accept: z.array(z.string().max(80)).max(20).optional(),
     maxSizeMb: z.number().positive().max(50).optional(),
     maxFiles: z.number().int().positive().max(20).optional(),
+    // Phase 1C
+    preset: z.enum(REGEX_PRESET_KEYS as [RegexPresetKey, ...RegexPresetKey[]]).optional(),
+    unique: z.boolean().optional(),
+    compare: crossFieldRuleSchema.optional(),
+    ratingMax: z.number().int().min(2).max(10).optional(),
   })
   .partial();
 export type FieldValidation = z.infer<typeof fieldValidationSchema>;
@@ -64,7 +99,20 @@ export type FieldValidation = z.infer<typeof fieldValidationSchema>;
 export const visibleIfSchema = z
   .object({
     field: z.string().min(1).max(60),
-    op: z.enum(["eq", "neq", "in", "not_in", "filled", "empty", "gt", "gte", "lt", "lte", "contains", "not_contains"]),
+    op: z.enum([
+      "eq",
+      "neq",
+      "in",
+      "not_in",
+      "filled",
+      "empty",
+      "gt",
+      "gte",
+      "lt",
+      "lte",
+      "contains",
+      "not_contains",
+    ]),
     value: z.union([z.string().max(200), z.array(z.string().max(200)).max(50)]).optional(),
   })
   .nullable()
@@ -108,13 +156,19 @@ export function isFieldVisible(field: FormField, values: Record<string, unknown>
     case "neq":
       return Array.isArray(asStr) ? !asStr.includes(rhsStr) : asStr !== rhsStr;
     case "in":
-      return Array.isArray(asStr) ? asStr.some((x) => rhsList.includes(x)) : rhsList.includes(asStr);
+      return Array.isArray(asStr)
+        ? asStr.some((x) => rhsList.includes(x))
+        : rhsList.includes(asStr);
     case "not_in":
-      return Array.isArray(asStr) ? !asStr.some((x) => rhsList.includes(x)) : !rhsList.includes(asStr);
+      return Array.isArray(asStr)
+        ? !asStr.some((x) => rhsList.includes(x))
+        : !rhsList.includes(asStr);
     case "contains":
       return Array.isArray(asStr) ? asStr.some((x) => x.includes(rhsStr)) : asStr.includes(rhsStr);
     case "not_contains":
-      return Array.isArray(asStr) ? !asStr.some((x) => x.includes(rhsStr)) : !asStr.includes(rhsStr);
+      return Array.isArray(asStr)
+        ? !asStr.some((x) => x.includes(rhsStr))
+        : !asStr.includes(rhsStr);
     case "gt":
     case "gte":
     case "lt":
