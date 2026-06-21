@@ -8,7 +8,6 @@ import {
   docArchiveTemplate,
   docCloneTemplate,
   docPreview,
-  docPlaceholderCatalog,
   docListPublishedForms,
   docFormFieldsCatalog,
   docListNumberingRules,
