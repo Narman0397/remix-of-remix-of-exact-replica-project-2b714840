@@ -18,7 +18,7 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { Copy, GripVertical, Plus, Save, Trash2 } from "lucide-react";
+import { GripVertical, Plus, Save, Trash2 } from "lucide-react";
 import type { FormField } from "@/features/forms/schema/types";
 import { FieldEditor } from "./FieldEditor";
 import { duplicateField, emptyField } from "./types";
